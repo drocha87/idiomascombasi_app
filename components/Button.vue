@@ -20,33 +20,37 @@ export default Vue.extend({
 
   props: {
     small: { type: Boolean, default: false },
-    borderColor: { type: String, default: 'border-primary' },
+    borderColor: { type: String, default: 'border-gray-800' },
   },
 })
 </script>
 
 <style lang="postcss" scoped>
 .btn-container {
-  @apply min-w-full px-12 py-2 mx-auto text-center text-black uppercase
-  border border-black cursor-pointer hover:border-gray-200 transition duration-700 ease-in-out;
+  @apply px-8 py-2 text-center text-white cursor-pointer transition duration-700 ease-in-out;
+
+  background-color: #ec5252;
+  &:hover {
+    background-color: #e61b1b;
+  }
 }
 
 .content {
-  @apply relative leading-8 font-antonio tracking-widest transition-all duration-500 ease-in-out;
+  @apply relative leading-8 font-medium transition-all duration-500 ease-in-out;
 }
 
 /* .btn-container:hover .content {
   letter-spacing: 0.12rem;
 }*/
 
-.content::after {
+/* .content::after {
   @apply text-xl text-black absolute;
   content: '>';
   height: 2rem;
   right: -20px;
   top: 50%;
   transform: translateY(-50%);
-}
+} */
 
 .small {
   @apply text-base;

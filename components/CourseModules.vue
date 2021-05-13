@@ -2,12 +2,17 @@
   <div class="border">
     <TitleSmall class="m-4">Módulos</TitleSmall>
     <ul ref="accordionContainer" class="border-t mt-4">
-      <li v-for="m in modules" :key="m.id" class="pl-4 border-b">
+      <li
+        v-for="m in modules"
+        :key="m.id"
+        class="border-b"
+        :class="{ 'bg-gray-200': m.visible }"
+      >
         <a
           class="cursor-pointer focus:outline-none"
           @click="toggleVisibility(m)"
         >
-          <div class="flex text-sm text-gray-800 p-2 select-none">
+          <div class="flex text-gray-900 p-2 pl-4 select-none">
             <IconExpandLess v-if="m.visible" size="16px" />
             <IconExpandMore v-else size="16px" />
             <span id="author-name" class="ml-4">{{ m.name }}</span>
@@ -24,22 +29,33 @@
             ease-in-out
             transform
             md:flex-nowrap
+            pl-4
           "
+          :class="{ 'bg-gray-100': m.visible }"
           :style="m.visible ? heightStyle : 'height: 0'"
         >
           <div class="w-full">
             <div
               v-for="c in m.classes"
               :key="c.id"
-              class="px-4 pt-2 text-xs text-gray-600 flex"
+              class="px-4 pt-2 text-sm text-gray-900"
             >
-              <div class="flex-grow">
-                {{ c.name }}
+              <div class="flex">
+                <IconCheckBoxOutline
+                  size="14px"
+                  fill="#4b5563"
+                  class="mr-4 mt-1"
+                />
+                <div class="flex flex-col flex-grow">
+                  <div class="flex-grow tracking-wide">
+                    {{ c.name }}
+                  </div>
+                  <div class="text-xs">Inicia em data</div>
+                </div>
+                <div class="text-xs">Duração {{ c.duration }}</div>
               </div>
-              <div>Duração {{ c.duration }}</div>
             </div>
-            <!-- spacer -->
-            <div class="h-2"></div>
+            <div class="h-4"></div>
           </div>
         </div>
       </li>

@@ -2,7 +2,7 @@
   <div class="max-w-screen-md mx-auto p-12">
     <div class="flex items-start">
       <div>
-        <h6>Idioma {{ course.language }}</h6>
+        <h6 class="text-sm">Idioma {{ course.language }}</h6>
         <h3 class="text-3xl font-bold">{{ course.title }}</h3>
         <p class="mt-4">{{ course.description }}</p>
       </div>
@@ -14,7 +14,7 @@
         />
       </div>
     </div>
-    <div class="mt-9 border p-4 bg-gray-100">
+    <div class="mt-9 border border-gold border-opacity-20 p-4 bg-gray-100">
       <TitleSmall>O que você aprenderá</TitleSmall>
       <div class="mt-4 flex flex-wrap">
         <div
@@ -32,6 +32,7 @@
       </div>
     </div>
     <CourseModules class="mt-8" />
+    <Button class="block max-w-1/2 ml-auto mt-8"> Participar do curso </Button>
     <!-- <div class="mt-8 border p-4">
       <TitleSmall>Modulos</TitleSmall>
       <div class="mt-4">
