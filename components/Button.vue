@@ -53,6 +53,6 @@ export default Vue.extend({
 } */
 
 .small {
-  @apply text-base;
+  @apply text-sm;
 }
 </style>

@@ -1,12 +1,16 @@
 <template>
   <div class="max-w-screen-md mx-auto p-12">
     <div class="flex items-start">
-      <div>
+      <div class="w-3/4 pr-8">
         <h6 class="text-sm">Idioma {{ course.language }}</h6>
         <h3 class="text-3xl font-bold">{{ course.title }}</h3>
         <p class="mt-4">{{ course.description }}</p>
+        <div class="mt-4 text-xs flex flex-wrap justify-between">
+          <div>Inicia em {{ course.start_at }}</div>
+          <div>Termina em {{ course.expire_at }}</div>
+        </div>
       </div>
-      <div class="w-3/4">
+      <div class="w-1/4">
         <img
           class="object-cover"
           src="https://res.cloudinary.com/euyome/image/upload/v1619895563/idiomascombasi/conversation-group-banner_ltmnl5.jpg"
@@ -14,18 +18,21 @@
         />
       </div>
     </div>
+
+    <CourseInfo class="mt-8" :course="course" />
+
     <div class="mt-9 border border-gold border-opacity-20 p-4 bg-gray-100">
       <TitleSmall>O que você aprenderá</TitleSmall>
       <div class="mt-4 flex flex-wrap">
         <div
           v-for="(goal, index) in goals"
           :key="index"
-          class="flex max-w-1/2 py-2"
+          class="flex max-w-1/2 p-2"
         >
           <div>
             <IconDone size="16px" />
           </div>
-          <div class="ml-4 text-xs">
+          <div class="ml-4 text-sm">
             {{ goal }}
           </div>
         </div>
