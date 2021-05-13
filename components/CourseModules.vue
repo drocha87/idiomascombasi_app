@@ -2,12 +2,12 @@
   <div class="border">
     <TitleSmall class="m-4">Módulos</TitleSmall>
     <ul ref="accordionContainer" class="border-t mt-4">
-      <li v-for="m in modules" :key="m.id" class="p-2 pl-4 border-b">
+      <li v-for="m in modules" :key="m.id" class="pl-4 border-b">
         <a
           class="cursor-pointer focus:outline-none"
           @click="toggleVisibility(m)"
         >
-          <div class="flex text-sm text-gray-800">
+          <div class="flex text-sm text-gray-800 p-2 select-none">
             <IconExpandLess v-if="m.visible" size="16px" />
             <IconExpandMore v-else size="16px" />
             <span id="author-name" class="ml-4">{{ m.name }}</span>
@@ -27,12 +27,19 @@
           "
           :style="m.visible ? heightStyle : 'height: 0'"
         >
-          <div class="md:pr-24">
+          <div class="w-full">
             <div
-              class="p-4 font-normal tracking-wide text-gray-600 font-redhat"
+              v-for="c in m.classes"
+              :key="c.id"
+              class="px-4 pt-2 text-xs text-gray-600 flex"
             >
-              - diego rocha
+              <div class="flex-grow">
+                {{ c.name }}
+              </div>
+              <div>Duração {{ c.duration }}</div>
             </div>
+            <!-- spacer -->
+            <div class="h-2"></div>
           </div>
         </div>
       </li>
@@ -49,28 +56,113 @@ export default Vue.extend({
       modules: [
         {
           id: 1,
-          name: 'Diego Rocha',
+          name: 'Informal Greetings',
           visible: false,
+          classes: [
+            {
+              id: 11,
+              name: 'First class to learning something',
+              duration: '45',
+            },
+            {
+              id: 12,
+              name: 'Second class to learning something',
+              duration: '45',
+            },
+            {
+              id: 13,
+              name: 'Third class to learning something',
+              duration: '45',
+            },
+          ],
         },
         {
           id: 2,
-          name: 'Diego Guimarães',
+          name: 'Talking about yourself',
           visible: false,
+          classes: [
+            {
+              id: 11,
+              name: 'First class to learning something',
+              duration: '45',
+            },
+            {
+              id: 12,
+              name: 'Second class to learning something',
+              duration: '45',
+            },
+            {
+              id: 13,
+              name: 'Third class to learning something',
+              duration: '45',
+            },
+          ],
         },
         {
           id: 3,
-          name: 'Richard Dundovic',
+          name: 'Talk about your family',
           visible: false,
+          classes: [
+            {
+              id: 11,
+              name: 'First class to learning something',
+              duration: '45',
+            },
+            {
+              id: 12,
+              name: 'Second class to learning something',
+              duration: '45',
+            },
+            {
+              id: 13,
+              name: 'Third class to learning something',
+              duration: '45',
+            },
+          ],
         },
         {
           id: 4,
-          name: 'Laryssa Batista Cordeiro',
+          name: 'Job interview',
           visible: false,
+          classes: [
+            {
+              id: 11,
+              name: 'First class to learning something',
+              duration: '45',
+            },
+            {
+              id: 12,
+              name: 'Second class to learning something',
+              duration: '45',
+            },
+            {
+              id: 13,
+              name: 'Third class to learning something',
+              duration: '45',
+            },
+          ],
         },
         {
           id: 5,
-          name: 'Fernando Prado',
+          name: 'Phrasal Verbs',
           visible: false,
+          classes: [
+            {
+              id: 11,
+              name: 'First class to learning something',
+              duration: '45',
+            },
+            {
+              id: 12,
+              name: 'Second class to learning something',
+              duration: '45',
+            },
+            {
+              id: 13,
+              name: 'Third class to learning something',
+              duration: '45',
+            },
+          ],
         },
       ],
     }
