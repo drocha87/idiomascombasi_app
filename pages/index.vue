@@ -44,26 +44,31 @@
 <script lang="ts">
 import Vue from 'vue'
 
+// interface Course {
+//   id: number
+//   image: string
+//   title: string
+//   created_at: string
+//   level: string
+//   language: string
+//   description: string
+//   kind: string
+//   platform: string
+//   start_at: string
+//   expire_at: string
+// }
+
 export default Vue.extend({
-  data() {
-    return {
-      courses: [
-        {
-          id: '',
-          image: '',
-          title: 'Español con Basi',
-          created_at: '01/04/2021',
-          level: 'Iniciante',
-          language: 'Espanhol',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste debitis maiores totam mollitia aliquam? Quaerat autem distinctio reiciendis dicta sit dolor voluptates voluptatum excepturi.',
-          kind: 'Online ao vivo',
-          platform: 'ZOOM',
-          start_at: '20/05/2021',
-          expire_at: '20/05/2021',
-        },
-      ],
-    }
+  fetchOnServer: false,
+
+  fetch() {
+    this.$store.dispatch('courses/fetchCourses')
+  },
+
+  computed: {
+    courses(): any[] {
+      return this.$store.getters['courses/courses']
+    },
   },
 })
 </script>
