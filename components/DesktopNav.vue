@@ -1,7 +1,5 @@
 <template>
-  <nav class="fixed z-50 w-screen h-16 bg-white font-antonio border-b">
-    <!-- overlay -->
-
+  <nav class="block z-50 w-screen h-16 bg-white font-antonio border-b">
     <div class="flex items-center justify-between h-16 px-24">
       <div
         class="
@@ -17,9 +15,9 @@
       </div>
 
       <!-- settings button -->
-      <div>
-        Diego Rocha
-        <span class="material-icons-outlined"> settings </span>
+      <div class="flex">
+        <div>Diego Rocha</div>
+        <IconSettings class="ml-4" />
       </div>
     </div>
   </nav>
