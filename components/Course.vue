@@ -36,5 +36,10 @@ export default Vue.extend({
   props: {
     course: { type: Object, required: true },
   },
+  methods: {
+    gotoCourse(id: string): void {
+      this.$router.push({ path: `/course/${id}` })
+    },
+  },
 })
 </script>

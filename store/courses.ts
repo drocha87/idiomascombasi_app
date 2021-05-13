@@ -1,6 +1,7 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
 
 export const state = () => ({
+  course: {},
   courses: [] as any[],
 })
 
@@ -10,17 +11,26 @@ export const getters: GetterTree<RootState, RootState> = {
   courses(state): any[] {
     return state.courses
   },
+
+  course(state): any {
+    return state.course
+  },
 }
 
 export const mutations: MutationTree<RootState> = {
+  SET_COURSE(state, course: any): void {
+    state.course = course
+  },
+
   SET_COURSES(state, courses: any[]): void {
     state.courses = courses
   },
 }
 
 export const actions: ActionTree<RootState, RootState> = {
-  fetchCourse(_, _id: string): any {
-    return {
+  fetchCourse({ commit }, _id: string): any {
+    // TODO: fetch modules and classes
+    const course = {
       id: '123456',
       image: '',
       title: 'Español con Basi',
@@ -34,6 +44,7 @@ export const actions: ActionTree<RootState, RootState> = {
       start_at: '20/05/2021',
       expire_at: '20/05/2021',
     }
+    commit('SET_COURSE', course)
   },
 
   fetchCourses({ commit }) {

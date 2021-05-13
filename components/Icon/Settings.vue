@@ -2,10 +2,10 @@
   <svg
     xmlns="http://www.w3.org/2000/svg"
     enable-background="new 0 0 24 24"
-    height="24px"
+    :height="size"
     viewBox="0 0 24 24"
-    width="24px"
-    fill="#c6a869"
+    :width="size"
+    :fill="fill"
   >
     <rect fill="none" height="24" width="24" />
     <path
@@ -13,3 +13,13 @@
     />
   </svg>
 </template>
+
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+  props: {
+    fill: { type: String, default: '#c6a869' },
+    size: { type: String, default: '24px' },
+  },
+})
+</script>
