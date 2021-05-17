@@ -3,24 +3,26 @@
     <TitleSmall class="m-4">Módulos</TitleSmall>
     <ul ref="accordionContainer" class="border-t mt-4">
       <li
-        v-for="m in modules"
-        :key="m.id"
+        v-for="(m, index) in modules"
+        :key="index"
         class="border-b"
-        :class="{ 'bg-gray-200': m.visible }"
+        :class="{ 'bg-gray-200': m.toggleVisibility }"
       >
         <a
           class="cursor-pointer focus:outline-none"
-          @click="toggleVisibility(m)"
+          @click="toggleVisibility(m, index)"
         >
           <div class="flex text-gray-900 p-2 pl-4 select-none">
-            <IconExpandLess v-if="m.visible" size="16px" />
+            <IconExpandLess v-if="m.toggleVisibility" size="16px" />
             <IconExpandMore v-else size="16px" />
-            <span id="author-name" class="ml-4">{{ m.name }}</span>
+            <span id="author-name" class="ml-4">
+              {{ m.title }}{{ m.toggleVisibility }}
+            </span>
           </div>
         </a>
 
         <div
-          :ref="'accordion-item-' + m.id"
+          :ref="m.id"
           class="
             flex flex-wrap
             overflow-hidden
@@ -31,12 +33,12 @@
             md:flex-nowrap
             pl-4
           "
-          :class="{ 'bg-gray-100': m.visible }"
-          :style="m.visible ? heightStyle : 'height: 0'"
+          :class="{ 'bg-gray-100': m.toggleVisibility }"
+          :style="m.toggleVisibility ? heightStyle : 'height: 0'"
         >
           <div class="w-full">
             <div
-              v-for="c in m.classes"
+              v-for="c in m.lessons_info"
               :key="c.id"
               class="px-4 pt-2 text-sm text-gray-900"
             >
@@ -48,7 +50,7 @@
                 />
                 <div class="flex flex-col flex-grow">
                   <div class="flex-grow tracking-wide">
-                    {{ c.name }}
+                    {{ c.title }}
                   </div>
                   <div class="text-xs">Inicia em data</div>
                 </div>
@@ -69,118 +71,6 @@ export default Vue.extend({
   data() {
     return {
       height: 320,
-      modules: [
-        {
-          id: 1,
-          name: 'Informal Greetings',
-          visible: false,
-          classes: [
-            {
-              id: 11,
-              name: 'First class to learning something',
-              duration: '45',
-            },
-            {
-              id: 12,
-              name: 'Second class to learning something',
-              duration: '45',
-            },
-            {
-              id: 13,
-              name: 'Third class to learning something',
-              duration: '45',
-            },
-          ],
-        },
-        {
-          id: 2,
-          name: 'Talking about yourself',
-          visible: false,
-          classes: [
-            {
-              id: 11,
-              name: 'First class to learning something',
-              duration: '45',
-            },
-            {
-              id: 12,
-              name: 'Second class to learning something',
-              duration: '45',
-            },
-            {
-              id: 13,
-              name: 'Third class to learning something',
-              duration: '45',
-            },
-          ],
-        },
-        {
-          id: 3,
-          name: 'Talk about your family',
-          visible: false,
-          classes: [
-            {
-              id: 11,
-              name: 'First class to learning something',
-              duration: '45',
-            },
-            {
-              id: 12,
-              name: 'Second class to learning something',
-              duration: '45',
-            },
-            {
-              id: 13,
-              name: 'Third class to learning something',
-              duration: '45',
-            },
-          ],
-        },
-        {
-          id: 4,
-          name: 'Job interview',
-          visible: false,
-          classes: [
-            {
-              id: 11,
-              name: 'First class to learning something',
-              duration: '45',
-            },
-            {
-              id: 12,
-              name: 'Second class to learning something',
-              duration: '45',
-            },
-            {
-              id: 13,
-              name: 'Third class to learning something',
-              duration: '45',
-            },
-          ],
-        },
-        {
-          id: 5,
-          name: 'Phrasal Verbs',
-          visible: false,
-          classes: [
-            {
-              id: 11,
-              name: 'First class to learning something',
-              duration: '45',
-            },
-            {
-              id: 12,
-              name: 'Second class to learning something',
-              duration: '45',
-            },
-            {
-              id: 13,
-              name: 'Third class to learning something',
-              duration: '45',
-            },
-          ],
-        },
-      ],
     }
   },
 
@@ -188,24 +78,24 @@ export default Vue.extend({
     heightStyle(): string {
       return `height: ${this.height}px;`
     },
+
+    modules(): any[] {
+      return this.$store.getters['courses/modules']
+    },
   },
 
   mounted() {
-    const item: any = this.$refs['accordion-item-1']
-    this.height = item[0].scrollHeight
+    console.log(this.modules)
+    // const [first] = this.modules
+    // const item: any = this.$refs[first.id]
+    // this.height = item[0].scrollHeight
   },
 
   methods: {
-    toggleVisibility(t: any) {
-      const item: any = this.$refs[`accordion-item-${t.id}`]
+    toggleVisibility(mod: any, index: number) {
+      const item: any = this.$refs[mod.id]
       this.height = item[0].scrollHeight
-
-      this.modules.forEach((item: any) => {
-        if (item.id !== t.id) {
-          item.visible = false
-        }
-      })
-      t.visible = !t.visible
+      this.$store.commit('courses/TOGGLE_MOD_VISIBILITY', index)
     },
   },
 })

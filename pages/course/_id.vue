@@ -2,7 +2,7 @@
   <div class="max-w-screen-md mx-auto p-12">
     <div class="flex items-start">
       <div class="w-3/4 pr-8">
-        <h6 class="text-sm">Idioma {{ course.language }}</h6>
+        <h6 class="text-sm capitalize">Idioma {{ course.language }}</h6>
         <h3 class="text-3xl font-bold">{{ course.title }}</h3>
         <p class="mt-4">{{ course.description }}</p>
         <div class="mt-4 text-xs flex flex-wrap justify-between">
@@ -24,11 +24,7 @@
     <div class="mt-9 border border-gold border-opacity-20 p-4 bg-gray-100">
       <TitleSmall>O que você aprenderá</TitleSmall>
       <div class="mt-4 flex flex-wrap">
-        <div
-          v-for="(goal, index) in goals"
-          :key="index"
-          class="flex max-w-1/2 p-2"
-        >
+        <div v-for="(goal, index) in wywl" :key="index" class="flex w-1/2 p-2">
           <div>
             <IconDone size="16px" />
           </div>
@@ -38,7 +34,7 @@
         </div>
       </div>
     </div>
-    <CourseModules class="mt-8" />
+    <CourseModules v-if="course.modules_info" class="mt-8" />
     <Button class="block max-w-1/2 ml-auto mt-8"> Participar do curso </Button>
     <!-- <div class="mt-8 border p-4">
       <TitleSmall>Modulos</TitleSmall>
@@ -74,15 +70,7 @@ export default Vue.extend({
   fetchOnServer: false,
 
   data() {
-    return {
-      goals: [
-        'You will rapidly build a solid foundation of Spanish.',
-        'You will produce and speak thousands of perfectly constructed phrases.',
-        'You will have practical usage of basic Spanish in a matter of weeks.',
-        'You will speak with good pronunciation due to constant repetition and imitation of native Spanish speaker.',
-        'You will remember at least 98% of the everything taught, due to the system of constant repetition and recycling of new language.',
-      ],
-    }
+    return {}
   },
 
   fetch() {
@@ -92,6 +80,11 @@ export default Vue.extend({
   computed: {
     course(): string {
       return this.$store.getters['courses/course']
+    },
+
+    wywl(): string[] {
+      const goals = this.course?.wywl
+      return goals ? goals.split('\n\n') : []
     },
   },
 })
