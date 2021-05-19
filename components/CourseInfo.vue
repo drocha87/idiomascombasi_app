@@ -27,5 +27,7 @@ export default Vue.extend({
   props: {
     course: { type: Object, required: true },
   },
+
+  computed: {},
 })
 </script>

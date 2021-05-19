@@ -78,7 +78,7 @@ export default Vue.extend({
   },
 
   computed: {
-    course(): string {
+    course(): any {
       return this.$store.getters['courses/course']
     },
 
