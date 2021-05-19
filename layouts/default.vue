@@ -7,7 +7,7 @@
 
 <style>
 html {
-  background-color: #fafafa;
+  background-color: #fff;
   font-family: 'Montserrat', 'Source Sans Pro', -apple-system,
     BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;

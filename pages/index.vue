@@ -1,6 +1,5 @@
 <template>
   <div class="max-w-screen-xl mx-auto p-12">
-    <h4 class="text-center text-4xl font-antonio">Olá, Diego Rocha</h4>
     <div class="mt-12">
       <h3 class="text-xl">Cursos</h3>
       <div class="flex">
