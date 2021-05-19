@@ -18,6 +18,7 @@
       <div class="flex">
         <div>Diego Rocha</div>
         <IconSettings class="ml-4" />
+        <button @click="logout">Logout</button>
       </div>
     </div>
   </nav>
@@ -31,6 +32,12 @@ export default Vue.extend({
   },
 
   computed: {},
+
+  methods: {
+    async logout() {
+      await this.$auth.logout()
+    },
+  },
 })
 </script>
 
