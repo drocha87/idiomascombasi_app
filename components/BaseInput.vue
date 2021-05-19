@@ -2,12 +2,10 @@
   <div class="my-1">
     <label
       v-if="label.length > 0"
-      for="random"
       class="text-sm font-redhat text-gray-800 mb-1 block"
       >{{ label }}</label
     >
     <input
-      id="random"
       class="
         w-full
         px-2
