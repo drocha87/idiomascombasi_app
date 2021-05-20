@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-fafa">
     <NuxtChild />
   </div>
 </template>
@@ -8,5 +8,6 @@
 import Vue from 'vue'
 export default Vue.extend({
   layout: 'admin',
+  // middleware: 'isadmin',
 })
 </script>
