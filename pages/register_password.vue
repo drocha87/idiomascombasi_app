@@ -1,12 +1,14 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center">
+  <div class="md:min-h-screen flex flex-col p-4 md:p-0 md:items-center">
+    <div class="text-2xl text-center mb-8 mt-4 md:text-4xl font-light md:my-12">
+      Welcome to campus ICB
+    </div>
     <ContainerSlot
       class="max-w-screen-sm"
       title="Register Password"
       :subtitle="email"
     >
       <div>
-        <div></div>
         <p class="text-sm font-ember tracking-wide text-gray-700">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error labore
           et obcaecati, neque vel laboriosam odit corporis assumenda porro
