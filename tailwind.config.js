@@ -9,6 +9,7 @@ export const theme = {
       redhat: ['Red Hat Display', 'sans-serif'],
       raleway: ['Raleway', 'sans-serif'],
       montserrat: ['Montserrat', 'sans-serif'],
+      ember: ['Amazon Ember', 'sans-serif'],
     },
 
     backgroundImage: {

@@ -3,6 +3,7 @@
     class="
       p-2
       w-32
+      font-ember
       text-white text-center
       capitalize
       rounded

@@ -70,3 +70,21 @@
   font-weight: 900;
   src: url('../fonts/Montserrat/Montserrat-Black.ttf');
 }
+
+@font-face {
+  font-family: 'Amazon Ember';
+  font-weight: 400;
+  src: url('../fonts/Ember/AmazonEmber_Rg.ttf');
+}
+
+@font-face {
+  font-family: 'Amazon Ember';
+  font-weight: 500;
+  src: url('../fonts/Ember/Amazon-Ember-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'Amazon Ember';
+  font-weight: 300;
+  src: url('../fonts/Ember/AmazonEmber_Lt.ttf');
+}

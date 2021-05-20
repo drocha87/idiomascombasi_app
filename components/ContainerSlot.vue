@@ -1,8 +1,14 @@
 <template>
   <div class="border shadow-sm">
-    <div class="px-4 py-2 text-lg font-medium border-b bg-gray-100">
-      {{ title }}
+    <div class="py-2 px-4 border-b font-ember bg-gray-100">
+      <div class="text-lg">
+        {{ title }}
+      </div>
+      <div v-if="subtitle !== ''" class="text-xs text-gray-600">
+        {{ subtitle }}
+      </div>
     </div>
+
     <div class="p-4">
       <slot />
     </div>
@@ -14,6 +20,7 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     title: { type: String, required: true },
+    subtitle: { type: String, default: '' },
   },
 })
 </script>

@@ -35,7 +35,8 @@
       </div>
     </div>
     <CourseModules v-if="course.modules_info" class="mt-8" />
-    <Button class="block max-w-1/2 ml-auto mt-8"> Participar do curso </Button>
+    <Button class="block max-w-1/2 ml-auto mt-8" label="Participar do curso">
+    </Button>
     <!-- <div class="mt-8 border p-4">
       <TitleSmall>Modulos</TitleSmall>
       <div class="mt-4">
@@ -79,7 +80,7 @@ export default Vue.extend({
 
   computed: {
     course(): any {
-      return this.$store.getters['courses/course']
+      return this.$store.getters['courses/currentCourse']
     },
 
     wywl(): string[] {
