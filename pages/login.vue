@@ -9,11 +9,10 @@
       <div class="text-2xl font-light">Student Zone</div>
       <div class="mt-8">Login</div>
       <form class="max-w-1/2 mt-2" @submit.prevent="studentLogin">
-        <BaseInput v-model="login.email" type="email" label="Email" required />
-        <BaseInput
+        <Input v-model="login.email" type="email" label="Email" required />
+        <Password
           v-model="login.password"
           class="mt-4"
-          type="password"
           label="Password"
           required
         />
