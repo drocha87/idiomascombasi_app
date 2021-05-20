@@ -48,6 +48,8 @@ export default {
   },
 
   auth: {
+    scopeKey: 'roles',
+
     redirect: {
       login: '/login',
       logout: '/',
