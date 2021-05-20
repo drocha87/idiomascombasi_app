@@ -39,6 +39,8 @@ export default Vue.extend({
   props: {
     label: { type: String, required: true },
     hint: { type: String, default: '' },
+    errorMessage: { type: String, default: '' },
+    match: { type: String, default: '' },
   },
 
   data() {
@@ -52,6 +54,12 @@ export default Vue.extend({
       const vm = this
       return Object.assign({}, this.$listeners, {
         input(event: any) {
+          const val = event.target.value
+          if (vm.match !== '' && vm.match !== val) {
+            event.target.setCustomValidity(vm.errorMessage || 'Field not match')
+          } else {
+            event.target.setCustomValidity('')
+          }
           vm.$emit('input', event.target.value)
         },
       })
