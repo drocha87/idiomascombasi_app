@@ -1,8 +1,9 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
+import { Course } from '@/types'
 
 export const state = () => ({
   course: {},
-  courses: [] as any[],
+  courses: [] as Partial<Course>[],
   modules: [],
 })
 
@@ -30,7 +31,7 @@ export const mutations: MutationTree<RootState> = {
     })
   },
 
-  SET_COURSES(state, courses: any[]): void {
+  SET_COURSES(state, courses: Course[]): void {
     state.courses = courses
   },
 
@@ -53,25 +54,8 @@ export const actions: ActionTree<RootState, RootState> = {
     commit('SET_COURSE', course)
   },
 
-  fetchCourses({ commit }) {
-    // TODO: fetch from backend
-    // const things = this.$axios.$get('/things')
-    const courses = [
-      {
-        id: '123456',
-        image: '',
-        title: 'Español con Basi',
-        created_at: '01/04/2021',
-        level: 'Iniciante',
-        language: 'Espanhol',
-        description:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste debitis maiores totam mollitia aliquam? Quaerat autem distinctio reiciendis dicta sit dolor voluptates voluptatum excepturi.',
-        kind: 'Online ao vivo',
-        platform: 'ZOOM',
-        start_at: '20/05/2021',
-        expire_at: '20/05/2021',
-      },
-    ]
-    commit('SET_COURSES', courses)
+  async fetchCourses({ commit }) {
+    const cs = await this.$axios.$get('courses/')
+    commit('SET_COURSES', cs)
   },
 }

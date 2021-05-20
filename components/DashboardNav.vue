@@ -1,5 +1,5 @@
 <template>
-  <nav class="block z-50 w-screen h-16 bg-white border-b">
+  <nav class="block z-50 w-screen h-16 bg-white font-antonio border-b">
     <div class="flex items-center justify-between h-16 px-24">
       <div
         class="
@@ -15,12 +15,10 @@
       </div>
 
       <!-- settings button -->
-      <div class="flex font-montserrat tracking-wider font-medium">
-        <nuxt-link
-          to="/login"
-          class="py-2 px-4 hover:bg-gray-100 rounded-sm text-sm border"
-          >Login</nuxt-link
-        >
+      <div class="flex">
+        <div>Diego Rocha</div>
+        <IconSettings class="ml-4" />
+        <button @click="logout">Logout</button>
       </div>
     </div>
   </nav>
