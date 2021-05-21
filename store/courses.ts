@@ -104,6 +104,18 @@ export const actions: ActionTree<RootState, RootState> = {
     })
   },
 
+  async removeCourse({ commit, state }) {
+    if (
+      confirm(
+        `Are you sure you want to delete the course ${state.currentCourse.title}`
+      )
+    ) {
+      await this.$axios.$delete(`courses/${state.currentCourse.id}`)
+      commit('SET_CURRENT_COURSE', {})
+      this.$router.push({ path: '/admin/courses' })
+    }
+  },
+
   async updateBody({ state }) {
     await this.$axios.$patch(`courses/${state.currentCourse.id}/body`, {
       description: state.currentCourse.description,

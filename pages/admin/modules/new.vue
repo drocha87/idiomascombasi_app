@@ -28,12 +28,7 @@
         />
 
         <div class="text-right">
-          <button
-            type="submit"
-            class="border h-12 w-32 mt-8 bg-purple-600 text-white font-bold"
-          >
-            Save Module
-          </button>
+          <Button class="mt-4" type="submit" label="Save Module"></Button>
         </div>
       </form>
     </div>

@@ -23,7 +23,7 @@ import { Course } from '@/types'
 
 export default Vue.extend({
   props: {
-    course: { type: Object as Course, required: true },
+    course: { type: Object as () => Course, required: true },
   },
 
   computed: {

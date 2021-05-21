@@ -34,8 +34,16 @@
           label="Description"
           required
         />
-        <div class="text-right mt-4">
-          <Button type="submit" label="Save Module"> </Button>
+        <div class="flex justify-between text-right mt-4">
+          <Button
+            type="button"
+            label="Remove Module"
+            small
+            bg-color="red"
+            @click="removeModule()"
+          >
+          </Button>
+          <Button type="submit" label="Update"> </Button>
         </div>
       </form>
 
@@ -311,6 +319,20 @@ export default Vue.extend({
     async save() {
       try {
         await this.$store.dispatch('modules/updateHeader')
+      } catch (error) {
+        alert(
+          `Error: ${
+            error.message ||
+            error.data?.message ||
+            error.data?.response?.message
+          }`
+        )
+      }
+    },
+
+    async removeModule() {
+      try {
+        await this.$store.dispatch('modules/removeModule')
       } catch (error) {
         alert(
           `Error: ${

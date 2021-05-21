@@ -67,12 +67,12 @@ export default Vue.extend({
   computed: {
     email(): string {
       const { email } = this.$route.query
-      return email
+      return email as string
     },
 
     code(): string {
       const { code } = this.$route.query
-      return code
+      return code as string
     },
   },
 

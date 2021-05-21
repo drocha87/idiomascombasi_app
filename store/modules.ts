@@ -51,6 +51,18 @@ export const actions: ActionTree<RootState, RootState> = {
     commit('SET_CURRENT_MODULE', mod)
   },
 
+  async removeModule({ commit, state }) {
+    if (
+      confirm(
+        `Are you sure you want to delete the module ${state.currentModule.title}`
+      )
+    ) {
+      await this.$axios.$delete(`modules/${state.currentModule.id}`)
+      commit('SET_CURRENT_MODULE', {})
+      this.$router.push({ path: '/admin/modules' })
+    }
+  },
+
   async updateHeader({ state }) {
     await this.$axios.$patch(`modules/${state.currentModule.id}/header`, {
       title: state.currentModule.title,

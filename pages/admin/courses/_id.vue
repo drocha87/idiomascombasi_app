@@ -98,8 +98,16 @@
           required
         />
 
-        <div class="text-right mt-4">
-          <Button type="submit" label="Update Header" small> </Button>
+        <div class="flex justify-between text-right mt-4">
+          <Button
+            type="button"
+            label="Remove Course"
+            small
+            bg-color="red"
+            @click="removeCourse()"
+          >
+          </Button>
+          <Button type="submit" label="Update" small> </Button>
         </div>
       </form>
 
@@ -276,6 +284,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Course, Module } from '@/types'
 
 export default Vue.extend({
   fetchOnServer: false,
@@ -301,11 +310,11 @@ export default Vue.extend({
   },
 
   computed: {
-    allMods() {
+    allMods(): Module[] {
       return this.$store.getters['modules/modules']
     },
 
-    course() {
+    course(): Course {
       return this.$store.getters['courses/currentCourse']
     },
 
@@ -373,22 +382,22 @@ export default Vue.extend({
       },
     },
 
-    visible() {
+    visible(): boolean {
       return this.course.released
     },
 
-    mods(): any[] {
+    mods(): string[] {
       if (this.course.modules) {
         return this.course.modules
       }
       return []
     },
 
-    availableMods(): any[] {
+    availableMods(): Module[] {
       const courseMods = this.course.modules
-      return this.allMods.filter((l: any) => {
+      return this.allMods.filter((l: Module) => {
         let display = true
-        if (courseMods?.includes(l.id)) {
+        if (courseMods?.includes(l.id!)) {
           display = false
         }
         return l.language === this.course.language && display
@@ -433,6 +442,20 @@ export default Vue.extend({
       try {
         await this.$axios.$put(`courses/${this.course.id}/module/${id}`)
         await this.$store.dispatch('courses/fetchCourse', this.course.id)
+      } catch (error) {
+        alert(
+          `Error: ${
+            error.message ||
+            error.data?.message ||
+            error.data?.response?.message
+          }`
+        )
+      }
+    },
+
+    async removeCourse() {
+      try {
+        await this.$store.dispatch('courses/removeCourse')
       } catch (error) {
         alert(
           `Error: ${

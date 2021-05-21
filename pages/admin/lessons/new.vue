@@ -40,84 +40,8 @@
           required
         />
 
-        <!-- <div class="border p-4 mt-4">
-          <TitleSmall>Resources</TitleSmall>
-          <div class="flex items-center mt-4">
-            <Select v-model="resourceType" label="Resource Type">
-              <option value="url">URL</option>
-              <option value="video">Video</option>
-              <option value="image">Image</option>
-            </Select>
-
-            <Input
-              v-model="resourceName"
-              class="flex-grow ml-4"
-              label="Name"
-              type="text"
-            />
-
-            <Input
-              v-model="resourceUrl"
-              class="flex-grow ml-4"
-              label="URL"
-              type="text"
-            />
-          </div>
-          <Textarea
-            v-model="resourceDescription"
-            label="Resource Description"
-            class="mt-4"
-          />
-          <div class="text-right">
-            <button
-              type="button"
-              class="border h-8 w-32 bg-purple-600 text-white font-bold"
-              @click="addResource"
-            >
-              Add
-            </button>
-          </div>
-
-          <div class="mt-4">
-            <div
-              v-for="(resource, index) in resources"
-              :key="index"
-              class="mt-2 text-sm"
-            >
-              <div class="flex">
-                <div class="px-8 bg-gray-100 py-1 text-sm">
-                  Type: {{ resource.type }}
-                </div>
-                <div class="px-8 bg-gray-200 py-1 text-sm">
-                  Name: {{ resource.name }}
-                </div>
-                <div class="bg-gray-100 flex-grow py-1 px-2 text-sm">
-                  Url: {{ resource.url }}
-                </div>
-                <div>
-                  <button
-                    type="button"
-                    class="text-xs p-2 bg-red-500 text-white focus:outline-none"
-                    @click="deleteResource(index)"
-                  >
-                    Delete Resource
-                  </button>
-                </div>
-              </div>
-              <div class="p-4 bg-gray-100 text-sm">
-                {{ resource.description }}
-              </div>
-            </div>
-          </div>
-        </div> -->
-
         <div class="text-right">
-          <button
-            type="submit"
-            class="border h-12 w-32 mt-8 bg-purple-600 text-white font-bold"
-          >
-            Save Lesson
-          </button>
+          <Button class="mt-4" type="submit" label="Save Lesson"></Button>
         </div>
       </form>
     </div>
@@ -136,7 +60,7 @@ export default Vue.extend({
       title: '',
       kind: 'regular',
       language: 'english',
-      duration: '0',
+      duration: '60',
       description: '',
       resourceType: 'url',
       resourceUrl: '',

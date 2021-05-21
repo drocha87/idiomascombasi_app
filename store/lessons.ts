@@ -63,6 +63,7 @@ export const actions: ActionTree<RootState, RootState> = {
     ) {
       await this.$axios.$delete(`lessons/${state.currentLesson.id}`)
       commit('SET_CURRENT_LESSON', {})
+      this.$router.push({ path: '/admin/lessons' })
     }
   },
 

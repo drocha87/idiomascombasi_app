@@ -263,7 +263,6 @@ export default Vue.extend({
     async removeLesson() {
       try {
         await this.$store.dispatch('lessons/removeLesson')
-        this.$router.push({ path: '/lessons' })
       } catch (error) {
         alert(
           `Error: ${
