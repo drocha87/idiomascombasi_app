@@ -33,13 +33,6 @@
             {{ course.language }}
           </div>
         </div>
-        <!-- <div>
-          {{ course.title }}
-        </div> -->
-        <!-- <div class="text-xs text-gray-500">
-          Created at {{ course.created_at }} | Updated at
-          {{ course.updated_at }}
-        </div> -->
       </nuxt-link>
     </div>
   </div>
@@ -50,25 +43,14 @@ import Vue from 'vue'
 export default Vue.extend({
   fetchOnServer: false,
 
-  data() {
-    return {
-      courses: [],
-    }
+  async fetch() {
+    await this.$store.dispatch('admin/courses/fetchCourses')
   },
 
-  async fetch() {
-    try {
-      const courses = await this.$axios.$get('courses/')
-      if (courses !== null) {
-        this.courses = courses
-      }
-    } catch (error) {
-      alert(
-        `Error: ${
-          error.message || error.data?.message || error.data?.response?.message
-        }`
-      )
-    }
+  computed: {
+    courses() {
+      return this.$store.getters['admin/courses/courses']
+    },
   },
 })
 </script>

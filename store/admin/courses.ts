@@ -72,36 +72,38 @@ export const mutations: MutationTree<RootState> = {
   SET_COURSE_VISIBILITY(state, visible: boolean): void {
     state.currentCourse.visible = visible
   },
-
-  TOGGLE_MOD_VISIBILITY(state, index: number) {
-    const mod: any = state.modules[index]
-    if (mod) {
-      mod.toggleVisibility = !mod.toggleVisibility
-      state.modules.forEach((item: any) => {
-        if (item.id !== mod.id) {
-          item.toggleVisibility = false
-        }
-      })
-    }
-  },
 }
 
 export const actions: ActionTree<RootState, RootState> = {
+  async fetchCourses({ commit }) {
+    try {
+      const cs = await this.$adminapi.$get('courses/')
+      commit('SET_COURSES', cs)
+    } catch (error) {
+      alert(
+        `Error: ${
+          error.message || error.data?.message || error.data?.response?.message
+        }`
+      )
+    }
+  },
+
   async fetchCourse({ commit }, id: string) {
-    const course = await this.$adminapi.$get(`views/course/${id}`)
+    const course = await this.$adminapi.$get(`courses/${id}`)
     commit('SET_CURRENT_COURSE', course)
   },
 
-  async updateHeader({ state }) {
+  async updateHeader({ state, dispatch }) {
     const date = state.currentCourse.expires_at
       ? new Date(state.currentCourse.expires_at)
       : undefined
-    await this.$axios.$patch(`courses/${state.currentCourse.id}/header`, {
+    await this.$adminapi.$patch(`courses/${state.currentCourse.id}/header`, {
       title: state.currentCourse.title,
       short_description: state.currentCourse.short_description,
       image: state.currentCourse.image,
       expires_at: date,
     })
+    await dispatch('fetchCourse', state.currentCourse.id)
   },
 
   async removeCourse({ commit, state }) {
@@ -110,14 +112,39 @@ export const actions: ActionTree<RootState, RootState> = {
         `Are you sure you want to delete the course ${state.currentCourse.title}`
       )
     ) {
-      await this.$axios.$delete(`courses/${state.currentCourse.id}`)
+      await this.$adminapi.$delete(`courses/${state.currentCourse.id}`)
       commit('SET_CURRENT_COURSE', {})
       this.$router.push({ path: '/admin/courses' })
     }
   },
 
+  async addModule({ state, dispatch }, moduleId: string) {
+    await this.$adminapi.$put(
+      `courses/${state.currentCourse.id}/module/${moduleId}`
+    )
+    await dispatch('fetchCourse', state.currentCourse.id)
+  },
+
+  async removeModule({ state, dispatch }, moduleId: string) {
+    // TODO: confirm before remove
+    await this.$adminapi.$delete(
+      `courses/${state.currentCourse.id}/module/${moduleId}`
+    )
+    await dispatch('fetchCourse', state.currentCourse.id)
+  },
+
+  async moveModule(
+    { state, dispatch },
+    { direction, id }: { direction: string; id: string }
+  ) {
+    await this.$adminapi.$patch(
+      `courses/${state.currentCourse.id}/module/${id}/${direction}`
+    )
+    await dispatch('fetchCourse', state.currentCourse.id)
+  },
+
   async updateBody({ state }) {
-    await this.$axios.$patch(`courses/${state.currentCourse.id}/body`, {
+    await this.$adminapi.$patch(`courses/${state.currentCourse.id}/body`, {
       description: state.currentCourse.description,
       wywl: state.currentCourse.wywl,
       requiriments: state.currentCourse.requiriments,
@@ -125,17 +152,12 @@ export const actions: ActionTree<RootState, RootState> = {
   },
 
   async release({ state, dispatch }) {
-    await this.$axios.$post(`courses/${state.currentCourse.id}/release`)
+    await this.$adminapi.$post(`courses/${state.currentCourse.id}/release`)
     await dispatch('fetchCourse', state.currentCourse.id)
   },
 
   async unrelease({ state, dispatch }) {
-    await this.$axios.$delete(`courses/${state.currentCourse.id}/release`)
+    await this.$adminapi.$delete(`courses/${state.currentCourse.id}/release`)
     await dispatch('fetchCourse', state.currentCourse.id)
-  },
-
-  async fetchCourses({ commit }) {
-    const cs = await this.$axios.$get('courses/')
-    commit('SET_COURSES', cs)
   },
 }

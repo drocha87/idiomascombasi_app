@@ -22,7 +22,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/vue-markdown.js'],
+  plugins: ['~/plugins/vue-markdown.js', '~/plugins/api.ts'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -64,7 +64,7 @@ export default {
           // type: 'Bearer'
         },
         user: {
-          property: 'student',
+          property: 'user',
           // autoFetch: false,
         },
         endpoints: {
