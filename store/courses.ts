@@ -88,7 +88,7 @@ export const mutations: MutationTree<RootState> = {
 
 export const actions: ActionTree<RootState, RootState> = {
   async fetchCourse({ commit }, id: string) {
-    const course = await this.$axios.$get(`courses/${id}`)
+    const course = await this.$axios.$get(`views/course/${id}`)
     commit('SET_CURRENT_COURSE', course)
   },
 
