@@ -1,6 +1,6 @@
 <template>
   <nav class="block z-50 w-screen h-16 bg-white border-b">
-    <div class="flex items-center justify-between h-16 px-24">
+    <div class="flex items-center justify-between h-16 px-4 md:px-24">
       <div
         class="
           text-xl

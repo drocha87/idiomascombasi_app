@@ -1,7 +1,7 @@
 <template>
   <div class="border">
-    <TitleSmall class="m-4">Módulos</TitleSmall>
-    <ul ref="accordionContainer" class="border-t mt-4">
+    <div class="p-4 text-xl text-gray-900 font-ember bg-gray-100">Módulos</div>
+    <ul ref="accordionContainer" class="border-t">
       <li
         v-for="(m, index) in modules"
         :key="index"
@@ -12,11 +12,14 @@
           class="cursor-pointer focus:outline-none"
           @click="toggleVisibility(m, index)"
         >
-          <div class="flex text-gray-900 p-2 pl-4 select-none">
+          <div class="flex items-center text-gray-900 p-2 pl-4 select-none">
             <IconExpandLess v-if="m.toggleVisibility" size="16px" />
             <IconExpandMore v-else size="16px" />
-            <span id="author-name" class="ml-4">
-              {{ m.title }}{{ m.toggleVisibility }}
+            <span
+              id="author-name"
+              class="ml-4 font-ember text-lg text-gray-900 font-light"
+            >
+              {{ m.title }}
             </span>
           </div>
         </a>
@@ -33,7 +36,7 @@
             md:flex-nowrap
             pl-4
           "
-          :class="{ 'bg-gray-100': m.toggleVisibility }"
+          :class="{ 'bg-white': m.toggleVisibility }"
           :style="m.toggleVisibility ? heightStyle : 'height: 0'"
         >
           <div class="w-full">
@@ -42,19 +45,21 @@
               :key="c.id"
               class="px-4 pt-2 text-sm text-gray-900"
             >
-              <div class="flex">
-                <IconCheckBoxOutline
+              <div class="flex tracking-wide">
+                <!-- <IconCheckBoxOutline
                   size="14px"
                   fill="#4b5563"
                   class="mr-4 mt-1"
-                />
+                /> -->
                 <div class="flex flex-col flex-grow">
-                  <div class="flex-grow tracking-wide">
+                  <div class="flex-grow font-ember">
                     {{ c.title }}
                   </div>
-                  <div class="text-xs">Inicia em data</div>
+                  <!-- <div class="text-xs">Inicia em data</div> -->
                 </div>
-                <div class="text-xs">Duração {{ c.duration }}</div>
+                <div class="text-xs font-ember text-gray-600">
+                  Duração: {{ c.duration }} min
+                </div>
               </div>
             </div>
             <div class="h-4"></div>
@@ -85,7 +90,6 @@ export default Vue.extend({
   },
 
   mounted() {
-    console.log(this.modules)
     // const [first] = this.modules
     // const item: any = this.$refs[first.id]
     // this.height = item[0].scrollHeight

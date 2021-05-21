@@ -1,16 +1,16 @@
 <template>
-  <div class="max-w-screen-md mx-auto p-12">
-    <div class="flex items-start">
-      <div class="w-3/4 pr-8">
-        <h6 class="text-sm capitalize">Idioma {{ course.language }}</h6>
-        <h3 class="text-3xl font-bold">{{ course.title }}</h3>
-        <p class="mt-4">{{ course.description }}</p>
-        <div class="mt-4 text-xs flex flex-wrap justify-between">
-          <div>Inicia em {{ course.start_at }}</div>
-          <div>Termina em {{ course.expire_at }}</div>
-        </div>
+  <div class="max-w-screen-md mx-auto p-4 md:p-12">
+    <div class="flex flex-col md:flex-row items-start">
+      <div class="md:w-3/4 mt-2 md:mt-0 md:pr-8 order-2 md:order-1">
+        <h6 class="font-ember text-gold capitalize">{{ course.language }}</h6>
+        <h3 class="text-3xl font-ember font-medium">{{ course.title }}</h3>
+        <p class="mt-4 font-ember font-light">{{ course.short_description }}</p>
+        <Button
+          class="block w-full md:w-40 mt-8"
+          label="Participar do curso"
+        ></Button>
       </div>
-      <div class="w-1/4">
+      <div class="md:w-1/4 order-1 md:order-2">
         <img
           class="object-cover"
           src="https://res.cloudinary.com/euyome/image/upload/v1619895563/idiomascombasi/conversation-group-banner_ltmnl5.jpg"
@@ -19,12 +19,14 @@
       </div>
     </div>
 
-    <CourseInfo class="mt-8" :course="course" />
-
     <div class="mt-9 border border-gold border-opacity-20 p-4 bg-gray-100">
       <TitleSmall>O que você aprenderá</TitleSmall>
       <div class="mt-4 flex flex-wrap">
-        <div v-for="(goal, index) in wywl" :key="index" class="flex w-1/2 p-2">
+        <div
+          v-for="(goal, index) in wywl"
+          :key="index"
+          class="flex md:w-1/2 w-full p-2"
+        >
           <div>
             <IconDone size="16px" />
           </div>
@@ -34,8 +36,16 @@
         </div>
       </div>
     </div>
+    <CourseInfo class="mt-8" :course="course" />
+
+    <ContainerSlot class="mt-8" title="Descrição">
+      <div class="font-ember text-gray-800 tracking-wide font-light">
+        <vue-markdown emoji html :source="course.description"> </vue-markdown>
+      </div>
+    </ContainerSlot>
+
     <CourseModules v-if="course.modules_info" class="mt-8" />
-    <Button class="block max-w-1/2 ml-auto mt-8" label="Participar do curso">
+    <Button class="block w-48 ml-auto mt-8" label="Participar do curso">
     </Button>
     <!-- <div class="mt-8 border p-4">
       <TitleSmall>Modulos</TitleSmall>
