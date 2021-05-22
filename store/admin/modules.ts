@@ -18,11 +18,11 @@ export const state = () => {
 export type RootState = ReturnType<typeof state>
 
 export const getters: GetterTree<RootState, RootState> = {
-  modules(state): any[] {
+  modules(state): Module[] {
     return state.modules
   },
 
-  currentModule(state): any {
+  currentModule(state): Partial<Module> {
     return state.currentModule
   },
 }
@@ -47,13 +47,21 @@ export const mutations: MutationTree<RootState> = {
 
 export const actions: ActionTree<RootState, RootState> = {
   async fetchModules({ commit }) {
-    const modules = await this.$adminapi.$get('modules/')
-    commit('SET_MODULES', modules)
+    try {
+      const modules = await this.$adminapi.$get('modules/')
+      commit('SET_MODULES', modules)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
   },
 
   async fetchModule({ commit }, id: string) {
-    const mod = await this.$adminapi.$get(`modules/${id}`)
-    commit('SET_CURRENT_MODULE', mod)
+    try {
+      const mod = await this.$adminapi.$get(`modules/${id}`)
+      commit('SET_CURRENT_MODULE', mod)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
   },
 
   async removeModule({ commit, state }) {
