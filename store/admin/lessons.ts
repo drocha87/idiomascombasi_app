@@ -53,48 +53,78 @@ export const mutations: MutationTree<RootState> = {
 
 export const actions: ActionTree<RootState, RootState> = {
   async fetchLessons({ commit }) {
-    const cs = await this.$adminapi.$get('lessons/')
-    commit('SET_LESSONS', cs)
-  },
-
-  async fetchLesson({ commit }, id: string) {
-    const lesson = await this.$adminapi.$get(`lessons/${id}`)
-    commit('SET_CURRENT_LESSON', lesson)
-  },
-
-  async removeLesson({ commit, state }) {
-    if (
-      confirm(
-        `Are you sure you want to delete the lesson ${state.currentLesson.title}`
-      )
-    ) {
-      await this.$adminapi.$delete(`lessons/${state.currentLesson.id}`)
-      commit('SET_CURRENT_LESSON', {})
-      this.$router.push({ path: '/admin/lessons' })
+    try {
+      const lessons = await this.$adminapi.$get('lessons/')
+      commit('SET_LESSONS', lessons)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
     }
   },
 
-  async updateHeader({ state }) {
-    await this.$adminapi.$patch(`lessons/${state.currentLesson.id}/header`, {
-      title: state.currentLesson.title,
-      duration: parseInt(`${state.currentLesson.duration}`),
-      description: state.currentLesson.description,
-    })
+  async fetchLesson({ commit }, id: string) {
+    try {
+      const lesson = await this.$adminapi.$get(`lessons/${id}`)
+      commit('SET_CURRENT_LESSON', lesson)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
   },
 
-  async addResource({ state, dispatch }, resource: Resource): Promise<void> {
-    await this.$adminapi.$put(
-      `lessons/${state.currentLesson.id}/resource`,
-      resource
-    )
-    await dispatch('fetchLesson', state.currentLesson.id)
+  async removeLesson({ commit, state }) {
+    try {
+      if (
+        confirm(
+          `Are you sure you want to delete the lesson ${state.currentLesson.title}`
+        )
+      ) {
+        await this.$adminapi.$delete(`lessons/${state.currentLesson.id}`)
+        commit('SET_CURRENT_LESSON', {})
+        this.$router.push({ path: '/admin/lessons' })
+      }
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
   },
 
-  async deleteResource({ state, dispatch }, resourceID: string): Promise<void> {
-    await this.$adminapi.$delete(
-      `lessons/${state.currentLesson.id}/resource/${resourceID}`
-    )
-    await dispatch('fetchLesson', state.currentLesson.id)
+  async updateHeader({ commit, state }) {
+    try {
+      await this.$adminapi.$patch(`lessons/${state.currentLesson.id}/header`, {
+        title: state.currentLesson.title,
+        duration: parseInt(`${state.currentLesson.duration}`),
+        description: state.currentLesson.description,
+      })
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
+  async addResource(
+    { commit, state, dispatch },
+    resource: Resource
+  ): Promise<void> {
+    try {
+      await this.$adminapi.$put(
+        `lessons/${state.currentLesson.id}/resource`,
+        resource
+      )
+      await dispatch('fetchLesson', state.currentLesson.id)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
+  async deleteResource(
+    { commit, state, dispatch },
+    resourceID: string
+  ): Promise<void> {
+    try {
+      await this.$adminapi.$delete(
+        `lessons/${state.currentLesson.id}/resource/${resourceID}`
+      )
+      await dispatch('fetchLesson', state.currentLesson.id)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
   },
 
   // async updateBody({ state }) {

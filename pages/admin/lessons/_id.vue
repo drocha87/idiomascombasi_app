@@ -68,7 +68,7 @@
 
         <form @submit.prevent="addResource">
           <div class="flex items-center mt-4">
-            <Select v-model="resourceType" label="Resource Type">
+            <Select v-model="resource.type" label="Resource Type">
               <option value="url">URL</option>
               <option value="pdf">PDF</option>
               <option value="text">Text</option>
@@ -77,7 +77,7 @@
             </Select>
 
             <Input
-              v-model.trim="resourceName"
+              v-model.trim="resource.name"
               class="flex-grow ml-4"
               label="Name"
               type="text"
@@ -85,14 +85,14 @@
             />
 
             <Input
-              v-model="resourceUrl"
+              v-model="resource.url"
               class="flex-grow ml-4"
               label="URL"
               type="url"
             />
           </div>
           <Textarea
-            v-model="resourceDescription"
+            v-model="resource.description"
             label="Resource Description"
             class="mt-4"
           />
@@ -103,32 +103,32 @@
 
         <div class="mt-4">
           <div
-            v-for="(resource, index) in resources"
+            v-for="(res, index) in resources"
             :key="index"
             class="mt-2 text-sm"
           >
             <div class="flex">
               <div class="px-8 bg-gray-100 py-1 text-sm">
-                Type: {{ resource.type }}
+                Type: {{ res.type }}
               </div>
               <div class="px-8 bg-gray-200 py-1 text-sm">
-                Name: {{ resource.name }}
+                Name: {{ res.name }}
               </div>
               <div class="bg-gray-100 flex-grow py-1 px-2 text-sm">
-                Url: {{ resource.url }}
+                Url: {{ res.url }}
               </div>
               <div>
                 <button
                   type="button"
                   class="text-xs p-2 bg-red-500 text-white focus:outline-none"
-                  @click="deleteResource(resource.id)"
+                  @click="deleteResource(res.id)"
                 >
                   Delete Resource
                 </button>
               </div>
             </div>
             <div class="p-4 bg-gray-100 text-sm">
-              {{ resource.description }}
+              {{ res.description }}
             </div>
           </div>
         </div>
@@ -139,37 +139,32 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Resource } from '~/types'
+import { Resource } from '@/types'
 
 export default Vue.extend({
   fetchOnServer: false,
 
   data() {
+    const resource: Resource = {
+      type: 'url',
+      url: '',
+      name: '',
+      description: '',
+    }
+
     return {
-      toggle: true,
-      resourceType: 'url',
-      resourceName: '',
-      resourceUrl: '',
-      resourceDescription: '',
+      resource,
     }
   },
 
   async fetch() {
-    try {
-      const { id } = this.$route.params
-      await this.$store.dispatch('lessons/fetchLesson', id)
-    } catch (error) {
-      alert(
-        `Error: ${
-          error.message || error.data?.message || error.data?.response?.message
-        }`
-      )
-    }
+    const { id } = this.$route.params
+    await this.$store.dispatch('admin/lessons/fetchLesson', id)
   },
 
   computed: {
     lesson() {
-      return this.$store.getters['lessons/currentLesson']
+      return this.$store.getters['admin/lessons/currentLesson']
     },
 
     title: {
@@ -177,7 +172,7 @@ export default Vue.extend({
         return this.lesson.title
       },
       set(value: string): void {
-        this.$store.commit('lessons/SET_LESSON_TITLE', value)
+        this.$store.commit('admin/lessons/SET_LESSON_TITLE', value)
       },
     },
 
@@ -186,7 +181,7 @@ export default Vue.extend({
         return this.lesson.duration
       },
       set(value: string): void {
-        this.$store.commit('lessons/SET_LESSON_DURATION', value)
+        this.$store.commit('admin/lessons/SET_LESSON_DURATION', value)
       },
     },
 
@@ -195,83 +190,34 @@ export default Vue.extend({
         return this.lesson.description
       },
       set(value: string): void {
-        this.$store.commit('lessons/SET_LESSON_DESCRIPTION', value)
+        this.$store.commit('admin/lessons/SET_LESSON_DESCRIPTION', value)
       },
     },
 
     resources(): Resource[] {
-      if (this.lesson.resources) {
-        return this.lesson.resources
-      }
-      return []
+      return this.lesson?.resources || []
     },
   },
 
   methods: {
     async deleteResource(id: string) {
-      try {
-        await this.$store.dispatch('lessons/deleteResource', id)
-      } catch (error) {
-        alert(
-          `Error: ${
-            error.message ||
-            error.data?.message ||
-            error.data?.response?.message
-          }`
-        )
-      }
+      await this.$store.dispatch('admin/lessons/deleteResource', id)
     },
 
     async addResource() {
-      try {
-        const resource: Resource = {
-          type: this.resourceType,
-          url: this.resourceUrl,
-          name: this.resourceName,
-          description: this.resourceDescription,
-        }
-        await this.$store.dispatch('lessons/addResource', resource)
-        this.resourceType = 'url'
-        this.resourceUrl = ''
-        this.resourceName = ''
-        this.resourceDescription = ''
-      } catch (error) {
-        alert(
-          `Error: ${
-            error.message ||
-            error.data?.message ||
-            error.data?.response?.message
-          }`
-        )
-      }
+      await this.$store.dispatch('admin/lessons/addResource', this.resource)
+      this.resource.type = 'url'
+      this.resource.url = ''
+      this.resource.name = ''
+      this.resource.description = ''
     },
 
     async updateHeader() {
-      try {
-        await this.$store.dispatch('lessons/updateHeader')
-      } catch (error) {
-        alert(
-          `Error: ${
-            error.message ||
-            error.data?.message ||
-            error.data?.response?.message
-          }`
-        )
-      }
+      await this.$store.dispatch('admin/lessons/updateHeader')
     },
 
     async removeLesson() {
-      try {
-        await this.$store.dispatch('lessons/removeLesson')
-      } catch (error) {
-        alert(
-          `Error: ${
-            error.message ||
-            error.data?.message ||
-            error.data?.response?.message
-          }`
-        )
-      }
+      await this.$store.dispatch('admin/lessons/removeLesson')
     },
   },
 })
