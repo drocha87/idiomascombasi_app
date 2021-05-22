@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="mt-8">
-      <form @submit.prevent="save">
+      <form @submit.prevent="$store.dispatch('admin/modules/updateHeader')">
         <div class="flex justify-between">
           <Input
             v-model="title"
@@ -40,7 +40,7 @@
             label="Remove Module"
             small
             bg-color="red"
-            @click="removeModule()"
+            @click="$store.dispatch('admin/modules/removeModule')"
           >
           </Button>
           <Button type="submit" label="Update"> </Button>
@@ -66,14 +66,24 @@
               <button
                 type="button"
                 class="focus:outline-none bg-white rounded-full"
-                @click="lessonUp(lesson)"
+                @click="
+                  $store.dispatch('admin/modules/moveLesson', {
+                    direction: 'up',
+                    id: lesson,
+                  })
+                "
               >
                 <IconExpandLess></IconExpandLess>
               </button>
               <button
                 type="button"
                 class="focus:outline-none bg-white rounded-full ml-2"
-                @click="lessonDown(lesson)"
+                @click="
+                  $store.dispatch('admin/modules/moveLesson', {
+                    direction: 'down',
+                    id: lesson,
+                  })
+                "
               >
                 <IconExpandMore></IconExpandMore>
               </button>
@@ -83,7 +93,7 @@
               <button
                 type="button"
                 class="text-xs text-red-500 px-4"
-                @click="removeLesson(lesson)"
+                @click="$store.dispatch('admin/modules/removeLesson', lesson)"
               >
                 Remove
               </button>
@@ -133,7 +143,7 @@
               <button
                 type="button"
                 class="text-xs text-red-500 px-4 font-bold text-blue-900"
-                @click="addLesson(lesson.id)"
+                @click="$store.dispatch('admin/modules/addLesson', lesson.id)"
               >
                 Add
               </button>
@@ -157,16 +167,6 @@
             and create your first lesson compatible with this module
           </div>
         </div>
-
-        <!-- <button
-            v-for="lesson in availableLessons"
-            :key="lesson.id"
-            type="button"
-            class="text-sm block py-1 text-gray-800"
-            @click="addLesson(lesson.id)"
-          >
-            {{ lesson.title }}
-          </button> -->
       </div>
     </div>
   </div>
@@ -230,108 +230,8 @@ export default Vue.extend({
   },
 
   methods: {
-    async lessonUp(id: string) {
-      try {
-        await this.$axios.$patch(`modules/${this.mod.id}/lesson/${id}/up`)
-        await this.$store.dispatch('modules/fetchModule', this.mod.id)
-      } catch (error) {
-        alert(
-          `Error: ${
-            error.message ||
-            error.data?.message ||
-            error.data?.response?.message
-          }`
-        )
-      }
-    },
-
-    async lessonDown(id: string) {
-      try {
-        await this.$axios.$patch(`modules/${this.mod.id}/lesson/${id}/down`)
-        await this.$store.dispatch('modules/fetchModule', this.mod.id)
-      } catch (error) {
-        alert(
-          `Error: ${
-            error.message ||
-            error.data?.message ||
-            error.data?.response?.message
-          }`
-        )
-      }
-    },
-
-    async removeLesson(id: string) {
-      try {
-        await this.$axios.$delete(`modules/${this.mod.id}/lesson/${id}`)
-        await this.$store.dispatch('modules/fetchModule', this.mod.id)
-      } catch (error) {
-        alert(
-          `Error: ${
-            error.message ||
-            error.data?.message ||
-            error.data?.response?.message
-          }`
-        )
-      }
-    },
-
-    async addLesson(id: string) {
-      try {
-        const { id: moduleID } = this.$route.params
-        await this.$axios.$put(`modules/${this.mod.id}/lesson/${id}`)
-        await this.$store.dispatch('modules/fetchModule', moduleID)
-
-        // if (!this.mod.lessons) {
-        //   this.mod.lessons = []
-        // }
-        // this.mod.lessons.push({ index: this.lessons.length, lesson_id: id })
-      } catch (error) {
-        alert(
-          `Error: ${
-            error.message ||
-            error.data?.message ||
-            error.data?.response?.message
-          }`
-        )
-      }
-    },
-
     lessonName(id: string): string {
-      const lesson: any = this.allLessons.find((lesson: any) => {
-        return lesson.id === id
-      })
-      if (lesson) {
-        return lesson.title
-      }
-      return 'undefined'
-    },
-
-    async save() {
-      try {
-        await this.$store.dispatch('modules/updateHeader')
-      } catch (error) {
-        alert(
-          `Error: ${
-            error.message ||
-            error.data?.message ||
-            error.data?.response?.message
-          }`
-        )
-      }
-    },
-
-    async removeModule() {
-      try {
-        await this.$store.dispatch('modules/removeModule')
-      } catch (error) {
-        alert(
-          `Error: ${
-            error.message ||
-            error.data?.message ||
-            error.data?.response?.message
-          }`
-        )
-      }
+      return this.$store.getters['admin/lessons/lessonNameById'](id)
     },
   },
 })

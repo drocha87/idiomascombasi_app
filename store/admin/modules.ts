@@ -64,6 +64,15 @@ export const actions: ActionTree<RootState, RootState> = {
     }
   },
 
+  async saveModule({ commit }, mod: Partial<Module>) {
+    try {
+      const { module_id } = await this.$adminapi.$post('modules/', mod)
+      this.$router.push({ path: `/admin/modules/${module_id}` })
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
   async removeModule({ commit, state }) {
     if (
       confirm(
@@ -76,10 +85,50 @@ export const actions: ActionTree<RootState, RootState> = {
     }
   },
 
-  async updateHeader({ state }) {
-    await this.$adminapi.$patch(`modules/${state.currentModule.id}/header`, {
-      title: state.currentModule.title,
-      description: state.currentModule.description,
-    })
+  async updateHeader({ state, commit }) {
+    try {
+      await this.$adminapi.$patch(`modules/${state.currentModule.id}/header`, {
+        title: state.currentModule.title,
+        description: state.currentModule.description,
+      })
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
+  async moveLesson(
+    { commit, state, dispatch },
+    { direction, id }: { direction: string; id: string }
+  ) {
+    try {
+      await this.$adminapi.$patch(
+        `modules/${state.currentModule.id}/lesson/${id}/${direction}`
+      )
+      await dispatch('fetchModule', state.currentModule.id)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
+  async addLesson({ commit, state, dispatch }, id: string) {
+    try {
+      await this.$adminapi.$put(
+        `modules/${state.currentModule.id}/lesson/${id}`
+      )
+      await dispatch('fetchModule', state.currentModule.id)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
+  async removeLesson({ commit, state, dispatch }, id: string) {
+    try {
+      await this.$adminapi.$delete(
+        `modules/${state.currentModule.id}/lesson/${id}`
+      )
+      await dispatch('fetchModule', state.currentModule.id)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
   },
 }

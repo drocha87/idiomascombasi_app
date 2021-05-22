@@ -3,17 +3,17 @@
     <Header title="Module Creator" />
 
     <div class="mt-8">
-      <form @submit.prevent="save">
+      <form @submit.prevent="$store.dispatch('admin/modules/saveModule', mod)">
         <div class="flex justify-between">
           <Input
-            v-model="title"
+            v-model="mod.title"
             class="w-full"
             label="Title"
             type="text"
             required
           />
 
-          <Select v-model="language" class="ml-4" label="Language">
+          <Select v-model="mod.language" class="ml-4" label="Language">
             <option value="english">English</option>
             <option value="spanish">Spanish</option>
             <option value="portuguese">Portuguese</option>
@@ -21,7 +21,7 @@
         </div>
 
         <Textarea
-          v-model="description"
+          v-model="mod.description"
           class="mt-4"
           label="Description"
           required
@@ -37,44 +37,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
-
-interface Module {
-  title: string
-  language: string
-  description: string
-}
+import { Module } from '@/types'
 
 export default Vue.extend({
   data() {
+    const mod: Partial<Module> = {}
     return {
-      title: '',
-      language: 'english',
-      description: '',
+      mod,
     }
-  },
-
-  methods: {
-    async save() {
-      try {
-        const data: Module = {
-          title: this.title,
-          language: this.language,
-          description: this.description,
-        }
-        // TODO: push to modules after insert
-        await this.$axios.$post('modules/', data)
-        this.$router.push({ path: '/admin' })
-      } catch (error) {
-        alert(
-          `Error: ${
-            error.message ||
-            error.response?.data?.message ||
-            error.data?.message ||
-            error.data?.response?.message
-          }`
-        )
-      }
-    },
   },
 })
 </script>

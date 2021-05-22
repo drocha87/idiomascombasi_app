@@ -20,6 +20,13 @@ export const getters: GetterTree<RootState, RootState> = {
   currentLesson(state): any {
     return state.currentLesson
   },
+
+  lessonNameById(state) {
+    return (id: string): string => {
+      const lesson = state.lessons.find((lesson: Lesson) => lesson.id === id)
+      return lesson?.title || 'undefined'
+    }
+  },
 }
 
 export const mutations: MutationTree<RootState> = {
