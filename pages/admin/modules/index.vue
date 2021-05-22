@@ -41,21 +41,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Module } from '@/types'
+
 export default Vue.extend({
   fetchOnServer: false,
 
-  data() {
-    return {
-      modules: [],
-    }
-  },
-
   async fetch() {
     try {
-      const modules = await this.$axios.$get('modules/')
-      if (modules !== null) {
-        this.modules = modules
-      }
+      await this.$store.dispatch('admin/modules/fetchModules')
     } catch (error) {
       alert(
         `Error: ${
@@ -63,6 +56,12 @@ export default Vue.extend({
         }`
       )
     }
+  },
+
+  computed: {
+    modules(): Module[] {
+      return this.$store.getters['admin/modules/modules']
+    },
   },
 })
 </script>

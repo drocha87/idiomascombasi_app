@@ -46,12 +46,12 @@ export const mutations: MutationTree<RootState> = {
 
 export const actions: ActionTree<RootState, RootState> = {
   async fetchLessons({ commit }) {
-    const cs = await this.$axios.$get('lessons/')
+    const cs = await this.$adminapi.$get('lessons/')
     commit('SET_LESSONS', cs)
   },
 
   async fetchLesson({ commit }, id: string) {
-    const lesson = await this.$axios.$get(`lessons/${id}`)
+    const lesson = await this.$adminapi.$get(`lessons/${id}`)
     commit('SET_CURRENT_LESSON', lesson)
   },
 
@@ -61,14 +61,14 @@ export const actions: ActionTree<RootState, RootState> = {
         `Are you sure you want to delete the lesson ${state.currentLesson.title}`
       )
     ) {
-      await this.$axios.$delete(`lessons/${state.currentLesson.id}`)
+      await this.$adminapi.$delete(`lessons/${state.currentLesson.id}`)
       commit('SET_CURRENT_LESSON', {})
       this.$router.push({ path: '/admin/lessons' })
     }
   },
 
   async updateHeader({ state }) {
-    await this.$axios.$patch(`lessons/${state.currentLesson.id}/header`, {
+    await this.$adminapi.$patch(`lessons/${state.currentLesson.id}/header`, {
       title: state.currentLesson.title,
       duration: parseInt(`${state.currentLesson.duration}`),
       description: state.currentLesson.description,
@@ -76,7 +76,7 @@ export const actions: ActionTree<RootState, RootState> = {
   },
 
   async addResource({ state, dispatch }, resource: Resource): Promise<void> {
-    await this.$axios.$put(
+    await this.$adminapi.$put(
       `lessons/${state.currentLesson.id}/resource`,
       resource
     )
@@ -84,14 +84,14 @@ export const actions: ActionTree<RootState, RootState> = {
   },
 
   async deleteResource({ state, dispatch }, resourceID: string): Promise<void> {
-    await this.$axios.$delete(
+    await this.$adminapi.$delete(
       `lessons/${state.currentLesson.id}/resource/${resourceID}`
     )
     await dispatch('fetchLesson', state.currentLesson.id)
   },
 
   // async updateBody({ state }) {
-  //   await this.$axios.$patch(`courses/${state.currentLesson.id}/body`, {
+  //   await this.$adminapi.$patch(`courses/${state.currentLesson.id}/body`, {
   //     description: state.currentLesson.description,
   //     wywl: state.currentLesson.wywl,
   //     requiriments: state.currentLesson.requiriments,

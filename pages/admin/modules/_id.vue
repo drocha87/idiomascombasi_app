@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen max-w-screen-lg mx-auto pb-32">
+  <div>
     <Header :id="mod.id || ''" title="Module Editor" />
 
     <div v-if="mod.id" class="flex justify-between">
@@ -176,30 +176,20 @@
 import Vue from 'vue'
 export default Vue.extend({
   fetchOnServer: false,
-  data() {
-    return {
-      allLessons: [],
-    }
-  },
 
   async fetch() {
-    try {
-      const { id } = this.$route.params
-      await this.$store.dispatch('modules/fetchModule', id)
-      const lessons = await this.$axios.$get('lessons/')
-      this.allLessons = lessons
-    } catch (error) {
-      alert(
-        `Error: ${
-          error.message || error.data?.message || error.data?.response?.message
-        }`
-      )
-    }
+    const { id } = this.$route.params
+    await this.$store.dispatch('admin/modules/fetchModule', id)
+    await this.$store.dispatch('admin/lessons/fetchLessons')
   },
 
   computed: {
     mod() {
-      return this.$store.getters['modules/currentModule']
+      return this.$store.getters['admin/modules/currentModule']
+    },
+
+    allLessons(): any[] {
+      return this.$store.getters['admin/lessons/lessons']
     },
 
     title: {
@@ -207,7 +197,7 @@ export default Vue.extend({
         return this.mod.title
       },
       set(value: string): void {
-        this.$store.commit('modules/SET_MODULE_TITLE', value)
+        this.$store.commit('admin/modules/SET_MODULE_TITLE', value)
       },
     },
 
@@ -216,7 +206,7 @@ export default Vue.extend({
         return this.mod.description
       },
       set(value: string): void {
-        this.$store.commit('modules/SET_MODULE_DESCRIPTION', value)
+        this.$store.commit('admin/modules/SET_MODULE_DESCRIPTION', value)
       },
     },
 
