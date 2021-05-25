@@ -32,22 +32,8 @@
         >
           {{ errorMessage }}
         </div>
-        <button
-          type="submit"
-          class="
-            w-full
-            h-12
-            rounded-sm
-            text-white
-            mt-8
-            bg-purple-500
-            font-medium
-            hover:bg-purple-700
-          "
-          small
-        >
-          Entrar
-        </button>
+        <Button type="submit" class="w-full h-12 mt-8" small label="Entrar">
+        </Button>
 
         <div class="text-center mt-8 text-sm font-medium text-gray-800">
           Don't have an account?
@@ -87,7 +73,8 @@ export default Vue.extend({
         //   console.log(response.message)
         // }
       } catch (error) {
-        this.errorMessage = error.response.data.message
+        this.errorMessage =
+          error.message || error.response?.data?.message || 'Internal Error'
       }
     },
   },
