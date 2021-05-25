@@ -11,7 +11,7 @@
         focus:outline-none
         focus-within:border-purple-900
         pl-4
-        p-1
+        p-2
       "
     >
       <input
