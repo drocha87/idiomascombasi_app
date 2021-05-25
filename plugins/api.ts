@@ -36,6 +36,10 @@ const api: Plugin = ({ $axios }, inject) => {
       },
     },
   })
+
+  // const token = ($auth.strategy as any).token.get()
+  // console.log('TOKENNNNN', token)
+
   // Set baseURL to something different
   admin.setBaseURL('http://192.168.100.3:3330/')
   // Inject to context as $api

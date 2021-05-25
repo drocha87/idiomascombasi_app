@@ -22,7 +22,11 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/vue-markdown.js', '~/plugins/api.ts'],
+  plugins: [
+    { src: 'plugins/globalErrorHandler.ts', mode: 'client' },
+    { src: '~/plugins/vue-markdown.js', mode: 'client' },
+    // '~/plugins/api.ts',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -50,12 +54,15 @@ export default {
   auth: {
     scopeKey: 'roles',
 
+    plugins: [{ src: '~/plugins/api.ts' }],
+
     redirect: {
       login: '/login',
       logout: '/',
       callback: '/login',
       home: '/students/dashboard',
     },
+
     strategies: {
       local: {
         token: {

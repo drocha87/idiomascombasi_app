@@ -3,7 +3,15 @@
     <Label>{{ label }}</Label>
     <div v-if="hint !== ''" class="text-xs text-gray-700 mb-1">{{ hint }}</div>
     <input
-      class="border focus:outline-none focus:border-purple-900 p-1 px-4"
+      class="
+        border
+        focus:outline-none
+        focus:border-purple-900
+        p-2
+        px-4
+        font-ember
+        text-sm text-gray-800
+      "
       v-bind="$attrs"
       v-on="listeners"
     />

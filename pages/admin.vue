@@ -9,7 +9,8 @@
 import Vue from 'vue'
 export default Vue.extend({
   layout: 'admin',
-  // middleware: 'isadmin',
+  middleware: 'isadmin',
+
   computed: {
     hasInfo(): boolean {
       return this.$store.getters['info/hasInfo']
