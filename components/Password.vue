@@ -7,26 +7,29 @@
         flex-grow flex
         items-center
         border
+        justify-between
         focus:outline-none
         focus-within:border-purple-900
-        px-4
+        pl-4
         p-1
       "
     >
       <input
-        class="flex-grow focus:outline-none"
+        class="focus:outline-none w-11/12"
         :type="visible ? 'text' : 'password'"
         v-bind="$attrs"
         v-on="listeners"
       />
-      <button
-        class="focus:outline-none"
-        type="button"
-        @click="visible = !visible"
-      >
-        <IconEyeClose v-if="visible" fill="#9ca3af" />
-        <IconEyeOpen v-else fill="#9ca3af" />
-      </button>
+      <div class="w-1/12 flex items-center justify-center px-1">
+        <button
+          class="focus:outline-none"
+          type="button"
+          @click="visible = !visible"
+        >
+          <IconEyeClose v-if="visible" fill="#9ca3af" size="16px" />
+          <IconEyeOpen v-else fill="#9ca3af" size="16px" />
+        </button>
+      </div>
     </div>
   </div>
 </template>
