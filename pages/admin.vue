@@ -1,5 +1,5 @@
 <template>
-  <div class="relative bg-fafa min-h-screen max-w-screen-lg mx-auto pb-32">
+  <div class="relative min-h-screen max-w-screen-lg mx-auto pb-32">
     <Info class="fixed top-0 left-0 w-full z-50" />
     <NuxtChild :class="{ 'mt-14': hasInfo }" />
   </div>

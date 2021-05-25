@@ -70,6 +70,15 @@ export const actions: ActionTree<RootState, RootState> = {
     }
   },
 
+  async save({ commit }, lesson: Lesson) {
+    try {
+      const { lesson_id: id } = await this.$adminapi.$post('lessons/', lesson)
+      this.$router.push({ path: `/admin/lessons/${id}` })
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
   async removeLesson({ commit, state }) {
     try {
       if (

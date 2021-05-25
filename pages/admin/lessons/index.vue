@@ -41,28 +41,19 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Lesson } from '@/types'
+
 export default Vue.extend({
   fetchOnServer: false,
 
-  data() {
-    return {
-      lessons: [],
-    }
+  async fetch() {
+    await this.$store.dispatch('admin/lessons/fetchLessons')
   },
 
-  async fetch() {
-    try {
-      const lessons = await this.$axios.$get('lessons/')
-      if (lessons !== null) {
-        this.lessons = lessons
-      }
-    } catch (error) {
-      alert(
-        `Error: ${
-          error.message || error.data?.message || error.data?.response?.message
-        }`
-      )
-    }
+  computed: {
+    lessons(): Lesson[] {
+      return this.$store.getters['admin/lessons/lessons']
+    },
   },
 })
 </script>
