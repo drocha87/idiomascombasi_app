@@ -51,7 +51,13 @@
         <div
           class="text-center mt-8 text-sm font-ember font-medium text-gray-800"
         >
-          <a class="text-purple-500" href="#"> Terms and Conditions </a>
+          <a
+            class="text-purple-500"
+            href="https://idiomascombasi.com.br/legal"
+            target="_blank"
+          >
+            Terms and Conditions
+          </a>
         </div>
       </form>
     </div>

@@ -18,6 +18,7 @@
         />
         <div
           class="
+            mt-1
             text-right text-xs
             font-medium
             text-purple-500
@@ -28,18 +29,23 @@
         </div>
         <div
           v-if="errorMessage !== ''"
-          class="text-sm text-red-500 text-center mt-4 font-medium"
+          class="text-sm text-red-500 text-center mt-4 font-medium font-ember"
         >
           {{ errorMessage }}
         </div>
         <Button type="submit" class="w-full h-12 mt-8" small label="Entrar">
         </Button>
 
-        <div class="text-center mt-8 text-sm font-medium text-gray-800">
+        <div
+          class="text-center mt-8 text-sm font-medium font-ember text-gray-800"
+        >
           Don't have an account?
-          <a class="text-purple-500 hover:text-purple-700" href="#">
+          <nuxt-link
+            class="text-purple-500 hover:text-purple-700 ml-2"
+            to="/signup"
+          >
             Sign Up
-          </a>
+          </nuxt-link>
         </div>
       </form>
     </div>
@@ -73,8 +79,12 @@ export default Vue.extend({
         //   console.log(response.message)
         // }
       } catch (error) {
-        this.errorMessage =
-          error.message || error.response?.data?.message || 'Internal Error'
+        if (error.response?.status === 401) {
+          this.errorMessage = 'Email or password invalid'
+        } else {
+          this.errorMessage =
+            error.message || error.response?.data?.message || 'Internal Error'
+        }
       }
     },
   },
