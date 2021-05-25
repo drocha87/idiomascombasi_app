@@ -1,14 +1,14 @@
 <template>
   <div class="flex items-center h-screen justify-center bg-white">
-    <div class="flex-grow h-full"></div>
-    <div class="min-w-1/2">
+    <div class="hidden md:block flex-grow h-full"></div>
+    <div class="min-w-1/2 p-4 md:p-0">
       <div class="font-montserrat text-5xl font-bold">B.</div>
       <div class="font-montserrat text-2xl font-medium mt-8">
         Welcome to Campus ICB
       </div>
       <div class="text-2xl font-light">Student Zone</div>
       <div class="mt-8">Login</div>
-      <form class="max-w-1/2 mt-2" @submit.prevent="studentLogin">
+      <form class="md:max-w-1/2 mt-2" @submit.prevent="studentLogin">
         <Input v-model="login.email" type="email" label="Email" required />
         <Password
           v-model="login.password"
