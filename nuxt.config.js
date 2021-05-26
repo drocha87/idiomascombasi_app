@@ -23,7 +23,6 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: 'plugins/globalErrorHandler.ts', mode: 'client' },
     { src: '~/plugins/vue-markdown.js', mode: 'client' },
     // '~/plugins/api.ts',
   ],
