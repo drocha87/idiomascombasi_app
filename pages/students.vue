@@ -1,6 +1,5 @@
 <template>
   <div>
-    <DashboardNav></DashboardNav>
     <div class="max-w-screen-xl mx-auto">
       <nuxt-child></nuxt-child>
     </div>
@@ -11,7 +10,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  layout: 'empty',
+  layout: 'dashboard',
   middleware: 'auth',
 })
 </script>

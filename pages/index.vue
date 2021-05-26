@@ -16,7 +16,7 @@
             auxilie a criar algo único e relevante para os estudantes de idiomas
             estranjeiros.
           </p>
-          <div class="flex-grow flex items-end mt-8">
+          <div class="flex-grow flex items-end">
             <Button
               class="w-full md:w-48"
               label="Fazer parte"
@@ -26,11 +26,19 @@
           </div>
         </div>
         <div
-          class="order-1 md:order-2 flex items-center justify-center md:w-1/4"
+          class="
+            order-1
+            md:order-2
+            flex
+            items-center
+            justify-center
+            md:w-1/4
+            p-8
+          "
         >
           <img
             class="object-contain"
-            src="https://s.udemycdn.com/topic-images/lohp-topic-banners/GettyImages-1166389425_opt.jpg"
+            src="https://res.cloudinary.com/euyome/image/upload/v1622033886/idiomascombasi/basi_circle_1_xigeye.png"
             alt="image"
           />
         </div>
