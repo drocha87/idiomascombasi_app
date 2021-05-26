@@ -3,21 +3,38 @@
     class="
       bg-fafa
       w-full
-      h-8
       border-t
-      flex
-      items-center
-      text-gray-900
-      px-8
-      text-xs
+      text-gray-900 text-xs
       font-ember font-light
       tracking-wide
     "
   >
-    <div class="flex-grow">Feedback</div>
-    <div>© 2021, Basilia Santiago. All rights reserved.</div>
-    <div class="ml-8">
-      <a href="https://idiomascombasi.com.br/legal">Terms of use</a>
+    <div class="hidden md:flex h-8 items-center px-8">
+      <div class="flex-grow">Feedback</div>
+      <div>© 2021, Basilia Santiago. All rights reserved.</div>
+      <div class="ml-8">
+        <a href="https://idiomascombasi.com.br/legal">Terms of use</a>
+      </div>
+    </div>
+    <div
+      class="
+        md:hidden
+        w-full
+        h-16
+        flex flex-col
+        items-center
+        justify-around
+        px-8
+      "
+    >
+      <div class="flex items-center justify-around w-full max-w-1/2">
+        <div>Feedback</div>
+        <div class="text-gray-300">|</div>
+        <div>
+          <a href="https://idiomascombasi.com.br/legal">Terms of use</a>
+        </div>
+      </div>
+      <div>© 2021, Basilia Santiago. All rights reserved.</div>
     </div>
   </footer>
 </template>

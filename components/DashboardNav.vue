@@ -1,6 +1,6 @@
 <template>
-  <nav class="block z-50 w-screen h-16 bg-white font-antonio border-b">
-    <div class="flex items-center justify-between h-16 px-24">
+  <nav class="block z-50 w-screen h-12 bg-white border-b">
+    <div class="flex items-center justify-between h-12 px-4 md:px-24">
       <div
         class="
           text-xl
@@ -11,13 +11,19 @@
           font-montserrat
         "
       >
-        <h4>Campus ICB</h4>
+        <nuxt-link to="/students">
+          <h4>Campus ICB</h4>
+        </nuxt-link>
       </div>
 
       <!-- settings button -->
-      <div class="flex">
-        <div>Diego Rocha</div>
-        <IconSettings class="ml-4" />
+      <div class="flex font-ember">
+        <div class="hidden md:block text-gray-500">
+          {{ student.name || student.email }}
+        </div>
+        <nuxt-link to="settings" append>
+          <IconSettings class="ml-2 mr-4" />
+        </nuxt-link>
         <button @click="logout">Logout</button>
       </div>
     </div>
@@ -31,7 +37,11 @@ export default Vue.extend({
     return {}
   },
 
-  computed: {},
+  computed: {
+    student(): any {
+      return this.$auth.user
+    },
+  },
 
   methods: {
     async logout() {
