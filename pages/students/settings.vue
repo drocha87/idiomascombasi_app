@@ -1,10 +1,7 @@
 <template>
   <div class="max-w-screen-sm mx-auto">
     <div class="font-ember text-2xl font-light">Settings</div>
-    <form
-      class="mt-8"
-      @submit.prevent="$store.dispatch('admin/courses/updateBody')"
-    >
+    <form class="mt-8" @submit.prevent="$store.dispatch('student/updateInfo')">
       <Input
         v-model.trim="email"
         class="w-full"
@@ -28,7 +25,6 @@
         class="mt-4"
         label="Bio"
         hint="Describe yourself, so we can share more about you with other students"
-        required
       />
 
       <div class="text-right mt-4">
@@ -40,27 +36,41 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { User } from '@/types'
+
 export default Vue.extend({
+  fetchOnServer: false,
+
+  fetch() {
+    this.$store.dispatch('student/fetchStudent')
+  },
+
   computed: {
-    student() {
-      return this.$auth.user
+    student(): User {
+      return this.$store.getters['student/student']
     },
 
     email(): string {
       return this.student.email
     },
 
-    name(): string {
-      return this.student.name
+    name: {
+      get(): string {
+        return this.student.name
+      },
+      set(val: string) {
+        this.$store.commit('student/SET_NAME', val)
+      },
     },
 
-    bio(): string {
-      return this.student.bio
+    bio: {
+      get(): string {
+        return this.student.bio
+      },
+      set(val: string) {
+        this.$store.commit('student/SET_BIO', val)
+      },
     },
-  },
-
-  methods: {
-    update() {},
   },
 })
 </script>

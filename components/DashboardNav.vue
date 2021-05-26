@@ -25,6 +25,9 @@
           <IconSettings class="ml-2 mr-4" />
         </nuxt-link>
         <button @click="logout">Logout</button>
+        <nuxt-link v-if="isAdmin" class="ml-4 text-gray-600" to="/admin">
+          Admin
+        </nuxt-link>
       </div>
     </div>
   </nav>
@@ -40,6 +43,10 @@ export default Vue.extend({
   computed: {
     student(): any {
       return this.$auth.user
+    },
+
+    isAdmin(): boolean {
+      return this.$auth.hasScope('admin')
     },
   },
 

@@ -56,7 +56,7 @@ const api: Plugin = ({ $axios }, inject) => {
   // Set baseURL to something different
   student.setBaseURL('http://192.168.100.3:3331/')
   // Inject to context as $api
-  inject('studentapi', admin)
+  inject('studentapi', student)
 
   // Create a custom axios instance to handle public api calls
   const publik = $axios.create({
