@@ -1,7 +1,9 @@
 <template>
   <div class="flex flex-col">
     <Label>{{ label }}</Label>
-    <div v-if="hint !== ''" class="text-xs text-gray-700 mb-1">{{ hint }}</div>
+    <div v-if="hint !== ''" class="text-xs text-gray-500 mb-1 font-ember">
+      {{ hint }}
+    </div>
     <input
       class="
         border

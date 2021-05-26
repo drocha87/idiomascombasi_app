@@ -1,9 +1,16 @@
 <template>
-  <div>
+  <div class="font-ember">
     <Label>{{ label }}</Label>
-    <div v-if="hint !== ''" class="text-xs text-gray-700 mb-1">{{ hint }}</div>
+    <div v-if="hint !== ''" class="text-xs text-gray-500 mb-1">{{ hint }}</div>
     <textarea
-      class="border w-full focus:outline-none focus:border-purple-900 p-4"
+      class="
+        border
+        w-full
+        focus:outline-none
+        focus:border-purple-900
+        p-4
+        text-gray-800 text-sm
+      "
       type="text"
       v-bind="$attrs"
       v-on="listeners"
