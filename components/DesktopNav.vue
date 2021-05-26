@@ -1,7 +1,7 @@
 <template>
-  <nav class="block z-50 w-screen h-16 bg-white border-b">
-    <div class="flex items-center justify-between h-16 px-24">
-      <div
+  <nav class="w-full h-12 bg-white border-b">
+    <div class="flex items-center justify-between h-12 px-4 md:px-24">
+      <nuxt-link
         class="
           text-xl
           font-bold
@@ -10,17 +10,19 @@
           select-none
           font-montserrat
         "
+        to="/"
       >
         <h4>Campus ICB</h4>
-      </div>
+      </nuxt-link>
 
       <!-- settings button -->
       <div class="flex font-montserrat tracking-wider font-medium">
         <nuxt-link
           to="/login"
-          class="py-2 px-4 hover:bg-gray-100 rounded-sm text-sm border"
-          >Login</nuxt-link
+          class="py-2 px-4 hover:bg-gray-100 rounded-sm font-ember"
         >
+          Login
+        </nuxt-link>
       </div>
     </div>
   </nav>

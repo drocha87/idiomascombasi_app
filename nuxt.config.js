@@ -22,7 +22,10 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/vue-markdown.js', mode: 'client' },
+    // '~/plugins/api.ts',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -48,12 +51,17 @@ export default {
   },
 
   auth: {
+    scopeKey: 'roles',
+
+    plugins: [{ src: '~/plugins/api.ts' }],
+
     redirect: {
       login: '/login',
       logout: '/',
       callback: '/login',
-      home: '/students/dashboard',
+      home: '/students',
     },
+
     strategies: {
       local: {
         token: {
@@ -62,13 +70,13 @@ export default {
           // type: 'Bearer'
         },
         user: {
-          property: 'student',
+          property: false,
           // autoFetch: false,
         },
         endpoints: {
-          login: { url: '/auth/login', method: 'post' },
-          logout: { url: '/auth/logout', method: 'post' },
-          user: { url: '/auth/student', method: 'get' },
+          login: { url: '/login', method: 'post' },
+          logout: { url: '/logout', method: 'post' },
+          user: { url: '/getuser', method: 'get' },
         },
       },
     },

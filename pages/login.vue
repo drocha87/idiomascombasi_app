@@ -1,24 +1,24 @@
 <template>
   <div class="flex items-center h-screen justify-center bg-white">
-    <div class="flex-grow h-full"></div>
-    <div class="min-w-1/2">
+    <div class="hidden md:block flex-grow h-full"></div>
+    <div class="min-w-1/2 p-4 md:p-0">
       <div class="font-montserrat text-5xl font-bold">B.</div>
       <div class="font-montserrat text-2xl font-medium mt-8">
         Welcome to Campus ICB
       </div>
       <div class="text-2xl font-light">Student Zone</div>
       <div class="mt-8">Login</div>
-      <form class="max-w-1/2 mt-2" @submit.prevent="studentLogin">
-        <BaseInput v-model="login.email" type="email" label="Email" required />
-        <BaseInput
+      <form class="md:max-w-1/2 mt-2" @submit.prevent="studentLogin">
+        <Input v-model="login.email" type="email" label="Email" required />
+        <Password
           v-model="login.password"
           class="mt-4"
-          type="password"
           label="Password"
           required
         />
         <div
           class="
+            mt-1
             text-right text-xs
             font-medium
             text-purple-500
@@ -29,32 +29,23 @@
         </div>
         <div
           v-if="errorMessage !== ''"
-          class="text-sm text-red-500 text-center mt-4 font-medium"
+          class="text-sm text-red-500 text-center mt-4 font-medium font-ember"
         >
           {{ errorMessage }}
         </div>
-        <button
-          type="submit"
-          class="
-            w-full
-            h-12
-            rounded-sm
-            text-white
-            mt-8
-            bg-purple-500
-            font-medium
-            hover:bg-purple-700
-          "
-          small
-        >
-          Entrar
-        </button>
+        <Button type="submit" class="w-full h-12 mt-8" small label="Entrar">
+        </Button>
 
-        <div class="text-center mt-8 text-sm font-medium text-gray-800">
+        <div
+          class="text-center mt-8 text-sm font-medium font-ember text-gray-800"
+        >
           Don't have an account?
-          <a class="text-purple-500 hover:text-purple-700" href="#">
+          <nuxt-link
+            class="text-purple-500 hover:text-purple-700 ml-2"
+            to="/signup"
+          >
             Sign Up
-          </a>
+          </nuxt-link>
         </div>
       </form>
     </div>
@@ -73,6 +64,12 @@ export default Vue.extend({
     }
   },
 
+  mounted() {
+    if (this.$auth.loggedIn) {
+      this.$router.push({ path: '/students' })
+    }
+  },
+
   methods: {
     async studentLogin() {
       try {
@@ -88,7 +85,12 @@ export default Vue.extend({
         //   console.log(response.message)
         // }
       } catch (error) {
-        this.errorMessage = error.response.data.message
+        if (error.response?.status === 401) {
+          this.errorMessage = 'Email or password invalid'
+        } else {
+          this.errorMessage =
+            error.message || error.response?.data?.message || 'Internal Error'
+        }
       }
     },
   },

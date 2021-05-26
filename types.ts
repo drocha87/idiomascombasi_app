@@ -1,3 +1,10 @@
+export interface Module {
+  id?: string
+  title: string
+  description: string
+  language: string
+}
+
 export interface Course {
   id?: string
   title: string
@@ -13,6 +20,8 @@ export interface Course {
   kind: string
   certificate: boolean
   requiriments: string
+  modules_info: Module[]
+  modules: string[]
 
   expires_at: string
 }
@@ -47,4 +56,11 @@ export interface Lesson {
   kind: string
   created_at: string
   updated_at: string
+}
+
+export interface User {
+  id?: string
+  email: string
+  name: string
+  bio: string
 }

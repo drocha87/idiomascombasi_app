@@ -1,47 +1,65 @@
 <template>
-  <div class="max-w-screen-xl mx-auto p-12">
-    <div class="border border-gold border-opacity-50 rounded p-8">
-      <div class="flex">
-        <div class="flex flex-col">
-          <div class="text-xl font-medium font-montserrat text-gray-900">
-            Expand your career opportunities learning another language
+  <div class="max-w-screen-xl mx-auto p-1 md:p-12">
+    <div>
+      <div class="flex flex-col md:flex-row">
+        <div class="flex flex-col order-2 md:order-1 mt-4 md:w-3/4">
+          <div class="text-2xl font-medium font-ember text-gray-900">
+            Pré-lançamento Campus ICB
           </div>
-          <p class="max-w-3/4 mt-2 text-sm">
-            Whether you work in machine learning or finance, or are pursuing a
-            career in web development or data science, Python is one of the most
-            important skills you can learn. Python's simple syntax is especially
-            suited for desktop, web, and business
+          <p class="mt-2 font-ember tracking-wide leading-6 font-light md:pr-8">
+            Olá, eu sou a Basilia Santiago, professora de Inglês e Espanhol, e
+            junto com meu time de desenvolvedores, decidimos criar uma
+            plataforma de ensino onde o aluno poderá registrar seu progesso, ter
+            acesso a conteúdos gratuitos e participar de quizzes e aulas ao
+            vivo. Ainda estamos em fase de desenvolvimento, por isso gostaríamos
+            da sua ajuda. Faça seu cadastro clicando no botão abaixo e nos
+            auxilie a criar algo único e relevante para os estudantes de idiomas
+            estranjeiros.
           </p>
           <div class="flex-grow flex items-end">
-            <button
-              class="
-                mt-4
-                text-sm text-purple-500
-                hover:text-purple-700
-                rounded
-                py-2
-                px-4
-                font-montserrat font-medium
-                border border-purple-500
-              "
+            <Button
+              class="w-full md:w-48"
+              label="Fazer parte"
+              @click="$router.push('/signup')"
             >
-              Comming Soon
-            </button>
+            </Button>
           </div>
         </div>
-        <img
-          class="object-contain"
-          src="https://s.udemycdn.com/topic-images/lohp-topic-banners/GettyImages-1166389425_opt.jpg"
-          alt="image"
-        />
+        <div
+          class="
+            order-1
+            md:order-2
+            flex
+            items-center
+            justify-center
+            md:w-1/4
+            p-8
+          "
+        >
+          <img
+            class="object-contain"
+            src="https://res.cloudinary.com/euyome/image/upload/v1622033886/idiomascombasi/basi_circle_1_xigeye.png"
+            alt="image"
+          />
+        </div>
       </div>
     </div>
 
+    <div class="w-full bg-gold mt-8 bg-opacity-40" style="height: 1px"></div>
+
     <div class="mt-12">
-      <h3 class="text-xl">Cursos</h3>
-      <div class="flex">
-        <div v-for="course in courses" :key="course.id">
-          <Course :course="course" />
+      <h3 class="text-3xl p-1 font-ember font-light text-gray-700">Cursos</h3>
+      <div class="flex flex-col">
+        <div v-if="courses.length === 0" class="flex justify-center">
+          <div class="flex flex-col items-center">
+            <Spin size="56px" />
+            <span class="text-xs font-ember text-gray-400">Loading...</span>
+          </div>
+        </div>
+        <div v-else>
+          <div v-for="course in courses" :key="course.id">
+            <Course :course="course" />
+          </div>
         </div>
       </div>
     </div>
@@ -50,17 +68,19 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Course } from '@/types'
 
 export default Vue.extend({
   fetchOnServer: false,
 
   fetch() {
-    this.$store.dispatch('courses/fetchCourses')
+    this.$store.dispatch('public/courses/fetchCourses')
   },
 
   computed: {
-    courses(): any[] {
-      return this.$store.getters['courses/courses']
+    courses(): Course[] {
+      const data: Course[] = this.$store.getters['public/courses/courses']
+      return data
     },
   },
 
