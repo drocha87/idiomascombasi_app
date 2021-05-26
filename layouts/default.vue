@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <DesktopNav></DesktopNav>
-    <Nuxt />
+  <div class="min-h-screen relative">
+    <DesktopNav class="fixed top-0 left-0"></DesktopNav>
+    <div class="mt-12">
+      <Nuxt />
+    </div>
+    <Footer class="fixed bottom-0 left-0" />
   </div>
 </template>
 

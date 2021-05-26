@@ -77,6 +77,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Course } from '@/types'
+
 export default Vue.extend({
   fetchOnServer: false,
 
@@ -85,12 +87,12 @@ export default Vue.extend({
   },
 
   fetch() {
-    this.$store.dispatch('courses/fetchCourse', this.$route.params.id)
+    this.$store.dispatch('public/courses/fetchCourse', this.$route.params.id)
   },
 
   computed: {
-    course(): any {
-      return this.$store.getters['courses/currentCourse']
+    course(): Course {
+      return this.$store.getters['public/courses/currentCourse']
     },
 
     wywl(): string[] {

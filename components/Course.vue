@@ -1,34 +1,33 @@
 <template>
   <div
     class="
-      flex
+      flex flex-col
+      md:flex-row
       mt-8
       w-full
-      border border-gold border-opacity-40
-      p-4
+      border-b border-gold border-opacity-40
+      pb-4
       cursor-pointer
+      font-ember
     "
     @click="gotoCourse(course.id)"
   >
-    <div class="w-3/4">
-      <div class="text-xs">Criado em <Date :date="course.created_at" /></div>
-      <div class="text-xl font-medium">{{ course.title }}</div>
-      <div class="font-medium">{{ kind }}</div>
-      <!-- <div class="text-xs font-medium mt-1">
-        {{ course.language }} {{ course.level }}
+    <div class="md:w-3/4 order-2 md:order-1 mt-2 md:pr-4">
+      <!-- <div class="text-xs font-light">
+        Criado em <Date :date="course.created_at" />
       </div> -->
-      <div class="my-4 text-sm tracking-wide text-gray-700">
+      <div class="text-xl font-medium tracking-wide">{{ course.title }}</div>
+      <div class="text-gray-500">{{ kind }}</div>
+      <div class="my-4 tracking-wide font-light">
         {{ course.short_description }}
       </div>
-      <!-- <div class="text-xs font-medium text-gray-700 mt-4">
-        Começa em {{ course.start_at }}
-      </div>
-      <div class="text-xs font-medium text-gray-700">
-        Expira em {{ course.expire_at }}
-      </div> -->
-      <Button class="mt-4" small label="Saiba Mais"></Button>
     </div>
-    <div>Image</div>
+    <div
+      v-if="course.image"
+      class="order-1 md:order-2 flex justify-center items-center md:w-1/4"
+    >
+      <img class="object-contain" :src="course.image" alt="image" />
+    </div>
   </div>
 </template>
 

@@ -69,7 +69,7 @@ const api: Plugin = ({ $axios }, inject) => {
   // Set baseURL to something different
   publik.setBaseURL('http://192.168.100.3:3332/')
   // Inject to context as $api
-  inject('publicapi', admin)
+  inject('publicapi', publik)
 }
 
 export default api

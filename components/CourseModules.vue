@@ -85,7 +85,7 @@ export default Vue.extend({
     },
 
     modules(): any[] {
-      return this.$store.getters['courses/modules']
+      return this.$store.getters['public/courses/modules']
     },
   },
 
@@ -99,7 +99,7 @@ export default Vue.extend({
     toggleVisibility(mod: any, index: number) {
       const item: any = this.$refs[mod.id]
       this.height = item[0].scrollHeight
-      this.$store.commit('courses/TOGGLE_MOD_VISIBILITY', index)
+      this.$store.commit('public/courses/TOGGLE_MOD_VISIBILITY', index)
     },
   },
 })
