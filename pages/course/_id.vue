@@ -39,9 +39,11 @@
     <CourseInfo class="mt-8" :course="course" />
 
     <ContainerSlot class="mt-8" title="Descrição">
-      <div class="font-ember text-gray-800 tracking-wide font-light">
-        <vue-markdown emoji html :source="course.description"> </vue-markdown>
-      </div>
+      <client-only>
+        <div class="font-ember text-gray-800 tracking-wide font-light">
+          <vue-markdown emoji html :source="course.description"> </vue-markdown>
+        </div>
+      </client-only>
     </ContainerSlot>
 
     <CourseModules v-if="course.modules_info" class="mt-8" />
