@@ -63,4 +63,7 @@ export interface User {
   email: string
   name: string
   bio: string
+  avatar: string
+  roles: string[]
+  interests: string[]
 }

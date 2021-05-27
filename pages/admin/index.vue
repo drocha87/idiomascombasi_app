@@ -4,7 +4,16 @@
 
     <div class="flex mt-4">
       <div class="flex-grow mr-4">
-        <ContainerSlot title="Courses">
+        <ContainerSlot title="Students">
+          <div class="flex flex-wrap">
+            <InternLink to="students" append>View Students</InternLink>
+            <InternLink class="ml-8" to="courses/new" append>
+              Add Student
+            </InternLink>
+          </div>
+        </ContainerSlot>
+
+        <ContainerSlot class="mt-4" title="Courses">
           <div class="flex flex-wrap">
             <InternLink to="courses" append>View Courses</InternLink>
             <InternLink class="ml-8" to="courses/new" append>

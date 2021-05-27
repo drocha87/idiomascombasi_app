@@ -219,6 +219,7 @@ export default Vue.extend({
 
     availableLessons(): any[] {
       const modLessons = this.mod.lessons
+      // TODO: use `some` method in modLessons to check if the lesson is available
       return this.allLessons.filter((l: any) => {
         let display = true
         if (modLessons?.includes(l.id)) {
