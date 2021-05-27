@@ -49,16 +49,13 @@ export default Vue.extend({
   fetchOnServer: false,
 
   async fetch() {
-    await this.$store.dispatch(
-      'admin/students/fetchStudent',
-      this.$auth.user.id
-    )
-    await this.$store.dispatch('admin/courses/fetchCourses')
+    await this.$store.dispatch('student/fetchStudent')
+    await this.$store.dispatch('public/courses/fetchCourses')
   },
 
   computed: {
     student(): User {
-      return this.$store.getters['admin/students/student']
+      return this.$store.getters['student/student']
     },
 
     courses(): any[] {
@@ -71,7 +68,7 @@ export default Vue.extend({
 
   methods: {
     courseName(id: string): string {
-      return this.$store.getters['admin/courses/courseNameById'](id)
+      return this.$store.getters['public/courses/courseNameById'](id)
     },
   },
 })

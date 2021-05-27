@@ -4,12 +4,24 @@
     <div class="p-4">
       <div
         v-for="(mod, index) in mods"
-        :key="mod"
+        :key="mod.module_id"
         type="button"
         class="text-sm block"
       >
-        <div
-          class="flex p-2"
+        <AdminDataItem
+          :label="moduleName(mod.module_id)"
+          :index="index"
+          :visit="`/admin/modules/${mod.module_id}`"
+          :released="mod.released"
+          @toggle-release="
+            $store.dispatch('admin/courses/toggleModuleRelease', mod.module_id)
+          "
+          @up="moveModule('up', mod.module_id)"
+          @down="moveModule('down', mod.module_id)"
+          @remove="$store.dispatch('admin/courses/removeModule', mod.module_id)"
+        />
+        <!-- <div
+          class="flex items-center p-2"
           :class="{
             'bg-gray-100': index % 2 === 0,
             'bg-gray-200': index % 2 !== 0,
@@ -18,35 +30,54 @@
           <button
             type="button"
             class="focus:outline-none bg-white rounded-full"
-            @click="moveModule('up', mod)"
+            @click="moveModule('up', mod.module_id)"
           >
             <IconExpandLess></IconExpandLess>
           </button>
           <button
             type="button"
             class="focus:outline-none bg-white rounded-full ml-2"
-            @click="moveModule('down', mod)"
+            @click="moveModule('down', mod.module_id)"
           >
             <IconExpandMore></IconExpandMore>
           </button>
           <div class="ml-6 flex-grow">
-            {{ moduleName(mod) }}
+            {{ moduleName(mod.module_id) }}
           </div>
           <button
             type="button"
+            class="text-xs px-4"
+            :class="{
+              'text-blue-500': !mod.released,
+              'text-yellow-500': mod.released,
+            }"
+            @click="
+              $store.dispatch(
+                'admin/courses/toggleModuleRelease',
+                mod.module_id
+              )
+            "
+          >
+            {{ mod.released ? 'Unrelease' : 'Release' }}
+          </button>
+
+          <button
+            type="button"
             class="text-xs text-red-500 px-4"
-            @click="$store.dispatch('admin/courses/removeModule', mod)"
+            @click="
+              $store.dispatch('admin/courses/removeModule', mod.module_id)
+            "
           >
             Remove
           </button>
           <nuxt-link
             type="button"
             class="text-xs text-green-800 px-4"
-            :to="`/admin/modules/${mod}`"
+            :to="`/admin/modules/${mod.module_id}`"
           >
             Visit
           </nuxt-link>
-        </div>
+        </div> -->
       </div>
 
       <div v-if="mods.length === 0" class="text-sm text-center text-gray-600">
@@ -71,22 +102,11 @@ export default Vue.extend({
       return this.$store.getters['admin/courses/currentCourse']
     },
 
-    mods(): string[] {
+    mods(): any[] {
       if (this.course.modules) {
         return this.course.modules
       }
       return []
-    },
-
-    availableMods(): Module[] {
-      const courseMods = this.course.modules
-      return this.allMods.filter((l: Module) => {
-        let display = true
-        if (courseMods?.includes(l.id!)) {
-          display = false
-        }
-        return l.language === this.course.language && display
-      })
     },
   },
 
@@ -107,3 +127,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style lang="postcss" scoped>
+button {
+  @apply focus:outline-none;
+}
+</style>

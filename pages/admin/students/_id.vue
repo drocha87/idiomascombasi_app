@@ -120,9 +120,10 @@
         <TitleSmall>Available Courses</TitleSmall>
         <p class="mb-4 text-xs text-gray-700">
           To connect a course with the student, just click in the Add button in
-          front of the course. Remember that you <strong>DON'T</strong> need to
-          save the changes after add the course, since it will be saved
-          automatically
+          front of the course.
+          <strong>The course MUST be released</strong> before you add it to
+          student. Remember that you <strong>DON'T</strong> need to save the
+          changes after add the course, since it will be saved automatically
         </p>
         <div class="p-4">
           <div
@@ -196,6 +197,9 @@ export default Vue.extend({
     availableCourses(): Course[] {
       if (this.allCourses?.length > 0) {
         return this.allCourses.filter((course: Course) => {
+          if (!course.released) {
+            return false
+          }
           return !this.courses?.some((c: any) => c.course_id === course.id)
         })
       }

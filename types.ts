@@ -21,7 +21,7 @@ export interface Course {
   certificate: boolean
   requiriments: string
   modules_info: Module[]
-  modules: string[]
+  modules: any[]
 
   expires_at: string
 }

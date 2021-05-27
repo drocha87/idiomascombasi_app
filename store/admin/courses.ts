@@ -140,6 +140,17 @@ export const actions: ActionTree<RootState, RootState> = {
     await dispatch('fetchCourse', state.currentCourse.id)
   },
 
+  async toggleModuleRelease({ state, commit, dispatch }, moduleId: string) {
+    try {
+      await this.$adminapi.$post(
+        `courses/${state.currentCourse.id}/module/${moduleId}/togglerelease`
+      )
+      await dispatch('fetchCourse', state.currentCourse.id)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
   async moveModule(
     { state, dispatch },
     { direction, id }: { direction: string; id: string }

@@ -15,6 +15,9 @@
       <div class="ml-8">
         <a href="https://idiomascombasi.com.br/legal">Terms of use</a>
       </div>
+      <nuxt-link v-if="isAdmin" class="ml-4 font-medium" to="/admin">
+        Admin
+      </nuxt-link>
     </div>
     <div
       class="
@@ -38,3 +41,14 @@
     </div>
   </footer>
 </template>
+
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+  computed: {
+    isAdmin(): boolean {
+      return this.$auth.hasScope('admin')
+    },
+  },
+})
+</script>
