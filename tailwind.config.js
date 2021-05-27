@@ -32,6 +32,7 @@ export const theme = {
       primary: '#A7DADC',
       secondary: '#120e41',
       gold: '#c6a869',
+      blueaws: '#0073bb',
       fafa: '#fafafa',
     },
 
