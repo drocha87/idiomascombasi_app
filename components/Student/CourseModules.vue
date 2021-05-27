@@ -1,5 +1,10 @@
 <template>
   <Accordion title="Módulos" :items="modules">
+    <template #title="{ item }">
+      <span class="ml-4 font-ember text-lg text-gray-900 font-light">
+        {{ item.title }}
+      </span>
+    </template>
     <template #content="{ item }">
       <div
         v-for="l in item.lessons_info"

@@ -14,9 +14,11 @@
           <div class="flex items-center text-gray-900 p-2 pl-4 select-none">
             <IconExpandLess v-if="item._visible" size="16px" />
             <IconExpandMore v-else size="16px" />
-            <span class="ml-4 font-ember text-lg text-gray-900 font-light">
-              {{ item.title }}
-            </span>
+            <slot name="title" :item="item">
+              <span class="ml-4 font-ember text-lg text-gray-900 font-light">
+                {{ item }}
+              </span>
+            </slot>
           </div>
         </a>
 
