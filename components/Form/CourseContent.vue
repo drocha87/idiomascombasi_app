@@ -2,7 +2,15 @@
   <form @submit.prevent="$store.dispatch('admin/courses/updateBody')">
     <div class="p-4 bg-gray-50 mt-4">
       <div class="text-sm text-gray-500">Description preview</div>
-      <vue-markdown emoji html :source="description"> </vue-markdown>
+      <client-only>
+        <vue-markdown
+          class="text-sm font-ember font-light mt-2"
+          emoji
+          html
+          :source="description"
+        >
+        </vue-markdown>
+      </client-only>
     </div>
 
     <Textarea
