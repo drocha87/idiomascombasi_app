@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link
+  <a
     class="
       flex
       items-center
@@ -10,11 +10,12 @@
       text-xs text-blueaws
     "
     v-bind="$attrs"
-    :to="to"
+    :href="to"
+    target="_blank"
   >
     <div>{{ label }}</div>
-    <div>{{ quantity }}</div>
-  </nuxt-link>
+    <div class="uppercase">{{ type }}</div>
+  </a>
 </template>
 
 <script lang="ts">
@@ -24,7 +25,7 @@ export default Vue.extend({
 
   props: {
     label: { type: String, required: true },
-    quantity: { type: Number, default: 0 },
+    type: { type: String, default: 'url' },
     to: { type: String, required: true },
   },
 })

@@ -22,42 +22,6 @@
 
     <CourseInfo class="mt-8" :course="course" />
 
-    <ContainerSlot title="Resources" class="font-ember mt-8">
-      <p class="text-xs font-ember text-gray-700">
-        These are your course resources. These number of resources can change,
-        since the Teacher can add more resources in the future. Not all
-        resources are ready to use.
-      </p>
-      <div class="flex flex-wrap mt-2">
-        <div class="w-1/3">
-          <ResourceInfo
-            class="m-1"
-            label="Audios"
-            :quantity="2"
-            to="quizzes"
-            append
-          />
-        </div>
-        <div class="w-1/3">
-          <ResourceInfo class="m-1" label="Documents" :quantity="2" to="/" />
-        </div>
-        <div class="w-1/3">
-          <ResourceInfo
-            class="m-1"
-            label="Videos"
-            :quantity="2"
-            to="videos"
-            append
-          />
-        </div>
-        <div class="w-1/3">
-          <ResourceInfo class="m-1" label="Quizzes" :quantity="2" to="/" />
-        </div>
-        <div class="w-1/3">
-          <ResourceInfo class="m-1" label="Tests" :quantity="2" to="/" />
-        </div>
-      </div>
-    </ContainerSlot>
     <!-- <div class="mt-9 border border-gold border-opacity-20 p-4 bg-gray-100">
       <TitleSmall>O que você aprenderá</TitleSmall>
       <div class="mt-4 flex flex-wrap">
