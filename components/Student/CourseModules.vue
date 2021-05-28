@@ -2,12 +2,18 @@
   <Accordion title="Módulos" :items="modules">
     <template #title="{ item }">
       <span
-        class="ml-4 font-ember text-lg font-light"
+        class="ml-4 font-ember font-light flex items-center"
         :class="{
-          'text-gray-300': !item.released,
+          'text-gray-400': !item.released,
           'text-gray-900': item.released,
         }"
       >
+        <IconLock
+          v-if="!item.released"
+          class="mr-2"
+          size="14px"
+          fill="#9ca3af"
+        />
         {{ item.title }}
       </span>
     </template>
@@ -20,14 +26,20 @@
         <div class="flex tracking-wide">
           <div class="flex flex-col flex-grow">
             <nuxt-link
-              class="flex-grow font-ember"
+              class="flex-grow font-ember flex items-center"
               :class="{
-                'text-gray-300': !l.released,
+                'text-gray-400': !l.released,
                 'text-gray-900': l.released,
               }"
               :to="`lesson/${l.id}`"
               append
             >
+              <IconLock
+                v-if="!l.released"
+                class="mr-2"
+                size="12px"
+                fill="#9ca3af"
+              />
               {{ findName(item.lessons_info, l.lesson_id) }}
             </nuxt-link>
             <!-- <div class="text-xs">Inicia em data</div> -->
