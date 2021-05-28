@@ -63,17 +63,30 @@
         </div>
       </form>
 
-      <div class="border p-4 mt-4">
+      <div class="border p-4 mt-12">
         <TitleSmall>Resources</TitleSmall>
 
         <form @submit.prevent="addResource">
           <div class="flex items-center mt-4">
-            <Select v-model="resource.type" label="Resource Type">
+            <Select v-model="resource.type" label="Type">
               <option value="url">URL</option>
               <option value="pdf">PDF</option>
               <option value="text">Text</option>
               <option value="image">Image</option>
               <option value="video">Video</option>
+            </Select>
+
+            <Select
+              v-model="resource.expires_in"
+              class="ml-2"
+              label="Expires In"
+            >
+              <option :value="0">Never</option>
+              <option :value="24">1 Day</option>
+              <option :value="48">2 Days</option>
+              <option :value="72">3 Days</option>
+              <option :value="120">5 Days</option>
+              <option :value="240">10 Days</option>
             </Select>
 
             <Input
@@ -91,9 +104,10 @@
               type="url"
             />
           </div>
+
           <Textarea
             v-model="resource.description"
-            label="Resource Description"
+            label="Description"
             class="mt-4"
           />
           <div class="text-right">
@@ -107,12 +121,47 @@
             :key="index"
             class="mt-2 text-sm"
           >
-            <div class="flex">
+            <ResourceInfo
+              class="m-1"
+              :label="res.name"
+              :type="res.type"
+              :description="res.description"
+              :to="res.url"
+            >
+              <template #action>
+                <div
+                  class="
+                    flex
+                    items-end
+                    font-ember
+                    text-xs text-gray-500
+                    justify-between
+                    mt-2
+                  "
+                >
+                  <div class="flex-grow">{{ res.url }}</div>
+                  <ExpiresIn
+                    v-if="res.expires_in > 0"
+                    class="mr-8"
+                    :expires-in="res.expires_in"
+                    :created-at="res.created_at"
+                  />
+                  <button
+                    type="button"
+                    class="text-red-500 focus:outline-none"
+                    @click="deleteResource(res.id)"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </template>
+            </ResourceInfo>
+            <!-- <div class="flex">
               <div class="px-8 bg-gray-100 py-1 text-sm">
                 Type: {{ res.type }}
               </div>
               <div class="px-8 bg-gray-200 py-1 text-sm">
-                Name: {{ res.name }}
+                {{ res.name }}
               </div>
               <div class="bg-gray-100 flex-grow py-1 px-2 text-sm">
                 Url: {{ res.url }}
@@ -129,7 +178,7 @@
             </div>
             <div class="p-4 bg-gray-100 text-sm">
               {{ res.description }}
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -150,6 +199,7 @@ export default Vue.extend({
       url: '',
       name: '',
       description: '',
+      expires_in: 0,
     }
 
     return {

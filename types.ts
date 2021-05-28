@@ -43,7 +43,9 @@ export interface Resource {
   type: string
   url: string
   name: string
+  expires_in: number
   description: string
+  created_at: Date
 }
 
 export interface Lesson {
