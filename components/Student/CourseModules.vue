@@ -26,21 +26,29 @@
         <div class="flex tracking-wide">
           <div class="flex flex-col flex-grow">
             <nuxt-link
-              class="flex-grow font-ember flex items-center"
-              :class="{
-                'text-gray-400': !l.released,
-                'text-gray-900': l.released,
-              }"
-              :to="`lesson/${l.id}`"
+              v-slot="{ navigate }"
+              class="flex-grow font-ember"
+              :to="`lesson/${l.lesson_id}`"
               append
+              custom
             >
-              <IconLock
-                v-if="!l.released"
-                class="mr-2"
-                size="12px"
-                fill="#9ca3af"
-              />
-              {{ findName(item.lessons_info, l.lesson_id) }}
+              <button
+                class="flex items-center"
+                :class="{
+                  'text-gray-400 cursor-not-allowed': !l.released,
+                  'text-gray-900': l.released,
+                }"
+                :disabled="!l.released"
+                @click="navigate"
+              >
+                <IconLock
+                  v-if="!l.released"
+                  class="mr-2"
+                  size="12px"
+                  fill="#9ca3af"
+                />
+                {{ findName(item.lessons_info, l.lesson_id) }}
+              </button>
             </nuxt-link>
             <!-- <div class="text-xs">Inicia em data</div> -->
           </div>
