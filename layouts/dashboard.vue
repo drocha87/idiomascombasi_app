@@ -4,7 +4,7 @@
     <div class="mt-20 md:mb-16 px-4 md:px-0">
       <Nuxt />
     </div>
-    <Footer class="absolute md:fixed bottom-0 left-0" />
+    <Footer class="absolute mt-10 md:mt-0 md:fixed md:bottom-0 md:left-0" />
   </div>
 </template>
 
