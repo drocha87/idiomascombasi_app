@@ -12,7 +12,9 @@
         {{ module.title }}
       </div>
     </div>
-    <div class="text-2xl font-ember">{{ lesson.title }}</div>
+    <div class="text-2xl font-ember">
+      {{ lesson.title }}
+    </div>
     <div class="mt-2 font-ember font-light">{{ lesson.description }}</div>
 
     <ContainerSlot title="Resources" class="font-ember mt-8">
@@ -26,6 +28,7 @@
             class="m-1"
             :label="resource.name"
             :type="resource.type"
+            :description="resource.description"
             :to="resource.url"
           />
         </div>
