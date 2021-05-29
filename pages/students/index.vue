@@ -5,7 +5,31 @@
     </div>
 
     <ContainerSlot class="mt-8" title="Meus Cursos">
-      Diego Rocha
+      <nuxt-link
+        v-for="(course, index) in courses"
+        :key="course.id"
+        class="text-sm block"
+        :to="`/students/courses/${course.course_id}`"
+      >
+        <div
+          class="flex p-2"
+          :class="{
+            'bg-gray-100': index % 2 === 0,
+            'bg-gray-200': index % 2 !== 0,
+          }"
+        >
+          <div class="ml-6 flex-grow">
+            {{ courseName(course.course_id) }}
+          </div>
+        </div>
+
+        <div
+          v-if="courses.length === 0"
+          class="text-sm text-center text-gray-600"
+        >
+          You still don't have any courses
+        </div>
+      </nuxt-link>
     </ContainerSlot>
     <ContainerSlot class="mt-8" title="Sugeridos para você">
       Diego Rocha
@@ -18,12 +42,33 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { User } from '@/types'
+
 export default Vue.extend({
   layout: 'empty',
+  fetchOnServer: false,
+
+  async fetch() {
+    await this.$store.dispatch('student/fetchStudent')
+    await this.$store.dispatch('public/courses/fetchCourses')
+  },
 
   computed: {
-    student() {
-      return this.$auth.user
+    student(): User {
+      return this.$store.getters['student/student']
+    },
+
+    courses(): any[] {
+      if (this.student.courses) {
+        return this.student.courses
+      }
+      return []
+    },
+  },
+
+  methods: {
+    courseName(id: string): string {
+      return this.$store.getters['public/courses/courseNameById'](id)
     },
   },
 })

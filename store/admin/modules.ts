@@ -73,6 +73,17 @@ export const actions: ActionTree<RootState, RootState> = {
     }
   },
 
+  async toggleLessonRelease({ state, commit, dispatch }, lessonID: string) {
+    try {
+      await this.$adminapi.$post(
+        `modules/${state.currentModule.id}/lesson/${lessonID}/togglerelease`
+      )
+      await dispatch('fetchModule', state.currentModule.id)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
   async removeModule({ commit, state }) {
     if (
       confirm(

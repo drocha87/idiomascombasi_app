@@ -1,24 +1,66 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
-import { User } from '@/types'
+import { User, Course, Module, Lesson } from '@/types'
 
 export const state = () => {
   const student: Partial<User> = {}
+
+  const course: Partial<Course> = {}
+  const module: Partial<Module> = {}
+  const lesson: Partial<Lesson> = {}
+  const position: number = 0
+
   return {
     student,
+    course,
+    module,
+    lesson,
+    position,
   }
 }
 
 export type RootState = ReturnType<typeof state>
 
 export const getters: GetterTree<RootState, RootState> = {
-  student(state): Partial<User> {
+  student(state) {
     return state.student
+  },
+
+  course(state) {
+    return state.course
+  },
+
+  module(state) {
+    return state.module
+  },
+
+  lesson(state) {
+    return state.lesson
+  },
+
+  position(state) {
+    return state.position
   },
 }
 
 export const mutations: MutationTree<RootState> = {
   SET_STUDENT(state, student: any): void {
     state.student = Object.assign(state.student, student)
+  },
+
+  SET_LESSON(state, lesson: Partial<Lesson>) {
+    state.lesson = lesson
+  },
+
+  SET_LESSON_POSITION(state, position: number) {
+    state.position = position
+  },
+
+  SET_COURSE(state, course: Partial<Course>) {
+    state.course = course
+  },
+
+  SET_MODULE(state, module: Partial<Module>) {
+    state.module = module
   },
 
   SET_NAME(state, name: string): void {
@@ -34,6 +76,23 @@ export const actions: ActionTree<RootState, RootState> = {
   fetchStudent({ commit }) {
     // const course = await this.$axios.$get('/auth/student')
     commit('SET_STUDENT', this.$auth.user)
+  },
+
+  async fetchLesson(
+    { commit },
+    { course_id, lesson_id }: { course_id: string; lesson_id: string }
+  ) {
+    try {
+      const { lesson, module, course, position } = await this.$studentapi.$get(
+        `/course/${course_id}/lesson/${lesson_id}`
+      )
+      commit('SET_COURSE', course)
+      commit('SET_MODULE', module)
+      commit('SET_LESSON', lesson)
+      commit('SET_LESSON_POSITION', position)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
   },
 
   async updateInfo({ commit, state }) {

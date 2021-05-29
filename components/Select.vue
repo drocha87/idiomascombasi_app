@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <Label>{{ label }}</Label>
     <select
-      class="p-2 focus:outline-none text-sm"
+      class="p-2 focus:outline-none text-sm font-ember"
       v-bind="$attrs"
       v-on="listeners"
     >

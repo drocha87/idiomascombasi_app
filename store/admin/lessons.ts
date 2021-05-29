@@ -112,6 +112,7 @@ export const actions: ActionTree<RootState, RootState> = {
     resource: Resource
   ): Promise<void> {
     try {
+      resource.expires_in = parseInt(`${resource.expires_in}`)
       await this.$adminapi.$put(
         `lessons/${state.currentLesson.id}/resource`,
         resource

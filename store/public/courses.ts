@@ -25,6 +25,18 @@ export const getters: GetterTree<RootState, RootState> = {
   modules(state): any[] {
     return state.modules
   },
+
+  courseNameById(state) {
+    return (id: string): string => {
+      const lesson = state.courses.find((course: Course) => course.id === id)
+      return lesson?.title || 'undefined'
+    }
+  },
+}
+
+function isModuleReleased(modules: any[], id: string): boolean {
+  const mod = modules.find((i: any) => i.module_id === id)
+  return mod?.released
 }
 
 export const mutations: MutationTree<RootState> = {
@@ -32,7 +44,9 @@ export const mutations: MutationTree<RootState> = {
     state.currentCourse = course
     if (course.modules_info) {
       state.modules = course.modules_info.map((mod: any) => {
-        return Object.assign({}, mod, { toggleVisibility: false })
+        return Object.assign({}, mod, {
+          released: isModuleReleased(course.modules, mod.id),
+        })
       })
     }
   },

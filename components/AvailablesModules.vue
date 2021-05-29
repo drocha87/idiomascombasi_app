@@ -76,15 +76,20 @@ export default Vue.extend({
     },
 
     availableMods(): Module[] {
-      const courseMods = this.mods
+      const courseMods = this.course.modules
       return this.allMods.filter((l: Module) => {
-        let display = true
-        if (courseMods?.includes(l.id!)) {
-          display = false
-        }
-        return l.language === this.course.language && display
+        return (
+          l.language === this.course.language &&
+          !courseMods.some((cm: any) => cm.module_id === l.id)
+        )
       })
     },
   },
 })
 </script>
+
+<style lang="postcss" scoped>
+button {
+  @apply focus:outline-none;
+}
+</style>

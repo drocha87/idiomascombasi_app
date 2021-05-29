@@ -50,62 +50,25 @@
       <div class="border p-4 mt-8">
         <TitleSmall>Lessons</TitleSmall>
         <div class="p-4">
-          <div
-            v-for="(lesson, index) in lessons"
-            :key="lesson"
-            type="button"
-            class="text-sm block"
-          >
-            <div
-              class="flex p-2"
-              :class="{
-                'bg-gray-100': index % 2 === 0,
-                'bg-gray-200': index % 2 !== 0,
-              }"
-            >
-              <button
-                type="button"
-                class="focus:outline-none bg-white rounded-full"
-                @click="
-                  $store.dispatch('admin/modules/moveLesson', {
-                    direction: 'up',
-                    id: lesson,
-                  })
-                "
-              >
-                <IconExpandLess></IconExpandLess>
-              </button>
-              <button
-                type="button"
-                class="focus:outline-none bg-white rounded-full ml-2"
-                @click="
-                  $store.dispatch('admin/modules/moveLesson', {
-                    direction: 'down',
-                    id: lesson,
-                  })
-                "
-              >
-                <IconExpandMore></IconExpandMore>
-              </button>
-              <div class="ml-6 flex-grow">
-                {{ lessonName(lesson) }}
-              </div>
-              <button
-                type="button"
-                class="text-xs text-red-500 px-4"
-                @click="$store.dispatch('admin/modules/removeLesson', lesson)"
-              >
-                Remove
-              </button>
-              <nuxt-link
-                class="text-xs text-green-800 px-4"
-                :to="`/admin/lessons/${lesson}`"
-              >
-                Visit
-              </nuxt-link>
-            </div>
+          <div v-for="(lesson, index) in lessons" :key="lesson.lesson_id">
+            <AdminDataItem
+              :label="lessonName(lesson.lesson_id)"
+              :index="index"
+              :visit="`/admin/lessons/${lesson.lesson_id}`"
+              :released="lesson.released"
+              @toggle-release="
+                $store.dispatch(
+                  'admin/modules/toggleLessonRelease',
+                  lesson.lesson_id
+                )
+              "
+              @up="move('up', lesson.lesson_id)"
+              @down="move('down', lesson.lesson_id)"
+              @remove="
+                $store.dispatch('admin/modules/removeLesson', lesson.lesson_id)
+              "
+            />
           </div>
-
           <div
             v-if="lessons.length === 0"
             class="text-sm text-center text-gray-600"
@@ -218,18 +181,23 @@ export default Vue.extend({
     },
 
     availableLessons(): any[] {
-      const modLessons = this.mod.lessons
       return this.allLessons.filter((l: any) => {
-        let display = true
-        if (modLessons?.includes(l.id)) {
-          display = false
-        }
-        return l.language === this.mod.language && display
+        return (
+          l.language === this.mod.language &&
+          !this.mod.lessons?.some((ll: any) => ll.lesson_id === l.id)
+        )
       })
     },
   },
 
   methods: {
+    async move(direction: string, id: string) {
+      await this.$store.dispatch('admin/modules/moveLesson', {
+        direction,
+        id,
+      })
+    },
+
     lessonName(id: string): string {
       return this.$store.getters['admin/lessons/lessonNameById'](id)
     },

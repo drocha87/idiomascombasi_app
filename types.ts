@@ -21,7 +21,7 @@ export interface Course {
   certificate: boolean
   requiriments: string
   modules_info: Module[]
-  modules: string[]
+  modules: any[]
 
   expires_at: string
 }
@@ -43,7 +43,9 @@ export interface Resource {
   type: string
   url: string
   name: string
+  expires_in: number
   description: string
+  created_at: Date
 }
 
 export interface Lesson {
@@ -63,4 +65,7 @@ export interface User {
   email: string
   name: string
   bio: string
+  avatar: string
+  roles: string[]
+  interests: string[]
 }

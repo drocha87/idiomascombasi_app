@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <div class="p-4">
+    <div class="bg-white" :class="{ 'p-0': noPadding, 'p-4': !noPadding }">
       <slot />
     </div>
   </div>
@@ -21,6 +21,7 @@ export default Vue.extend({
   props: {
     title: { type: String, required: true },
     subtitle: { type: String, default: '' },
+    noPadding: { type: Boolean, default: false },
   },
 })
 </script>

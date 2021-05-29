@@ -25,6 +25,13 @@ export const getters: GetterTree<RootState, RootState> = {
   modules(state): any[] {
     return state.modules
   },
+
+  courseNameById(state) {
+    return (id: string): string => {
+      const lesson = state.courses.find((course: Course) => course.id === id)
+      return lesson?.title || 'undefined'
+    }
+  },
 }
 
 export const mutations: MutationTree<RootState> = {
@@ -131,6 +138,17 @@ export const actions: ActionTree<RootState, RootState> = {
       `courses/${state.currentCourse.id}/module/${moduleId}`
     )
     await dispatch('fetchCourse', state.currentCourse.id)
+  },
+
+  async toggleModuleRelease({ state, commit, dispatch }, moduleId: string) {
+    try {
+      await this.$adminapi.$post(
+        `courses/${state.currentCourse.id}/module/${moduleId}/togglerelease`
+      )
+      await dispatch('fetchCourse', state.currentCourse.id)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
   },
 
   async moveModule(

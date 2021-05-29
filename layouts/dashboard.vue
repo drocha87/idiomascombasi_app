@@ -1,16 +1,16 @@
 <template>
   <div class="min-h-screen relative">
     <DashboardNav class="fixed top-0 left-0"></DashboardNav>
-    <div class="mt-20 px-4 md:px-0">
+    <div class="mt-20 md:mb-16 px-4 md:px-0">
       <Nuxt />
     </div>
-    <Footer class="absolute md:fixed bottom-0 left-0" />
+    <Footer class="absolute mt-10 md:mt-0 md:fixed md:bottom-0 md:left-0" />
   </div>
 </template>
 
 <style>
 html {
-  background-color: #fff;
+  background-color: #fafafa;
   font-family: 'Montserrat', 'Source Sans Pro', -apple-system,
     BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;
