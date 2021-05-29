@@ -13,7 +13,13 @@
       </div>
     </div>
     <div class="text-2xl font-ember">
-      {{ lesson.title }}
+      Lesson {{ position }}: {{ lesson.title }}
+    </div>
+    <div
+      v-if="lesson.duration > 0"
+      class="text-xs font-ember text-gray-600 font-light"
+    >
+      Lesson duration {{ lesson.duration }} minutes
     </div>
     <div class="mt-2 font-ember font-light">{{ lesson.description }}</div>
 
@@ -67,6 +73,10 @@ export default Vue.extend({
 
     lesson(): Lesson {
       return this.$store.getters['student/lesson']
+    },
+
+    position(): number {
+      return this.$store.getters['student/position']
     },
   },
 })

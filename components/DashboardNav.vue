@@ -21,7 +21,7 @@
         <div class="hidden md:block text-gray-500">
           {{ student.name || student.email }}
         </div>
-        <nuxt-link to="settings" append>
+        <nuxt-link to="/students/settings">
           <IconSettings class="ml-2 mr-4" />
         </nuxt-link>
         <button @click="logout">Logout</button>

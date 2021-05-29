@@ -7,12 +7,14 @@ export const state = () => {
   const course: Partial<Course> = {}
   const module: Partial<Module> = {}
   const lesson: Partial<Lesson> = {}
+  const position: number = 0
 
   return {
     student,
     course,
     module,
     lesson,
+    position,
   }
 }
 
@@ -34,6 +36,10 @@ export const getters: GetterTree<RootState, RootState> = {
   lesson(state) {
     return state.lesson
   },
+
+  position(state) {
+    return state.position
+  },
 }
 
 export const mutations: MutationTree<RootState> = {
@@ -43,6 +49,10 @@ export const mutations: MutationTree<RootState> = {
 
   SET_LESSON(state, lesson: Partial<Lesson>) {
     state.lesson = lesson
+  },
+
+  SET_LESSON_POSITION(state, position: number) {
+    state.position = position
   },
 
   SET_COURSE(state, course: Partial<Course>) {
@@ -73,12 +83,13 @@ export const actions: ActionTree<RootState, RootState> = {
     { course_id, lesson_id }: { course_id: string; lesson_id: string }
   ) {
     try {
-      const { lesson, module, course } = await this.$studentapi.$get(
+      const { lesson, module, course, position } = await this.$studentapi.$get(
         `/course/${course_id}/lesson/${lesson_id}`
       )
       commit('SET_COURSE', course)
       commit('SET_MODULE', module)
       commit('SET_LESSON', lesson)
+      commit('SET_LESSON_POSITION', position)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
     }
