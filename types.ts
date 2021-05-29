@@ -45,7 +45,7 @@ export interface Resource {
   name: string
   expires_in: number
   description: string
-  created_at: Date
+  created_at?: Date
 }
 
 export interface Lesson {
@@ -66,6 +66,7 @@ export interface User {
   name: string
   bio: string
   avatar: string
+  courses: Course[]
   roles: string[]
   interests: string[]
 }
