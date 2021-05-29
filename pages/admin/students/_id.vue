@@ -246,7 +246,7 @@ export default Vue.extend({
       },
     },
 
-    courses(): any[] {
+    courses(): Course[] {
       if (this.student.courses) {
         return this.student.courses
       }

@@ -36,7 +36,7 @@ export default Vue.extend({
 
   computed: {
     hasUrl(): boolean {
-      return this.to && this.to.length > 0
+      return this.to !== undefined && this.to.length > 0
     },
   },
 })
