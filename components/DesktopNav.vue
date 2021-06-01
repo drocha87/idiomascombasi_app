@@ -21,7 +21,7 @@
           to="/login"
           class="py-2 px-4 hover:bg-gray-100 rounded-sm font-ember"
         >
-          Login
+          Student Zone
         </nuxt-link>
       </div>
     </div>
