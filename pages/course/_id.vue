@@ -1,12 +1,12 @@
 <template>
-  <div class="max-w-screen-md mx-auto p-4 md:p-12">
+  <div class="max-w-screen-md mx-auto p-0 md:p-12">
     <div class="flex flex-col md:flex-row items-start">
-      <div class="md:w-3/4 mt-2 md:mt-0 md:pr-8 order-2 md:order-1">
+      <div class="md:w-3/4 mt-2 md:mt-0 md:pr-8 order-2 md:order-1 p-4">
         <h6 class="font-ember text-gold capitalize">{{ course.language }}</h6>
         <h3 class="text-3xl font-ember font-medium">{{ course.title }}</h3>
         <p class="mt-4 font-ember font-light">{{ course.short_description }}</p>
         <Button
-          class="block w-full md:w-40 mt-8"
+          class="block w-full md:w-40 mt-8 h-14"
           label="Participar do curso"
         ></Button>
       </div>
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div class="mt-9 border border-gold border-opacity-20 p-4 bg-gray-100">
+    <div class="mt-9 mx-4 border border-gold border-opacity-20 p-4 bg-gray-100">
       <TitleSmall>O que você aprenderá</TitleSmall>
       <div class="mt-4 flex flex-wrap">
         <div
@@ -36,9 +36,9 @@
         </div>
       </div>
     </div>
-    <CourseInfo class="mt-8" :course="course" />
+    <CourseInfo class="mt-8 mx-4" :course="course" />
 
-    <ContainerSlot class="mt-8" title="Descrição">
+    <ContainerSlot class="mt-8 mx-4" title="Descrição">
       <client-only>
         <div class="font-ember text-gray-800 tracking-wide font-light">
           <vue-markdown emoji html :source="course.description"> </vue-markdown>
@@ -46,9 +46,14 @@
       </client-only>
     </ContainerSlot>
 
-    <CourseModules v-if="course.modules_info" class="mt-8" />
-    <Button class="block w-48 ml-auto mt-8" label="Participar do curso">
-    </Button>
+    <CourseModules v-if="course.modules_info" class="mt-8 mx-4" />
+    <div class="p-4 md:p-0 mt-8">
+      <Button
+        class="block w-full md:w-48 md:ml-auto"
+        label="Participar do curso"
+      >
+      </Button>
+    </div>
     <!-- <div class="mt-8 border p-4">
       <TitleSmall>Modulos</TitleSmall>
       <div class="mt-4">

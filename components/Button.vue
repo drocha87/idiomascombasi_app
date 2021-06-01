@@ -7,6 +7,8 @@
       text-white text-center
       rounded
       focus:outline-none
+      h-14
+      md:h-10
     "
     :class="[
       {

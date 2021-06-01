@@ -1,6 +1,6 @@
 <template>
-  <div class="max-w-screen-sm mx-auto">
-    <div class="font-ember text-2xl font-light">Settings</div>
+  <div class="max-w-screen-sm mx-auto px-4 md:px-0">
+    <div class="font-ember text-4xl font-light mt-20">Settings</div>
     <form class="mt-8" @submit.prevent="$store.dispatch('student/updateInfo')">
       <Input
         v-model.trim="email"
@@ -28,7 +28,8 @@
       />
 
       <div class="text-right mt-4">
-        <Button type="submit" label="Update" small> </Button>
+        <Button class="w-full md:w-32" type="submit" label="Update" small>
+        </Button>
       </div>
     </form>
   </div>
