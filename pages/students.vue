@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div class="max-w-screen-xl mx-auto">
-      <nuxt-child></nuxt-child>
-    </div>
+    <nuxt-child></nuxt-child>
   </div>
 </template>
 

@@ -12,7 +12,7 @@
     "
     @click="gotoCourse(course.id)"
   >
-    <div class="md:w-3/4 order-2 md:order-1 mt-2 md:pr-4">
+    <div class="md:w-3/4 order-2 md:order-1 mt-2 md:pr-4 px-4">
       <!-- <div class="text-xs font-light">
         Criado em <Date :date="course.created_at" />
       </div> -->

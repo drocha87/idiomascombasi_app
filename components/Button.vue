@@ -2,11 +2,13 @@
   <button
     class="
       p-2
-      w-32
+      px-4
       font-ember
       text-white text-center
       rounded
       focus:outline-none
+      h-14
+      md:h-10
     "
     :class="[
       {
@@ -15,6 +17,7 @@
       `bg-${bgColor}-500`,
       `hover:bg-${bgColor}-700`,
     ]"
+    style="min-width: 150px"
     v-bind="$attrs"
     v-on="$listeners"
   >

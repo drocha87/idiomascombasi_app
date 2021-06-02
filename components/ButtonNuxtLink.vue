@@ -2,14 +2,19 @@
   <nuxt-link
     class="
       p-2
-      min-w-32
-      text-white
-      bg-purple-500
-      capitalize
-      text-center
+      w-32
+      font-ember
+      text-white text-center
       rounded
-      hover:bg-purple-700
+      focus:outline-none
     "
+    :class="[
+      {
+        'text-sm': small,
+      },
+      `bg-${bgColor}-500`,
+      `hover:bg-${bgColor}-700`,
+    ]"
     v-bind="$attrs"
     v-on="$listeners"
   >
@@ -22,6 +27,8 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     label: { type: String, default: 'button' },
+    small: { type: Boolean, default: false },
+    bgColor: { type: String, default: 'purple' },
   },
 })
 </script>

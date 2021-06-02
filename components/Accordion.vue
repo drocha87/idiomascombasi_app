@@ -16,7 +16,7 @@
             <IconExpandMore v-else size="16px" />
             <slot name="title" :item="item">
               <span class="ml-4 font-ember text-lg text-gray-900 font-light">
-                {{ item }}
+                {{ item.title }}
               </span>
             </slot>
           </div>

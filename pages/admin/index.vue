@@ -39,6 +39,20 @@
             </InternLink>
           </div>
         </ContainerSlot>
+
+        <ContainerSlot class="mt-4" title="Questionaires">
+          <div class="flex flex-wrap">
+            <InternLink to="questionaires" append>
+              View Questionaires
+            </InternLink>
+            <InternLink class="ml-8" to="questions" append>
+              View Questions
+            </InternLink>
+            <InternLink class="ml-8" to="questions/new" append>
+              Create Question
+            </InternLink>
+          </div>
+        </ContainerSlot>
       </div>
 
       <div class="w-1/4">

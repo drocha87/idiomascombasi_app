@@ -15,6 +15,8 @@ export const theme = {
     backgroundImage: {
       'hero-image':
         "url('https://res.cloudinary.com/euyome/image/upload/v1620067471/idiomascombasi/basi_hero_wider_ehkspo.jpg')",
+      'banner-pattern':
+        "url('https://res.cloudinary.com/euyome/image/upload/v1622573382/idiomascombasi/geomtric_pattern_wlb6kw.jpg')",
     },
 
     maxWidth: {

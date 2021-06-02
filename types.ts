@@ -70,3 +70,26 @@ export interface User {
   roles: string[]
   interests: string[]
 }
+
+export interface Answer {
+  id?: string
+  text: string
+  correct: boolean
+}
+
+export interface Question {
+  id?: string
+  title: string
+  language: string
+  level: number
+  resources: Resource[]
+  answers: any[]
+}
+
+export interface Questionaire {
+  id?: string
+  title: string
+  language: string
+  description: string
+  questions: any[]
+}
