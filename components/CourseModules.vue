@@ -8,7 +8,7 @@
       >
         <div class="flex tracking-wide">
           <div class="flex flex-col flex-grow">
-            {{ findName(item.lessons_info, l.lesson_id) }}
+            {{ findName(l.lesson_id) }}
           </div>
         </div>
       </div>
@@ -18,17 +18,18 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Module, Lesson } from '@/types'
+
 export default Vue.extend({
-  computed: {
-    modules(): any[] {
-      return this.$store.getters['public/courses/modules']
-    },
+  props: {
+    modules: { type: Array as () => Module[], required: true },
+    lessons: { type: Array as () => Lesson[], required: true },
   },
 
   methods: {
-    findName(items: any[], id: string): string {
-      const item = items.find((i: any) => i.id === id)
-      return item.title
+    findName(id: string): string {
+      const lesson = this.lessons.find((i: any) => i.id === id)
+      return lesson ? lesson.title : 'undefined'
     },
   },
 })

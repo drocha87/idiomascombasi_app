@@ -1,13 +1,17 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
-import { Course } from '@/types'
+import { Course, Module, Lesson } from '@/types'
 
 export const state = () => {
-  const currentCourse: Partial<Course> = {}
+  const courses: Course[] = []
+  const course: Partial<Course> = {}
+  const modules: Module[] = []
+  const lessons: Lesson[] = []
 
   return {
-    currentCourse,
-    courses: [] as Course[],
-    modules: [] as any[],
+    courses,
+    course,
+    modules,
+    lessons,
   }
 }
 
@@ -18,12 +22,20 @@ export const getters: GetterTree<RootState, RootState> = {
     return state.courses
   },
 
-  currentCourse(state): any {
-    return state.currentCourse
+  course(state): any {
+    return state.course
   },
 
-  modules(state): any[] {
+  currentCourse(state): any {
+    return state.course
+  },
+
+  modules(state): Module[] {
     return state.modules
+  },
+
+  lessons(state): Lesson[] {
+    return state.lessons
   },
 
   courseNameById(state) {
@@ -34,37 +46,21 @@ export const getters: GetterTree<RootState, RootState> = {
   },
 }
 
-function isModuleReleased(modules: any[], id: string): boolean {
-  const mod = modules.find((i: any) => i.module_id === id)
-  return mod?.released
-}
-
 export const mutations: MutationTree<RootState> = {
-  SET_CURRENT_COURSE(state, course: Course): void {
-    state.currentCourse = course
-    if (course.modules_info) {
-      state.modules = course.modules_info.map((mod: any) => {
-        return Object.assign({}, mod, {
-          released: isModuleReleased(course.modules, mod.id),
-        })
-      })
-    }
-  },
-
   SET_COURSES(state, courses: Course[]): void {
     state.courses = courses
   },
 
-  TOGGLE_MOD_VISIBILITY(state, index: number) {
-    const mod: any = state.modules[index]
-    if (mod) {
-      mod.toggleVisibility = !mod.toggleVisibility
-      state.modules.forEach((item: any) => {
-        if (item.id !== mod.id) {
-          item.toggleVisibility = false
-        }
-      })
-    }
+  SET_COURSE(state, course: Course): void {
+    state.course = course
+  },
+
+  SET_MODULES(state, modules: Module[]): void {
+    state.modules = modules
+  },
+
+  SET_LESSONS(state, lessons: Lesson[]): void {
+    state.lessons = lessons
   },
 }
 
@@ -75,7 +71,33 @@ export const actions: ActionTree<RootState, RootState> = {
   },
 
   async fetchCourse({ commit }, id: string) {
-    const course = await this.$publicapi.$get(`course/${id}`)
-    commit('SET_CURRENT_COURSE', course)
+    try {
+      const course = await this.$publicapi.$get(`course/${id}`)
+      commit('SET_COURSE', course)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+
+  async fetchCourseModules({ commit, state }) {
+    try {
+      const modules = await this.$publicapi.$get(
+        `course/${state.course.id}/modules`
+      )
+      commit('SET_MODULES', modules)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+
+  async fetchCourseLessons({ commit, state }) {
+    try {
+      const lessons = await this.$publicapi.$get(
+        `course/${state.course.id}/lessons`
+      )
+      commit('SET_LESSONS', lessons)
+    } catch (error) {
+      console.log(error)
+    }
   },
 }
