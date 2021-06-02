@@ -100,6 +100,15 @@ export const actions: ActionTree<RootState, RootState> = {
     commit('SET_CURRENT_COURSE', course)
   },
 
+  async save({ commit }, course: Partial<Course>) {
+    try {
+      const { course_id: cid } = await this.$adminapi.$post('courses/', course)
+      this.$router.push({ path: `/admin/courses/${cid}` })
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
   async updateHeader({ state, dispatch }) {
     const date = state.currentCourse.expires_at
       ? new Date(state.currentCourse.expires_at)

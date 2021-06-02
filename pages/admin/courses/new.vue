@@ -3,10 +3,10 @@
     <Header title="Course Creator" />
 
     <div class="mt-8">
-      <form @submit.prevent="save">
+      <form @submit.prevent="$store.dispatch('admin/courses/save', course)">
         <div class="flex items-end justify-between">
           <Input
-            v-model="title"
+            v-model="course.title"
             class="w-full"
             label="Title"
             hint="The course title should be unique among all your courses."
@@ -14,7 +14,7 @@
             required
           />
 
-          <Select v-model="language" class="ml-4" label="Language">
+          <Select v-model="course.language" class="ml-4" label="Language">
             <option value="english">English</option>
             <option value="spanish">Spanish</option>
             <option value="portuguese">Portuguese</option>
@@ -22,9 +22,14 @@
         </div>
 
         <div class="flex items-end mt-4">
-          <Input v-model="image" class="flex-grow" label="Image" type="text" />
           <Input
-            v-model="author"
+            v-model="course.image"
+            class="flex-grow"
+            label="Image"
+            type="text"
+          />
+          <Input
+            v-model="course.author"
             class="flex-grow mx-4"
             label="Author"
             type="text"
@@ -40,7 +45,7 @@
         </div>
 
         <Textarea
-          v-model="description"
+          v-model="course.description"
           class="mt-4"
           label="Short Description"
           maxlength="200"
@@ -53,12 +58,16 @@
           <input
             type="checkbox"
             class="w-4 h-4 ml-8"
-            :checked="certificate"
-            @click="certificate = !certificate"
+            :checked="course.certificate"
+            @click="course.certificate = !course.certificate"
           />
         </div>
 
-        <Select v-model="kind" class="mt-4" label="The course classes will be">
+        <Select
+          v-model="course.kind"
+          class="mt-4"
+          label="The course classes will be"
+        >
           <option value="recorded">Recorded</option>
           <option value="live">Live</option>
           <option value="mixed">Mixed</option>
@@ -104,7 +113,7 @@ import { Course } from '@/types'
 
 export default Vue.extend({
   data() {
-    return {
+    const course: Partial<Course> = {
       title: '',
       language: 'english',
       image: '',
@@ -113,38 +122,15 @@ export default Vue.extend({
       certificate: false,
       kind: 'live',
     }
+
+    return {
+      course,
+    }
   },
 
   computed: {
     descriptionHint(): string {
-      return `Cannot exceed 200 characters: ${this.description.length}`
-    },
-  },
-
-  methods: {
-    async save() {
-      try {
-        const data: Partial<Course> = {
-          title: this.title,
-          language: this.language,
-          image: this.image,
-          author: this.author,
-          short_description: this.description,
-          certificate: this.certificate,
-          kind: this.kind,
-        }
-        const { course_id: cid } = await this.$axios.$post('courses/', data)
-        this.$router.push({ path: `/admin/courses/${cid}` })
-      } catch (error) {
-        alert(
-          `Error: ${
-            error.message ||
-            error.response?.data?.message ||
-            error.data?.message ||
-            error.data?.response?.message
-          }`
-        )
-      }
+      return `Cannot exceed 200 characters: ${this.course.description?.length}`
     },
   },
 })
