@@ -15,19 +15,8 @@
           />
 
           <div class="flex flex-col ml-8">
-            <Select v-model="question.language" label="Language">
-              <option value="english">English</option>
-              <option value="spanish">Spanish</option>
-              <option value="portuguese">Portuguese</option>
-            </Select>
-            <Select v-model="question.level" class="mt-4" label="Level">
-              <option :value="200">A1</option>
-              <option :value="400">A2</option>
-              <option :value="600">B1</option>
-              <option :value="800">B2</option>
-              <option :value="1000">C1</option>
-              <option :value="1200">C2</option>
-            </Select>
+            <SelectLanguage v-model="question.language" />
+            <SelectLevel v-model="question.level" class="mt-4" />
           </div>
         </div>
 
