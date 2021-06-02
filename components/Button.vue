@@ -2,7 +2,7 @@
   <button
     class="
       p-2
-      w-32
+      px-4
       font-ember
       text-white text-center
       rounded
@@ -17,6 +17,7 @@
       `bg-${bgColor}-500`,
       `hover:bg-${bgColor}-700`,
     ]"
+    style="min-width: 150px"
     v-bind="$attrs"
     v-on="$listeners"
   >
