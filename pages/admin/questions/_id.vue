@@ -12,7 +12,7 @@
     </div>
 
     <div class="mt-8">
-      <form @submit.prevent="updateHeader">
+      <form @submit.prevent="$store.dispatch('admin/questions/update')">
         <div class="flex justify-between items-end">
           <Textarea
             v-model.trim="title"
@@ -75,10 +75,19 @@
                 >
                   <button
                     type="button"
-                    class="text-green-500 focus:outline-none"
-                    @click="deleteResource(res.id)"
+                    class="focus:outline-none"
+                    :class="{
+                      'text-green-500': res.correct,
+                      'text-red-500': !res.correct,
+                    }"
+                    @click="
+                      $store.dispatch(
+                        'admin/questions/toggleAnswerCorrect',
+                        res.id
+                      )
+                    "
                   >
-                    Mark as Correct
+                    {{ res.correct ? 'Correct' : 'Incorrect' }}
                   </button>
                   <button
                     type="button"
@@ -172,29 +181,6 @@
                 </div>
               </template>
             </ResourceInfo>
-            <!-- <div class="flex">
-              <div class="px-8 bg-gray-100 py-1 text-sm">
-                Type: {{ res.type }}
-              </div>
-              <div class="px-8 bg-gray-200 py-1 text-sm">
-                {{ res.name }}
-              </div>
-              <div class="bg-gray-100 flex-grow py-1 px-2 text-sm">
-                Url: {{ res.url }}
-              </div>
-              <div>
-                <button
-                  type="button"
-                  class="text-xs p-2 bg-red-500 text-white focus:outline-none"
-                  @click="deleteResource(res.id)"
-                >
-                  Delete Resource
-                </button>
-              </div>
-            </div>
-            <div class="p-4 bg-gray-100 text-sm">
-              {{ res.description }}
-            </div> -->
           </div>
         </div>
       </ContainerSlot>
@@ -274,10 +260,6 @@ export default Vue.extend({
       this.resource.url = ''
       this.resource.name = ''
       this.resource.description = ''
-    },
-
-    async updateHeader() {
-      await this.$store.dispatch('admin/questions/updateHeader')
     },
 
     async removeQuestion() {

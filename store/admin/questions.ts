@@ -42,8 +42,8 @@ export const mutations: MutationTree<RootState> = {
     state.question.title = title
   },
 
-  SET_QUESTION_LEVEL(state, level: number): void {
-    state.question.level = level
+  SET_QUESTION_LEVEL(state, level: string): void {
+    state.question.level = parseInt(level)
   },
 }
 
@@ -78,6 +78,17 @@ export const actions: ActionTree<RootState, RootState> = {
     }
   },
 
+  async update({ commit, state }) {
+    try {
+      await this.$adminapi.$patch(`questions/${state.question.id}`, {
+        title: state.question.title,
+        level: parseInt(`${state.question.level}`),
+      })
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
   async removeQuestion({ commit, state }) {
     try {
       if (
@@ -97,6 +108,20 @@ export const actions: ActionTree<RootState, RootState> = {
   async appendAnswer({ commit, state, dispatch }, answer: any): Promise<void> {
     try {
       await this.$adminapi.$put(`questions/${state.question.id}/answer`, answer)
+      await dispatch('fetchQuestion', state.question.id)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
+  async toggleAnswerCorrect(
+    { commit, state, dispatch },
+    id: string
+  ): Promise<void> {
+    try {
+      await this.$adminapi.$patch(
+        `questions/${state.question.id}/answer/${id}/toggle-correct`
+      )
       await dispatch('fetchQuestion', state.question.id)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
