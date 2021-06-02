@@ -85,3 +85,11 @@ export interface Question {
   resources: Resource[]
   answers: any[]
 }
+
+export interface Questionaire {
+  id?: string
+  title: string
+  language: string
+  description: string
+  questions: any[]
+}
