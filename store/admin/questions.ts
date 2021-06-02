@@ -20,6 +20,13 @@ export const getters: GetterTree<RootState, RootState> = {
   question(state): Partial<Question> {
     return state.question
   },
+
+  questionTitleById(state) {
+    return (id: string): string => {
+      const question = state.questions.find((q: Question) => q.id === id)
+      return question?.title || 'undefined'
+    }
+  },
 }
 
 export const mutations: MutationTree<RootState> = {
