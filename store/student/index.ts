@@ -5,15 +5,27 @@ export const state = () => {
   const student: Partial<User> = {}
 
   const course: Partial<Course> = {}
+  const courses: Course[] = []
+
   const module: Partial<Module> = {}
+  const modules: Module[] = []
+
   const lesson: Partial<Lesson> = {}
+  const lessons: Lesson[] = []
+
   const position: number = 0
 
   return {
     student,
     course,
+    courses,
+
     module,
+    modules,
+
     lesson,
+    lessons,
+
     position,
   }
 }
@@ -29,12 +41,24 @@ export const getters: GetterTree<RootState, RootState> = {
     return state.course
   },
 
+  courses(state) {
+    return state.courses
+  },
+
   module(state) {
     return state.module
   },
 
+  modules(state) {
+    return state.modules
+  },
+
   lesson(state) {
     return state.lesson
+  },
+
+  lessons(state) {
+    return state.lessons
   },
 
   position(state) {
@@ -51,6 +75,10 @@ export const mutations: MutationTree<RootState> = {
     state.lesson = lesson
   },
 
+  SET_LESSONS(state, lessons: Lesson[]) {
+    state.lessons = lessons
+  },
+
   SET_LESSON_POSITION(state, position: number) {
     state.position = position
   },
@@ -59,8 +87,16 @@ export const mutations: MutationTree<RootState> = {
     state.course = course
   },
 
+  SET_COURSES(state, courses: Course[]) {
+    state.courses = courses
+  },
+
   SET_MODULE(state, module: Partial<Module>) {
     state.module = module
+  },
+
+  SET_MODULES(state, modules: Module[]) {
+    state.modules = modules
   },
 
   SET_NAME(state, name: string): void {
@@ -78,13 +114,49 @@ export const actions: ActionTree<RootState, RootState> = {
     commit('SET_STUDENT', this.$auth.user)
   },
 
+  async fetchCourses({ commit }) {
+    const cs = await this.$studentapi.$get('courses')
+    commit('SET_COURSES', cs)
+  },
+
+  async fetchCourse({ commit }, id: string) {
+    try {
+      const course = await this.$studentapi.$get(`courses/${id}`)
+      commit('SET_COURSE', course)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
+  async fetchCourseModules({ commit, state }) {
+    try {
+      const modules = await this.$studentapi.$get(
+        `courses/${state.course.id}/modules`
+      )
+      commit('SET_MODULES', modules)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
+  async fetchCourseLessons({ commit, state }) {
+    try {
+      const lessons = await this.$studentapi.$get(
+        `courses/${state.course.id}/lessons`
+      )
+      commit('SET_LESSONS', lessons)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
   async fetchLesson(
     { commit },
     { course_id, lesson_id }: { course_id: string; lesson_id: string }
   ) {
     try {
       const { lesson, module, course, position } = await this.$studentapi.$get(
-        `/course/${course_id}/lesson/${lesson_id}`
+        `/courses/${course_id}/lessons/${lesson_id}`
       )
       commit('SET_COURSE', course)
       commit('SET_MODULE', module)

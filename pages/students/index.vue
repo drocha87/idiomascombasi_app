@@ -29,7 +29,7 @@
 
     <div class="max-w-screen-lg mx-auto px-4">
       <div class="text-4xl font-ember font-light mt-8 z-50">
-        Olá, {{ student.name || student.email }}
+        Olá, {{ student.nickname || student.name || student.email }}
       </div>
 
       <ContainerSlot class="mt-8" title="Meus Cursos">
@@ -81,7 +81,7 @@ export default Vue.extend({
 
   async fetch() {
     await this.$store.dispatch('student/fetchStudent')
-    await this.$store.dispatch('public/courses/fetchCourses')
+    await this.$store.dispatch('student/fetchCourses')
   },
 
   computed: {

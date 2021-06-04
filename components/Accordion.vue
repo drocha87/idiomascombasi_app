@@ -73,6 +73,9 @@ export default Vue.extend({
   methods: {
     toggleVisibility(mod: any, index: number) {
       const item: any = this.$refs[mod.id]
+      if (!item || item.length <= 0) {
+        return
+      }
       this.height = item[0].scrollHeight
       this.mappedItems[index]._visible = !this.mappedItems[index]._visible
 
