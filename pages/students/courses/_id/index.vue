@@ -20,7 +20,13 @@
       </div>
     </div>
 
-    <CourseInfo class="mt-8 mx-4" :course="course" />
+    <CourseInfo
+      class="mt-8 mx-4"
+      :course="course"
+      :modules="modules"
+      :lessons="lessons"
+    />
+
     <StudentCourseModules
       v-if="modules.length"
       :course="course"
