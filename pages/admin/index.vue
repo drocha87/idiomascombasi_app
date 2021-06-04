@@ -7,7 +7,7 @@
         <ContainerSlot title="Students">
           <div class="flex flex-wrap">
             <InternLink to="students" append>View Students</InternLink>
-            <InternLink class="ml-8" to="courses/new" append>
+            <InternLink class="ml-8" to="students/new" append>
               Add Student
             </InternLink>
           </div>

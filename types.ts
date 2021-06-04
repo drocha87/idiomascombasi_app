@@ -60,13 +60,25 @@ export interface Lesson {
   updated_at: string
 }
 
-export interface User {
-  id?: string
+export interface UserContactInfo {
   email: string
+  phone: string
+  address: string
+}
+
+export interface UserPersonalInfo {
   name: string
-  bio: string
   avatar: string
+  nickname: string
+  bio: string
+  birthday: Date
+  sex: string
+}
+
+export interface User extends UserPersonalInfo, UserContactInfo {
+  id?: string
   courses: Course[]
+  langauges: any[]
   roles: string[]
   interests: string[]
 }

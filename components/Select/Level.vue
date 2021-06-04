@@ -1,5 +1,5 @@
 <template>
-  <Select :value="value" label="Level" v-on="listeners">
+  <Select :value="value" :label="label" v-on="listeners">
     <option value="200">A1</option>
     <option value="400">A2</option>
     <option value="600">B1</option>
@@ -13,6 +13,7 @@
 import Vue from 'vue'
 export default Vue.extend({
   props: {
+    label: { type: String, default: 'Level' },
     value: { type: Number, default: 200 },
   },
 

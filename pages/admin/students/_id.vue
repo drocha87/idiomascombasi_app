@@ -10,8 +10,47 @@
         Last update in <Date :date="student.updated_at" />
       </div>
     </div>
-    <div class="mt-8">
-      <form @submit.prevent="$store.dispatch('admin/students/updateHeader')">
+
+    <ContainerSlot title="Student Contact Info" class="mt-8">
+      <form
+        @submit.prevent="$store.dispatch('admin/students/updateContactInfo')"
+      >
+        <div class="flex justify-between">
+          <Input
+            v-model="email"
+            class="flex-grow"
+            label="Email"
+            type="text"
+            required
+          />
+
+          <Input
+            v-model="phone"
+            class="ml-4 flex-grow"
+            label="Phone"
+            type="tel"
+            required
+          />
+        </div>
+
+        <Textarea v-model="address" class="mt-4" label="Address" />
+
+        <div class="flex justify-between items-center mt-8">
+          <Button
+            v-if="student.password === ''"
+            type="button"
+            label="Invite to Campus"
+          >
+          </Button>
+          <Button class="ml-auto" type="submit" label="Update"> </Button>
+        </div>
+      </form>
+    </ContainerSlot>
+
+    <ContainerSlot title="Student Personal Info" class="mt-8">
+      <form
+        @submit.prevent="$store.dispatch('admin/students/updatePersonalInfo')"
+      >
         <div class="flex justify-between">
           <Input
             v-model="name"
@@ -22,157 +61,190 @@
           />
 
           <Input
-            v-model="email"
+            v-model="birthday"
             class="ml-4 flex-grow"
-            label="Email"
-            type="text"
+            label="Birthday"
+            type="date"
             required
           />
+        </div>
 
-          <!-- <Select
-            v-model="student.language"
-            class="ml-4"
-            label="Language"
-            disabled
-          >
-            <option value="english">English</option>
-            <option value="spanish">Spanish</option>
-            <option value="portuguese">Portuguese</option>
-          </Select> -->
+        <div class="flex justify-between mt-4">
+          <Input
+            v-model="nickname"
+            class="flex-grow"
+            label="Nickname"
+            type="text"
+          />
+          <Input
+            v-model="avatar"
+            class="ml-4 flex-grow"
+            label="Avatar"
+            type="url"
+          />
         </div>
 
         <Textarea v-model="bio" class="mt-4" label="Bio" required />
-
-        <div class="flex mt-4">
-          <Input
-            v-model="roles"
-            class="flex-grow"
-            label="Roles"
-            type="text"
-            required
-          />
-
-          <Input
-            v-model="interests"
-            class="ml-4 flex-grow"
-            label="Interests"
-            type="text"
-            required
-          />
-        </div>
 
         <div class="flex justify-end mt-8">
           <Button type="submit" label="Update"> </Button>
         </div>
       </form>
+    </ContainerSlot>
 
-      <div class="border p-4 mt-8">
-        <TitleSmall>Courses</TitleSmall>
-        <div class="p-4">
-          <div
-            v-for="(course, index) in courses"
-            :key="course.id"
-            type="button"
-            class="text-sm block"
-          >
-            <div
-              class="flex p-2"
-              :class="{
-                'bg-gray-100': index % 2 === 0,
-                'bg-gray-200': index % 2 !== 0,
-              }"
-            >
-              <div class="ml-6 flex-grow">
-                {{ courseName(course.course_id) }}
-              </div>
-              <button
-                type="button"
-                class="text-xs text-red-500 px-4"
-                @click="
-                  $store.dispatch(
-                    'admin/students/removeCourse',
-                    course.course_id
-                  )
-                "
-              >
-                Remove
-              </button>
-              <nuxt-link
-                class="text-xs text-green-800 px-4"
-                :to="`/admin/courses/${course.course_id}`"
-              >
-                Visit
-              </nuxt-link>
-            </div>
-          </div>
+    <ContainerSlot class="mt-8" title="Student Roles and Interests">
+      <div class="flex mt-4">
+        <!-- TODO: add a way to edit these fields -->
+        <Input
+          v-model="roles"
+          class="flex-grow"
+          label="Roles"
+          type="text"
+          disabled
+        />
 
-          <div
-            v-if="courses.length === 0"
-            class="text-sm text-center text-gray-600"
-          >
-            This student actually don't have any courses, you should start
-            adding courses to this student.
-          </div>
+        <Input
+          v-model="interests"
+          class="ml-4 flex-grow"
+          label="Interests"
+          type="text"
+          disabled
+        />
+      </div>
+    </ContainerSlot>
+
+    <ContainerSlot class="mt-8" title="Student Languages">
+      <div class="flex items-end">
+        <div class="flex-grow font-ember text-sm text-gray-700">
+          Add a new language to student, pay attention before add, because will
+          not be possible to remove this language from user after your inserted
+          it.
         </div>
+        <SelectLanguage v-model="userLanguage" class="mx-8" />
+        <Button
+          label="Add Language"
+          small
+          @click="
+            $store.dispatch('admin/students/appendLanguage', userLanguage)
+          "
+        />
       </div>
 
-      <div class="p-4 border mt-4">
-        <TitleSmall>Available Courses</TitleSmall>
-        <p class="mb-4 text-xs text-gray-700">
-          To connect a course with the student, just click in the Add button in
-          front of the course.
-          <strong>The course MUST be released</strong> before you add it to
-          student. Remember that you <strong>DON'T</strong> need to save the
-          changes after add the course, since it will be saved automatically
-        </p>
-        <div class="p-4">
-          <div
-            v-for="(course, index) in availableCourses"
-            :key="course.id"
-            type="button"
-            class="text-sm block"
-          >
-            <div
-              class="flex p-2"
-              :class="{
-                'bg-gray-100': index % 2 === 0,
-                'bg-gray-200': index % 2 !== 0,
-              }"
-            >
-              <div class="ml-4 flex-grow">
-                {{ course.title }}
-              </div>
-              <button
-                type="button"
-                class="text-xs text-red-500 px-4 font-bold text-blue-900"
-                @click="
-                  $store.dispatch('admin/students/appendCourse', course.id)
-                "
-              >
-                Add
-              </button>
-              <nuxt-link
-                class="text-xs text-green-800 px-4"
-                :to="`/admin/courses/${course.id}`"
-              >
-                Visit
-              </nuxt-link>
-            </div>
-          </div>
+      <div v-if="student.languages" class="flex mt-8">
+        <div
+          v-for="lang in student.languages"
+          :key="lang.id"
+          class="mr-8 min-w-1/4"
+        >
+          <SelectLevel
+            class="capitalize"
+            :value="lang.level"
+            :label="`${lang.language} Level`"
+            @input="(level) => changeLangLevel(level, lang)"
+          />
+        </div>
+      </div>
+    </ContainerSlot>
 
+    <ContainerSlot title="Courses" class="mt-8">
+      <div class="p-4">
+        <div
+          v-for="(course, index) in courses"
+          :key="course.id"
+          type="button"
+          class="text-sm block"
+        >
           <div
-            v-if="availableCourses.length === 0"
-            class="text-sm text-center text-gray-600"
+            class="flex p-2"
+            :class="{
+              'bg-gray-100': index % 2 === 0,
+              'bg-gray-200': index % 2 !== 0,
+            }"
           >
-            You don't have any courses to add to this module,
-            <nuxt-link class="underline" to="/admin/courses/new">
-              click here
+            <div class="ml-6 flex-grow">
+              {{ courseName(course.course_id) }}
+            </div>
+            <button
+              type="button"
+              class="text-xs text-red-500 px-4"
+              @click="
+                $store.dispatch('admin/students/removeCourse', course.course_id)
+              "
+            >
+              Remove
+            </button>
+            <nuxt-link
+              class="text-xs text-green-800 px-4"
+              :to="`/admin/courses/${course.course_id}`"
+            >
+              Visit
             </nuxt-link>
-            and create your first course.
           </div>
         </div>
+
+        <div
+          v-if="courses.length === 0"
+          class="text-sm text-center text-gray-600"
+        >
+          This student actually don't have any courses, you should start adding
+          courses to this student.
+        </div>
       </div>
-    </div>
+    </ContainerSlot>
+
+    <ContainerSlot title="Available Courses" class="mt-8">
+      <p class="mb-4 text-xs text-gray-700">
+        To connect a course with the student, just click in the Add button in
+        front of the course.
+        <strong>The course MUST be released</strong> before you add it to
+        student. Remember that you <strong>DON'T</strong> need to save the
+        changes after add the course, since it will be saved automatically
+      </p>
+      <div class="p-4">
+        <div
+          v-for="(course, index) in availableCourses"
+          :key="course.id"
+          type="button"
+          class="text-sm block"
+        >
+          <div
+            class="flex p-2"
+            :class="{
+              'bg-gray-100': index % 2 === 0,
+              'bg-gray-200': index % 2 !== 0,
+            }"
+          >
+            <div class="ml-4 flex-grow">
+              {{ course.title }}
+            </div>
+            <button
+              type="button"
+              class="text-xs text-red-500 px-4 font-bold text-blue-900"
+              @click="$store.dispatch('admin/students/appendCourse', course.id)"
+            >
+              Add
+            </button>
+            <nuxt-link
+              class="text-xs text-green-800 px-4"
+              :to="`/admin/courses/${course.id}`"
+            >
+              Visit
+            </nuxt-link>
+          </div>
+        </div>
+
+        <div
+          v-if="availableCourses.length === 0"
+          class="text-sm text-center text-gray-600"
+        >
+          You don't have any courses to add to this module,
+          <nuxt-link class="underline" to="/admin/courses/new">
+            click here
+          </nuxt-link>
+          and create your first course.
+        </div>
+      </div>
+    </ContainerSlot>
   </div>
 </template>
 
@@ -182,6 +254,12 @@ import { Course, User } from '@/types'
 
 export default Vue.extend({
   fetchOnServer: false,
+
+  data() {
+    return {
+      userLanguage: 'english',
+    }
+  },
 
   async fetch() {
     const { id } = this.$route.params
@@ -219,12 +297,44 @@ export default Vue.extend({
       },
     },
 
+    address: {
+      get(): string {
+        return this.student.address
+      },
+      set(value: string): void {
+        this.$store.commit('admin/students/SET_STUDENT_ADDRESS', value)
+      },
+    },
+
+    birthday: {
+      get(): string {
+        try {
+          const date = new Date(this.student.birthday)
+          return date.toISOString().split('T')[0]
+        } catch (_) {
+          return '1900-01-01'
+        }
+      },
+      set(value: string): void {
+        this.$store.commit('admin/students/SET_STUDENT_BIRTHDAY', value)
+      },
+    },
+
     email: {
       get(): string {
         return this.student.email
       },
       set(value: string): void {
         this.$store.commit('admin/students/SET_STUDENT_EMAIL', value)
+      },
+    },
+
+    phone: {
+      get(): string {
+        return this.student.phone || '+0000000000000'
+      },
+      set(value: string): void {
+        this.$store.commit('admin/students/SET_STUDENT_PHONE', value)
       },
     },
 
@@ -243,6 +353,15 @@ export default Vue.extend({
       },
       set(value: string): void {
         this.$store.commit('admin/students/SET_STUDENT_AVATAR', value)
+      },
+    },
+
+    nickname: {
+      get(): string {
+        return this.student.nickname
+      },
+      set(value: string): void {
+        this.$store.commit('admin/students/SET_STUDENT_NICKNAME', value)
       },
     },
 
@@ -271,6 +390,13 @@ export default Vue.extend({
   methods: {
     courseName(id: string): string {
       return this.$store.getters['admin/courses/courseNameById'](id)
+    },
+
+    async changeLangLevel(level: number, lang: any) {
+      await this.$store.dispatch('admin/students/changeLanguageLevel', {
+        level,
+        language: lang,
+      })
     },
   },
 })
