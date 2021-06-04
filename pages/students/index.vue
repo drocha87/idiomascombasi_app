@@ -99,7 +99,7 @@ export default Vue.extend({
 
   methods: {
     courseName(id: string): string {
-      return this.$store.getters['public/courses/courseNameById'](id)
+      return this.$store.getters['student/courseNameById'](id)
     },
   },
 })
