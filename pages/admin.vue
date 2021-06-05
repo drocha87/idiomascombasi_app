@@ -23,7 +23,7 @@
         </div>
         <div>
           <input
-            class="px-2 text-white bg-gray-700 border"
+            class="px-2 text-white bg-gray-700 border text-sm"
             placeholder="Search services"
           />
         </div>

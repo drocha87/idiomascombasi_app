@@ -14,14 +14,29 @@
       {{ questions.length }} questions found
     </div>
 
-    <div v-if="questions.length" class="w-full mt-8">
+    <ContainerSlot class="w-full mt-8" title="Questions">
+      <div class="flex items-end mb-8">
+        <Input
+          v-model="filterQuestion"
+          class="w-1/3"
+          label="Search by matching word"
+          placeholder="Search question"
+        />
+        <SelectLanguage
+          v-model="filterLang"
+          class="ml-8 w-36"
+          label="Filter by language"
+        />
+      </div>
+
       <InfoQuestion
         v-for="question in questions"
         :key="question.id"
+        class="mb-2"
         :question="question"
       >
       </InfoQuestion>
-    </div>
+    </ContainerSlot>
   </div>
 </template>
 
@@ -32,13 +47,30 @@ import { Question } from '@/types'
 export default Vue.extend({
   fetchOnServer: false,
 
+  data() {
+    return {
+      filterQuestion: '',
+      filterLang: '',
+    }
+  },
+
   async fetch() {
     await this.$store.dispatch('admin/questions/fetchQuestions')
   },
 
   computed: {
     questions(): Question[] {
-      return this.$store.getters['admin/questions/questions']
+      const questions: Question[] =
+        this.$store.getters['admin/questions/questions']
+      return questions
+        .filter(
+          (q: Question) =>
+            this.filterLang === '' || this.filterLang === q.language
+        )
+        .filter((q: Question) => {
+          const regex = new RegExp(this.filterQuestion, 'g')
+          return this.filterQuestion === '' || regex.test(q.title)
+        })
     },
   },
 })

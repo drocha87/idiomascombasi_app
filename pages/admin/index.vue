@@ -3,6 +3,10 @@
     <!-- <Header title="Campus ICB Admin Panel" /> -->
     <h1 class="text-4xl font-ember font-light">ICB Management Console</h1>
 
+    <h1 class="text-2xl font-ember font-light mt-8">
+      Hello, {{ $auth.user.nickname || $auth.user.name || $auth.user.email }}
+    </h1>
+
     <div class="flex mt-8">
       <div class="flex-grow mr-4">
         <ContainerSlot title="ICB Services">
