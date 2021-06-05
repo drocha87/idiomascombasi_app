@@ -15,7 +15,15 @@
       <div class="ml-8">
         <a href="https://idiomascombasi.com.br/legal">Terms of use</a>
       </div>
-      <nuxt-link v-if="isAdmin" class="ml-4 font-medium" to="/admin">
+
+      <nuxt-link
+        v-if="isAdmin && /^\/admin.*/.test($route.fullPath)"
+        class="ml-4 font-medium"
+        to="/students"
+      >
+        Student
+      </nuxt-link>
+      <nuxt-link v-else-if="isAdmin" class="ml-4 font-medium" to="/admin">
         Admin
       </nuxt-link>
     </div>
