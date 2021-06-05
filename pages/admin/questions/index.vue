@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen max-w-screen-lg mx-auto pb-32">
-    <Header title="Lessons" />
+    <h1 class="text-4xl font-ember font-light">Questions</h1>
 
     <ButtonNuxtLink
       class="mt-4 block w-36 ml-auto"

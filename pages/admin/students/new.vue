@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen max-w-screen-lg mx-auto pb-32">
-    <Header title="User Creator" />
+    <h1 class="text-4xl font-ember font-light">New Student</h1>
 
     <ContainerSlot title="Insert a new student" class="mt-8">
       <form @submit.prevent="save">

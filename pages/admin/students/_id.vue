@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Header :id="student.id || ''" title="Student Editor" />
+    <h1 class="text-4xl font-ember font-light">
+      <StudentNickname :student="student" />
+    </h1>
 
     <div v-if="student.id" class="flex justify-between">
       <div class="text-xs text-gray-700 mt-2">
