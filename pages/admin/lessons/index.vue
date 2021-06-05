@@ -14,17 +14,26 @@
       {{ lessons.length }} lessons found
     </div>
 
-    <div v-if="lessons.length" class="w-full mt-8">
-      <nuxt-link
-        v-for="(lesson, index) in lessons"
+    <ContainerSlot title="Lessons">
+      <div class="flex items-end mb-8">
+        <Input
+          v-model="filterLesson"
+          class="w-1/3"
+          label="Search by matching word"
+          placeholder="Search lesson"
+        />
+        <SelectLanguage
+          v-model="filterLang"
+          class="ml-8 w-36"
+          label="Filter by language"
+        />
+      </div>
+
+      <InfoLesson
+        v-for="lesson in lessons"
         :key="lesson.id"
-        class="block py-2 px-4 w-full hover:bg-gray-200"
-        :class="{
-          'bg-gray-100': index % 2 === 0,
-          'bg-gray-50': index % 2 !== 0,
-        }"
-        :to="lesson.id"
-        append
+        class="mb-2"
+        :lesson="lesson"
       >
         <div class="flex imtes-center justify-between">
           <div>
@@ -34,8 +43,8 @@
             {{ lesson.language }}
           </div>
         </div>
-      </nuxt-link>
-    </div>
+      </InfoLesson>
+    </ContainerSlot>
   </div>
 </template>
 
@@ -46,13 +55,29 @@ import { Lesson } from '@/types'
 export default Vue.extend({
   fetchOnServer: false,
 
+  data() {
+    return {
+      filterLesson: '',
+      filterLang: '',
+    }
+  },
+
   async fetch() {
     await this.$store.dispatch('admin/lessons/fetchLessons')
   },
 
   computed: {
     lessons(): Lesson[] {
-      return this.$store.getters['admin/lessons/lessons']
+      const lessons: Lesson[] = this.$store.getters['admin/lessons/lessons']
+      return lessons
+        .filter(
+          (q: Lesson) =>
+            this.filterLang === '' || this.filterLang === q.language
+        )
+        .filter((q: Lesson) => {
+          const regex = new RegExp(this.filterLesson, 'gi')
+          return this.filterLesson === '' || regex.test(q.title)
+        })
     },
   },
 })
