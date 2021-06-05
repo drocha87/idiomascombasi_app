@@ -13,28 +13,29 @@
     <div class="mt-4 text-left w-full text-sm">
       {{ courses.length }} courses found
     </div>
-    <div v-if="courses.length" class="w-full mt-8">
-      <nuxt-link
-        v-for="(course, index) in courses"
+    <ContainerSlot title="Courses" class="mt-8">
+      <div class="flex items-end mb-8">
+        <Input
+          v-model="filterCourse"
+          class="w-1/3"
+          label="Search by matching word"
+          placeholder="Search course"
+        />
+        <SelectLanguage
+          v-model="filterLang"
+          class="ml-8 w-36"
+          label="Filter by language"
+        />
+      </div>
+
+      <InfoCourse
+        v-for="course in courses"
         :key="course.id"
-        class="block py-2 px-4 w-full"
-        :class="{
-          'bg-gray-100': index % 2 === 0,
-          'bg-gray-50': index % 2 !== 0,
-        }"
-        :to="course.id"
-        append
+        class="mb-2"
+        :course="course"
       >
-        <div class="flex imtes-center justify-between">
-          <div>
-            <span class="text-sm">{{ course.title }}</span>
-          </div>
-          <div class="capitalize text-xs p-2 bg-green-100 px-4 select-none">
-            {{ course.language }}
-          </div>
-        </div>
-      </nuxt-link>
-    </div>
+      </InfoCourse>
+    </ContainerSlot>
   </div>
 </template>
 
@@ -43,13 +44,29 @@ import Vue from 'vue'
 export default Vue.extend({
   fetchOnServer: false,
 
+  data() {
+    return {
+      filterCourse: '',
+      filterLang: '',
+    }
+  },
+
   async fetch() {
     await this.$store.dispatch('admin/courses/fetchCourses')
   },
 
   computed: {
     courses() {
-      return this.$store.getters['admin/courses/courses']
+      const courses: Course[] = this.$store.getters['admin/courses/courses']
+      return courses
+        .filter(
+          (q: Course) =>
+            this.filterLang === '' || this.filterLang === q.language
+        )
+        .filter((q: Course) => {
+          const regex = new RegExp(this.filterCourse, 'gi')
+          return this.filterCourse === '' || regex.test(q.title)
+        })
     },
   },
 })

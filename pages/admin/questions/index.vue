@@ -68,7 +68,7 @@ export default Vue.extend({
             this.filterLang === '' || this.filterLang === q.language
         )
         .filter((q: Question) => {
-          const regex = new RegExp(this.filterQuestion, 'g')
+          const regex = new RegExp(this.filterQuestion, 'gi')
           return this.filterQuestion === '' || regex.test(q.title)
         })
     },
