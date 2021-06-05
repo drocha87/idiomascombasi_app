@@ -1,5 +1,5 @@
 <template>
-  <span :class="`material-icons md-size-${size} text-${color}`">
+  <span :class="`material-icons-outlined md-size-${size} text-${color}`">
     {{ name }}
   </span>
 </template>
@@ -16,16 +16,16 @@ export default Vue.extend({
 </script>
 
 <style lang="postcss" scoped>
-.material-icons.md-size-18 {
+.material-icons-outlined.md-size-18 {
   font-size: 18px;
 }
-.material-icons.md-size-24 {
+.material-icons-outlined.md-size-24 {
   font-size: 24px;
 }
-.material-icons.md-size-36 {
+.material-icons-outlined.md-size-36 {
   font-size: 36px;
 }
-.material-icons.md-size-48 {
+.material-icons-outlined.md-size-48 {
   font-size: 48px;
 }
 </style>
