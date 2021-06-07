@@ -3,7 +3,7 @@
     <h1 class="text-4xl font-ember font-light">Questionaires</h1>
 
     <ButtonNuxtLink
-      class="mt-4 block w-36 ml-auto"
+      class="mt-4 block w-40 ml-auto"
       label="New Questionaire"
       to="new"
       append
@@ -14,23 +14,44 @@
       {{ questions.length }} questionares found
     </div>
 
-    <div v-if="questions.length" class="w-full mt-8">
+    <ContainerSlot title="Questionaires" class="mt-8">
+      <div class="flex items-end mb-8">
+        <Input
+          v-model="filterQuestionaire"
+          class="w-1/3"
+          label="Search by matching word"
+          placeholder="Search course"
+        />
+        <SelectLanguage
+          v-model="filterLang"
+          class="ml-8 w-36"
+          label="Filter by language"
+        />
+      </div>
+
       <InfoQuestionaire
         v-for="question in questions"
         :key="question.id"
         :questionaire="question"
       >
       </InfoQuestionaire>
-    </div>
+    </ContainerSlot>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { Question } from '@/types'
+import { Questionaire } from '@/types'
 
 export default Vue.extend({
   fetchOnServer: false,
+
+  data() {
+    return {
+      filterQuestionaire: '',
+      filterLang: '',
+    }
+  },
 
   async fetch() {
     await this.$store.dispatch('admin/questionaires/fetchQuestionaires')
@@ -38,7 +59,17 @@ export default Vue.extend({
 
   computed: {
     questions(): Question[] {
-      return this.$store.getters['admin/questionaires/questionaires']
+      const qs: Questionaire[] =
+        this.$store.getters['admin/questionaires/questionaires']
+      return qs
+        .filter(
+          (q: Module) =>
+            this.filterLang === '' || this.filterLang === q.language
+        )
+        .filter((q: Questionaire) => {
+          const regex = new RegExp(this.filterQuestionaire, 'gi')
+          return this.filterQuestionaire === '' || regex.test(q.title)
+        })
     },
   },
 })
