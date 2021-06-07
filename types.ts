@@ -3,6 +3,7 @@ export interface Module {
   title: string
   description: string
   language: string
+  lessons: Lesson[]
 }
 
 export interface Course {

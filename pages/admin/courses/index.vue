@@ -41,6 +41,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Course } from '@/types'
+
 export default Vue.extend({
   fetchOnServer: false,
 
@@ -56,7 +58,7 @@ export default Vue.extend({
   },
 
   computed: {
-    courses() {
+    courses(): Course[] {
       const courses: Course[] = this.$store.getters['admin/courses/courses']
       return courses
         .filter(

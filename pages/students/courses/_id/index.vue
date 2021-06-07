@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Course, Module } from '@/types'
+import { Course, Module, Lesson } from '@/types'
 
 export default Vue.extend({
   fetchOnServer: false,
