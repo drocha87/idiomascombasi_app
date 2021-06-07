@@ -36,6 +36,7 @@
         </div>
       </div>
     </div>
+
     <CourseInfo
       class="mt-8 mx-4"
       :course="course"

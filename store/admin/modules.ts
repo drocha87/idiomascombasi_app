@@ -1,17 +1,12 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
-
-interface Module {
-  id: string
-  title: string
-  description: string
-}
+import { Module } from '@/types'
 
 export const state = () => {
   const currentModule: Partial<Module> = {}
 
   return {
     currentModule,
-    modules: [] as any[],
+    modules: [] as Module[],
   }
 }
 
