@@ -36,7 +36,12 @@
         </div>
       </div>
     </div>
-    <CourseInfo class="mt-8 mx-4" :course="course" />
+    <CourseInfo
+      class="mt-8 mx-4"
+      :course="course"
+      :modules="modules"
+      :lessons="lessons"
+    />
 
     <ContainerSlot class="mt-8 mx-4" title="Descrição">
       <client-only>
