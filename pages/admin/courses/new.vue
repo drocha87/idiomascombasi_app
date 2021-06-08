@@ -45,7 +45,7 @@
         </div>
 
         <Textarea
-          v-model="course.description"
+          v-model="course.short_description"
           class="mt-4"
           label="Short Description"
           maxlength="200"
@@ -118,7 +118,7 @@ export default Vue.extend({
       language: 'english',
       image: '',
       author: 'Basilia Santiago',
-      description: '',
+      short_description: '',
       certificate: false,
       kind: 'live',
     }
@@ -130,7 +130,7 @@ export default Vue.extend({
 
   computed: {
     descriptionHint(): string {
-      return `Cannot exceed 200 characters: ${this.course.description?.length}`
+      return `Cannot exceed 200 characters: ${this.course.short_description?.length}`
     },
   },
 })

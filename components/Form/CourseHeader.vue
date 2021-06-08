@@ -47,7 +47,6 @@
       v-model.trim="short_description"
       class="mt-4"
       label="Short Description"
-      hint="You can use html tags to style the text"
       required
     />
 
