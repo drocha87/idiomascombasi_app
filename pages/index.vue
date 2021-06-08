@@ -11,20 +11,21 @@
             junto com meu time de desenvolvedores, decidimos criar uma
             plataforma de ensino onde o aluno poderá registrar seu progresso,
             ter acesso a conteúdos gratuitos e participar de quizzes e aulas ao
-            vivo. Ainda estamos em fase de desenvolvimento, por isso gostaríamos
-            da sua ajuda. Faça seu cadastro clicando no botão abaixo e nos
-            auxilie a criar algo único e relevante para os estudantes de idiomas
-            estranjeiros.
+            vivo. Ainda estamos em fase de desenvolvimento, por isso a
+            plataforma será testada apenas por convidados e alunos. Caso você
+            queria participar da fase de desenvolvimento, fale comigo!
           </p>
           <div class="flex-grow flex items-end mt-8">
-            <Button
+            <ButtonA
               class="w-full md:w-48"
-              label="Fazer parte"
-              @click="$router.push('/signup')"
+              label="Fale comigo"
+              href="https://euyo.me/idiomascombasi"
+              target="_blank"
             >
-            </Button>
+            </ButtonA>
           </div>
         </div>
+
         <div
           class="
             order-1
@@ -47,7 +48,28 @@
 
     <div class="w-full bg-gold mt-8 bg-opacity-40" style="height: 1px"></div>
 
-    <div class="mt-12">
+    <h3 class="text-3xl px-4 font-ember font-light text-gray-700 mt-8">
+      Recursos da plataforma
+    </h3>
+
+    <div class="w-full mt-8 flex flex-wrap justify-around">
+      <div class="text-center font-ember">
+        <div class="text-3xl font-light">Cursos</div>
+        <div class="text-3xl mt-3">{{ resourcesInfo.courses }}</div>
+      </div>
+      <div class="text-center font-ember">
+        <div class="text-3xl font-light">Módulos</div>
+        <div class="text-3xl mt-3">{{ resourcesInfo.modules }}</div>
+      </div>
+      <div class="text-center font-ember">
+        <div class="text-3xl font-light">Lições</div>
+        <div class="text-3xl mt-3">{{ resourcesInfo.lessons }}</div>
+      </div>
+    </div>
+
+    <div class="w-full bg-gold mt-8 bg-opacity-40" style="height: 1px"></div>
+
+    <div class="mt-8">
       <h3 class="text-3xl px-4 font-ember font-light text-gray-700">Cursos</h3>
       <div class="flex flex-col">
         <div v-if="courses.length === 0" class="flex justify-center">
@@ -75,12 +97,17 @@ export default Vue.extend({
 
   fetch() {
     this.$store.dispatch('public/courses/fetchCourses')
+    this.$store.dispatch('public/fetchResourcesInfo')
   },
 
   computed: {
     courses(): Course[] {
       const data: Course[] = this.$store.getters['public/courses/courses']
       return data
+    },
+
+    resourcesInfo(): any {
+      return this.$store.getters['public/resourcesInfo']
     },
   },
 
