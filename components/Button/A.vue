@@ -1,5 +1,5 @@
 <template>
-  <button
+  <a
     class="
       p-2
       px-4
@@ -22,7 +22,7 @@
     v-on="$listeners"
   >
     {{ compLabel }}
-  </button>
+  </a>
 </template>
 
 <script lang="ts">
