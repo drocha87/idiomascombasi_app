@@ -30,9 +30,9 @@
       </div>
 
       <InfoQuestionaire
-        v-for="question in questions"
-        :key="question.id"
-        :questionaire="question"
+        v-for="questionaire in questionaires"
+        :key="questionaire.id"
+        :questionaire="questionaire"
       >
       </InfoQuestionaire>
     </ContainerSlot>
@@ -58,12 +58,12 @@ export default Vue.extend({
   },
 
   computed: {
-    questions(): Question[] {
+    questionaires(): Questionaire[] {
       const qs: Questionaire[] =
         this.$store.getters['admin/questionaires/questionaires']
       return qs
         .filter(
-          (q: Module) =>
+          (q: Questionaire) =>
             this.filterLang === '' || this.filterLang === q.language
         )
         .filter((q: Questionaire) => {
