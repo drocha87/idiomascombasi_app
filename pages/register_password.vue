@@ -10,10 +10,8 @@
     >
       <div>
         <p class="text-sm font-ember tracking-wide text-gray-700">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error labore
-          et obcaecati, neque vel laboriosam odit corporis assumenda porro
-          incidunt autem excepturi quis dolor consectetur ducimus enim omnis ad
-          fugiat doloribus cupiditate.
+          Welcome to campus ICB, here we gonna set a new password, so ensure
+          that you use a strong one.
         </p>
       </div>
       <div class="mt-8">
@@ -42,6 +40,7 @@
               required
             />
           </div>
+          <Info class="mt-8 w-full z-50" />
           <div class="text-right mt-8">
             <Button label="Save"> </Button>
           </div>
@@ -77,14 +76,14 @@ export default Vue.extend({
   },
 
   methods: {
-    save() {
+    async save() {
       const data = {
-        email: this.email,
-        code: this.code,
         name: this.name,
+        email: this.email,
+        validation_code: this.code,
         password: this.password,
       }
-      console.log(data)
+      await this.$store.dispatch('students/setNewPassword', data)
     },
   },
 })
