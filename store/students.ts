@@ -24,9 +24,9 @@ export const actions: ActionTree<RootState, RootState> = {
     commit('SET_STUDENT', course)
   },
 
-  async setNewPassword({ commit }, _data: any) {
+  async setNewPassword({ commit }, data: any) {
     try {
-      await this.$axios.$post('/password')
+      await this.$axios.$post('/password', data)
       this.$router.push('/login')
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
