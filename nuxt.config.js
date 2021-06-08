@@ -6,7 +6,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'idiomascombasi_app',
+    title: 'Campus ICB',
     htmlAttrs: {
       lang: 'en',
     },
