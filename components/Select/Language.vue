@@ -1,8 +1,9 @@
 <template>
-  <Select :value="value" label="Language" v-on="listeners">
+  <Select :value="value" :label="label" v-on="listeners">
     <option value="english">English</option>
     <option value="spanish">Spanish</option>
     <option value="portuguese">Portuguese</option>
+    <option value="">All</option>
   </Select>
 </template>
 
@@ -11,6 +12,7 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     value: { type: String, default: 'english' },
+    label: { type: String, default: 'Language' },
   },
 
   computed: {

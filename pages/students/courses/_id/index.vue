@@ -20,14 +20,26 @@
       </div>
     </div>
 
-    <CourseInfo class="mt-8 mx-4" :course="course" />
-    <StudentCourseModules v-if="course.modules_info" class="mt-8 mx-4" />
+    <CourseInfo
+      class="mt-8 mx-4"
+      :course="course"
+      :modules="modules"
+      :lessons="lessons"
+    />
+
+    <StudentCourseModules
+      v-if="modules.length"
+      :course="course"
+      :modules="modules"
+      :lessons="lessons"
+      class="mt-8 mx-4"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { Course } from '@/types'
+import { Course, Module, Lesson } from '@/types'
 
 export default Vue.extend({
   fetchOnServer: false,
@@ -36,13 +48,23 @@ export default Vue.extend({
     return {}
   },
 
-  fetch() {
-    this.$store.dispatch('public/courses/fetchCourse', this.$route.params.id)
+  async fetch() {
+    await this.$store.dispatch('student/fetchCourse', this.$route.params.id)
+    this.$store.dispatch('student/fetchCourseModules')
+    this.$store.dispatch('student/fetchCourseLessons')
   },
 
   computed: {
     course(): Course {
-      return this.$store.getters['public/courses/currentCourse']
+      return this.$store.getters['student/course']
+    },
+
+    modules(): Module[] {
+      return this.$store.getters['student/modules']
+    },
+
+    lessons(): Lesson[] {
+      return this.$store.getters['student/lessons']
     },
 
     wywl(): string[] {

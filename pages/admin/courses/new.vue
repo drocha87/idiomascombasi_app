@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen max-w-screen-lg mx-auto pb-32">
-    <Header title="Course Creator" />
+    <h1 class="text-4xl font-ember font-light">New Course</h1>
 
     <div class="mt-8">
       <form @submit.prevent="$store.dispatch('admin/courses/save', course)">

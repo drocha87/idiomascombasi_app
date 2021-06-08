@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen max-w-screen-lg mx-auto pb-32">
-    <Header :id="course.id || ''" title="Course Editor" />
+    <h1 class="text-4xl font-ember font-light">{{ course.title }}</h1>
 
     <div v-if="course.id" class="flex justify-between">
       <div class="text-xs text-gray-700 mt-2">

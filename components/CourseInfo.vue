@@ -24,17 +24,18 @@ import { Course, Module, Lesson } from '@/types'
 export default Vue.extend({
   props: {
     course: { type: Object as () => Course, required: true },
+    modules: { type: Array as () => Module[], required: true },
+    lessons: { type: Array as () => Lesson[], required: true },
   },
 
   computed: {
     nOfModules(): number {
-      return this.course.modules?.length || 0
+      return this.modules?.length || 0
     },
 
     nOfClasses(): number {
-      const modules: Module[] = this.$store.getters['public/courses/modules']
-      if (modules) {
-        return modules.reduce((acc, val: any) => {
+      if (this.modules) {
+        return this.modules.reduce((acc, val: any) => {
           return acc + val.lessons.length
         }, 0)
       }
@@ -42,9 +43,8 @@ export default Vue.extend({
     },
 
     nOfMinutes(): number {
-      const lessons: Lesson[] = this.$store.getters['public/courses/lessons']
-      if (lessons) {
-        return lessons.reduce((acc: number, lesson: Lesson) => {
+      if (this.lessons) {
+        return this.lessons.reduce((acc: number, lesson: Lesson) => {
           return acc + lesson.duration
         }, 0)
       }

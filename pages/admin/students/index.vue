@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen max-w-screen-lg mx-auto pb-32">
-    <Header title="Students" />
+    <h1 class="text-4xl font-ember font-light">Students</h1>
 
     <ButtonNuxtLink
       class="mt-4 block w-36 ml-auto"
@@ -14,28 +14,23 @@
       {{ students.length }} students found
     </div>
 
-    <div v-if="students.length" class="w-full mt-8">
-      <nuxt-link
-        v-for="(student, index) in students"
+    <ContainerSlot title="Students">
+      <div class="flex items-end mb-8">
+        <Input
+          v-model="filterUser"
+          class="w-1/3"
+          label="Search by matching word"
+          placeholder="Search course"
+        />
+      </div>
+
+      <InfoStudent
+        v-for="student in students"
         :key="student.id"
-        class="block py-2 px-4 w-full hover:bg-gray-200"
-        :class="{
-          'bg-gray-100': index % 2 === 0,
-          'bg-gray-50': index % 2 !== 0,
-        }"
-        :to="student.id"
-        append
-      >
-        <div class="flex imtes-center justify-between">
-          <div>
-            <span class="text-sm">{{ student.name || student.email }}</span>
-          </div>
-          <!-- <div class="capitalize text-xs p-2 bg-green-100 px-4 select-none">
-            {{ student.language }}
-          </div> -->
-        </div>
-      </nuxt-link>
-    </div>
+        class="mb-2"
+        :student="student"
+      />
+    </ContainerSlot>
   </div>
 </template>
 
@@ -45,6 +40,12 @@ import { User } from '@/types'
 
 export default Vue.extend({
   fetchOnServer: false,
+
+  data() {
+    return {
+      filterUser: '',
+    }
+  },
 
   async fetch() {
     try {
@@ -60,7 +61,16 @@ export default Vue.extend({
 
   computed: {
     students(): User[] {
-      return this.$store.getters['admin/students/students']
+      const users: User[] = this.$store.getters['admin/students/students']
+      return users.filter((q: User) => {
+        const regex = new RegExp(this.filterUser, 'gi')
+        return (
+          this.filterUser === '' ||
+          regex.test(q.name) ||
+          regex.test(q.email) ||
+          regex.test(q.nickname)
+        )
+      })
     },
   },
 })

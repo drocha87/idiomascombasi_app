@@ -41,7 +41,12 @@ const api: Plugin = ({ $axios }, inject) => {
   // console.log('TOKENNNNN', token)
 
   // Set baseURL to something different
-  admin.setBaseURL('http://192.168.100.3:3330/')
+  admin.setBaseURL(
+    process.env.NODE_ENV === 'development'
+      ? 'http://192.168.100.3:3330/'
+      : 'https://admin.idiomascombasi.com.br'
+  )
+
   // Inject to context as $api
   inject('adminapi', admin)
 
@@ -54,7 +59,11 @@ const api: Plugin = ({ $axios }, inject) => {
     },
   })
   // Set baseURL to something different
-  student.setBaseURL('http://192.168.100.3:3331/')
+  student.setBaseURL(
+    process.env.NODE_ENV === 'development'
+      ? 'http://192.168.100.3:3331/'
+      : 'https://student.idiomascombasi.com.br'
+  )
   // Inject to context as $api
   inject('studentapi', student)
 
@@ -66,8 +75,14 @@ const api: Plugin = ({ $axios }, inject) => {
       },
     },
   })
+
   // Set baseURL to something different
-  publik.setBaseURL('http://192.168.100.3:3332/')
+  publik.setBaseURL(
+    process.env.NODE_ENV === 'development'
+      ? 'http://192.168.100.3:3332/'
+      : 'https://api.idiomascombasi.com.br'
+  )
+
   // Inject to context as $api
   inject('publicapi', publik)
 }

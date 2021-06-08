@@ -19,7 +19,7 @@
       <!-- settings button -->
       <div class="flex font-ember">
         <div class="hidden md:block text-gray-500">
-          {{ student.name || student.email }}
+          <StudentNickname :student="student" />
         </div>
         <nuxt-link to="/students/settings">
           <IconSettings class="ml-2 mr-4" />
