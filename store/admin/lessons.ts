@@ -42,6 +42,10 @@ export const mutations: MutationTree<RootState> = {
     state.currentLesson.title = title
   },
 
+  SET_LESSON_LANGUAGE(state, language: string): void {
+    state.currentLesson.language = language
+  },
+
   SET_LESSON_DURATION(state, duration: number): void {
     state.currentLesson.duration = duration
   },
@@ -99,6 +103,7 @@ export const actions: ActionTree<RootState, RootState> = {
     try {
       await this.$adminapi.$patch(`lessons/${state.currentLesson.id}/header`, {
         title: state.currentLesson.title,
+        language: state.currentLesson.language,
         duration: parseInt(`${state.currentLesson.duration}`),
         description: state.currentLesson.description,
       })

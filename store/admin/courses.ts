@@ -52,6 +52,10 @@ export const mutations: MutationTree<RootState> = {
     state.currentCourse.title = title
   },
 
+  SET_COURSE_LANGUAGE(state, language: string): void {
+    state.currentCourse.language = language
+  },
+
   SET_COURSE_IMAGE(state, image: string): void {
     state.currentCourse.image = image
   },
@@ -115,6 +119,7 @@ export const actions: ActionTree<RootState, RootState> = {
       : undefined
     await this.$adminapi.$patch(`courses/${state.currentCourse.id}/header`, {
       title: state.currentCourse.title,
+      language: state.currentCourse.language,
       short_description: state.currentCourse.short_description,
       image: state.currentCourse.image,
       expires_at: date,

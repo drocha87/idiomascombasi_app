@@ -30,16 +30,7 @@
             type="number"
           />
 
-          <Select
-            v-model="lesson.language"
-            class="ml-4"
-            label="Language"
-            disabled
-          >
-            <option value="english">English</option>
-            <option value="spanish">Spanish</option>
-            <option value="portuguese">Portuguese</option>
-          </Select>
+          <SelectLanguage v-model="language" class="ml-4" />
         </div>
 
         <Textarea
@@ -217,6 +208,15 @@ export default Vue.extend({
       },
       set(value: string): void {
         this.$store.commit('admin/lessons/SET_LESSON_TITLE', value)
+      },
+    },
+
+    language: {
+      get(): string {
+        return this.lesson.language
+      },
+      set(value: string): void {
+        this.$store.commit('admin/lessons/SET_LESSON_LANGUAGE', value)
       },
     },
 

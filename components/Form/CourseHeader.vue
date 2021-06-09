@@ -12,11 +12,7 @@
         required
       />
 
-      <Select v-model="course.language" class="ml-4" label="Language" disabled>
-        <option value="english">English</option>
-        <option value="spanish">Spanish</option>
-        <option value="portuguese">Portuguese</option>
-      </Select>
+      <SelectLanguage v-model="language" class="ml-4" />
 
       <Select v-model="course.kind" class="ml-4" label="Kind" disabled>
         <option value="recorded">Recorded</option>
@@ -80,6 +76,15 @@ export default Vue.extend({
       },
       set(value: string): void {
         this.$store.commit('admin/courses/SET_COURSE_TITLE', value)
+      },
+    },
+
+    language: {
+      get(): string {
+        return this.course.language
+      },
+      set(value: string): void {
+        this.$store.commit('admin/courses/SET_COURSE_LANGUAGE', value)
       },
     },
 
