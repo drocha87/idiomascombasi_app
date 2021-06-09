@@ -48,7 +48,7 @@
 
     <div class="w-full bg-gold mt-8 bg-opacity-40" style="height: 1px"></div>
 
-    <h3 class="text-3xl px-4 font-ember font-light text-gray-700 mt-8">
+    <h3 class="text-3xl px-4 font-ember font-light text-gray-700 mt-10">
       Recursos da plataforma
     </h3>
 
@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div class="w-full bg-gold mt-8 bg-opacity-40" style="height: 1px"></div>
+    <div class="w-full bg-gold mt-10 bg-opacity-40" style="height: 1px"></div>
 
     <div class="mt-8">
       <h3 class="text-3xl px-4 font-ember font-light text-gray-700">Cursos</h3>
