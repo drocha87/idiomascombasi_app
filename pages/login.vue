@@ -76,6 +76,13 @@ export default Vue.extend({
         await this.$auth.loginWith('local', {
           data: this.login,
         })
+        // FIXME: api plugin copies an instance of $axios which doesn't have the
+        //       token setup at that point, so here is necessary to setToken again.
+        // Need research if this workaround is really necessary
+        const token = (this.$auth.strategy as any).token.get()
+        this.$adminapi.setToken(token)
+        this.$studentapi.setToken(token)
+
         // // Status Ok
         // if (response.status === 200) {
         //   await this.$store.dispatch('students/fetchStudent')
