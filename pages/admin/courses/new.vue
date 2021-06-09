@@ -14,11 +14,7 @@
             required
           />
 
-          <Select v-model="course.language" class="ml-4" label="Language">
-            <option value="english">English</option>
-            <option value="spanish">Spanish</option>
-            <option value="portuguese">Portuguese</option>
-          </Select>
+          <SelectLanguage v-model="course.language" class="ml-4" />
         </div>
 
         <div class="flex items-end mt-4">
