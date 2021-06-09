@@ -56,7 +56,7 @@
         label="Remove Course"
         small
         bg-color="red"
-        @click="removeCourse()"
+        @click="$store.dispatch('admin/courses/removeCourse')"
       >
       </Button>
       <Button type="submit" label="Update" small> </Button>
