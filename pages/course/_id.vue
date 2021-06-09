@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-screen-md mx-auto p-0 md:p-12">
     <div class="flex flex-col md:flex-row items-start">
-      <div class="md:w-3/4 mt-2 md:mt-0 md:pr-8 order-2 md:order-1 p-4">
+      <div class="mt-2 md:mt-0 md:pr-8 order-2 md:order-1 p-4">
         <h6 class="font-ember text-gold capitalize">{{ course.language }}</h6>
         <h3 class="text-3xl font-ember font-medium">{{ course.title }}</h3>
         <p class="mt-4 font-ember font-light">{{ course.short_description }}</p>
@@ -10,12 +10,11 @@
           label="Participar do curso"
         ></Button>
       </div>
-      <div class="md:w-1/4 order-1 md:order-2">
-        <img
-          class="object-cover"
-          src="https://res.cloudinary.com/euyome/image/upload/v1619895563/idiomascombasi/conversation-group-banner_ltmnl5.jpg"
-          alt="idiomascombasi"
-        />
+      <div
+        v-if="course.image && course.image !== ''"
+        class="md:max-w-1/4 order-1 md:order-2"
+      >
+        <img class="object-cover" :src="course.image" alt="idiomascombasi" />
       </div>
     </div>
 
