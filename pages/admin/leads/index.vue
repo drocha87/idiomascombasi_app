@@ -43,9 +43,7 @@ export default Vue.extend({
       const leads: Lead[] = this.$store.getters['admin/leads/leads']
       return leads.filter((q: Lead) => {
         const regex = new RegExp(this.filterLead, 'gi')
-        return (
-          this.filterLead === '' || regex.test(q.email) || regex.test(q.name)
-        )
+        return this.filterLead === '' || regex.test(q.email)
       })
     },
   },
