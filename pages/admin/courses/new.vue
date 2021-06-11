@@ -44,7 +44,7 @@
           v-model="course.short_description"
           class="mt-4"
           label="Short Description"
-          maxlength="200"
+          maxlength="500"
           :hint="descriptionHint"
           required
         />
@@ -126,7 +126,7 @@ export default Vue.extend({
 
   computed: {
     descriptionHint(): string {
-      return `Cannot exceed 200 characters: ${this.course.short_description?.length}`
+      return `Cannot exceed 500 characters: ${this.course.short_description?.length}`
     },
   },
 })
