@@ -11,8 +11,7 @@
             h-32
             pt-4
             p-2
-            md:top-4
-            md:right-12
+            md:top-4 md:right-12
             bg-white
             shadow
           "
@@ -32,7 +31,11 @@
         Olá, {{ student.nickname || student.name || student.email }}
       </div>
 
-      <ContainerSlot class="mt-8" title="Meus Cursos">
+      <ContainerSlot
+        v-if="courses && courses.length"
+        class="mt-8"
+        title="Meus Cursos"
+      >
         <nuxt-link
           v-for="(course, index) in courses"
           :key="course.id"
@@ -59,6 +62,9 @@
           </div>
         </nuxt-link>
       </ContainerSlot>
+      <div v-else class="mt-12 text-center text-2xl">
+        Que pena, atualmente você não está fazendo parte de nenhum curso!
+      </div>
 
       <ContainerSlot class="mt-8" title="Links Úteis">
         <InfoLink
@@ -77,7 +83,7 @@ import { User } from '@/types'
 
 export default Vue.extend({
   layout: 'empty',
-  fetchOnServer: false,
+  // fetchOnServer: false,
 
   async fetch() {
     await this.$store.dispatch('student/fetchStudent')

@@ -110,6 +110,18 @@ export const mutations: MutationTree<RootState> = {
     state.student.name = name
   },
 
+  SET_BIRTHDAY(state, birthday: string): void {
+    state.student.birthday = new Date(birthday)
+  },
+
+  SET_NICKNAME(state, nickname: string): void {
+    state.student.nickname = nickname
+  },
+
+  SET_AVATAR(state, avatar: string): void {
+    state.student.avatar = avatar
+  },
+
   SET_BIO(state, bio: string): void {
     state.student.bio = bio
   },
@@ -176,10 +188,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async updateInfo({ commit, state }) {
     try {
-      await this.$studentapi.$patch('/info', {
-        name: state.student.name,
-        bio: state.student.bio,
-      })
+      await this.$studentapi.$patch('/info', state.student)
       await this.$auth.fetchUser()
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
