@@ -76,6 +76,11 @@ export default Vue.extend({
           icon: 'groups',
         },
         {
+          name: 'Leads',
+          to: 'leads',
+          icon: 'account_circle',
+        },
+        {
           name: 'Courses',
           to: 'courses',
           icon: 'auto_stories',
