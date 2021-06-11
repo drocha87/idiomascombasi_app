@@ -1,6 +1,7 @@
 export interface Lead {
   name?: string
   email: string
+  captured_by?: string
   created_at: Date
 }
 

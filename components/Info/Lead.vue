@@ -5,6 +5,9 @@
       <div class="capitalize">
         {{ lead.name }}
       </div>
+      <div v-if="lead && lead.captured_in" class="capitalize">
+        | Captured by: {{ lead.captured_by }}
+      </div>
     </div>
     <slot name="action"></slot>
   </div>
