@@ -1,27 +1,27 @@
 <template>
   <div class="max-w-screen-md mx-auto">
-    <div class="flex flex-col md:flex-row items-start">
+    <CourseHeader class="md:mt-24" :course="course">
+      <template #action="{ item }">
+        <nuxt-link class="text-purple-700" :to="`/course/${item.id}`">
+          Ver detalhes do curso.
+        </nuxt-link>
+      </template>
+    </CourseHeader>
+    <!-- <div class="flex flex-col md:flex-row items-start">
       <div class="md:w-3/4 mt-2 md:mt-0 md:pr-8 order-2 md:order-1 px-4">
         <h6 class="font-ember text-gold capitalize">{{ course.language }}</h6>
         <h3 class="text-3xl font-ember font-medium">{{ course.title }}</h3>
         <p class="mt-4 font-ember font-light">
           {{ course.short_description }}
-          <nuxt-link class="text-purple-700" :to="`/course/${course.id}`">
-            Ver detalhes do curso.
-          </nuxt-link>
         </p>
       </div>
-      <div class="md:w-1/4 order-1 md:order-2">
-        <img
-          class="object-cover"
-          src="https://res.cloudinary.com/euyome/image/upload/v1619895563/idiomascombasi/conversation-group-banner_ltmnl5.jpg"
-          alt="idiomascombasi"
-        />
+      <div v-if="course && course.image" class="md:w-1/4 order-1 md:order-2">
+        <img class="object-cover" :src="course.image" alt="idiomascombasi" />
       </div>
-    </div>
+    </div> -->
 
     <CourseInfo
-      class="mt-8 mx-4"
+      class="mt-8 mx-4 md:mx-0"
       :course="course"
       :modules="modules"
       :lessons="lessons"
@@ -32,7 +32,7 @@
       :course="course"
       :modules="modules"
       :lessons="lessons"
-      class="mt-8 mx-4"
+      class="mt-8 mx-4 md:mx-0"
     />
   </div>
 </template>

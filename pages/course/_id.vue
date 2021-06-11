@@ -1,14 +1,20 @@
 <template>
   <div class="max-w-screen-md mx-auto p-0 md:p-12">
-    <div class="flex flex-col md:flex-row items-start">
-      <div class="mt-2 md:mt-0 md:pr-8 order-2 md:order-1 p-4">
-        <h6 class="font-ember text-gold capitalize">{{ course.language }}</h6>
-        <h3 class="text-3xl font-ember font-medium">{{ course.title }}</h3>
-        <p class="mt-4 font-ember font-light">{{ course.short_description }}</p>
+    <CourseHeader :course="course">
+      <template #action="{ item }">
         <Button
           class="block w-full md:w-auto mt-8 h-14"
           label="Participar do curso"
         ></Button>
+      </template>
+    </CourseHeader>
+
+    <!-- <div class="flex flex-col md:flex-row items-start">
+      <div class="mt-2 md:mt-0 md:pr-8 order-2 md:order-1 p-4">
+        <h6 class="font-ember text-gold capitalize">{{ course.language }}</h6>
+        <h3 class="text-3xl font-ember font-medium">{{ course.title }}</h3>
+        <p class="mt-4 font-ember font-light">{{ course.short_description }}</p>
+
       </div>
       <div
         v-if="course.image && course.image !== ''"
@@ -16,7 +22,7 @@
       >
         <img class="object-cover" :src="course.image" alt="idiomascombasi" />
       </div>
-    </div>
+    </div> -->
 
     <div class="mt-9 mx-4 border border-gold border-opacity-20 p-4 bg-gray-100">
       <TitleSmall>O que você aprenderá</TitleSmall>
