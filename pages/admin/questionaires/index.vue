@@ -11,7 +11,7 @@
     </ButtonNuxtLink>
 
     <div class="mt-4 text-left w-full text-sm">
-      {{ questions.length }} questionares found
+      {{ questionaires.length }} questionares found
     </div>
 
     <ContainerSlot title="Questionaires" class="mt-8">
