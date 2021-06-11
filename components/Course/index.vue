@@ -24,7 +24,7 @@
     </div>
     <div
       v-if="course.image"
-      class="order-1 md:order-2 flex justify-center items-center md:w-1/4"
+      class="order-1 md:order-2 flex justify-center items-center md:w-1/5"
     >
       <img class="object-contain" :src="course.image" alt="image" />
     </div>
