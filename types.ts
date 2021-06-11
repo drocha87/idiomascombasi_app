@@ -1,3 +1,9 @@
+export interface Lead {
+  name?: string
+  email: string
+  created_at: Date
+}
+
 export interface Resource {
   id?: string
   type: string
