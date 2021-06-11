@@ -24,7 +24,16 @@
       </div>
     </div> -->
 
-    <div class="mt-9 mx-4 border border-gold border-opacity-20 p-4 bg-gray-100">
+    <div
+      class="
+        mt-9
+        mx-4
+        md:mx-0
+        border border-gold border-opacity-20
+        p-4
+        bg-gray-100
+      "
+    >
       <TitleSmall>O que você aprenderá</TitleSmall>
       <div class="mt-4 flex flex-wrap">
         <div
@@ -43,13 +52,13 @@
     </div>
 
     <CourseInfo
-      class="mt-8 mx-4"
+      class="mt-8 mx-4 md:mx-0"
       :course="course"
       :modules="modules"
       :lessons="lessons"
     />
 
-    <ContainerSlot class="mt-8 mx-4" title="Descrição">
+    <ContainerSlot class="mt-8 mx-4 md:mx-0" title="Descrição">
       <client-only>
         <div class="font-ember text-gray-800 tracking-wide font-light">
           <vue-markdown emoji html :source="course.description"> </vue-markdown>
@@ -61,7 +70,7 @@
       v-if="modules.length"
       :modules="modules"
       :lessons="lessons"
-      class="mt-8 mx-4"
+      class="mt-8 mx-4 md:mx-0"
     />
 
     <div class="p-4 md:p-0 mt-8">
