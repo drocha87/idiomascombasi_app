@@ -194,4 +194,13 @@ export const actions: ActionTree<RootState, RootState> = {
       commit('info/SET_ERROR', error, { root: true })
     }
   },
+
+  async updateInterests({ commit }, interests: string[]) {
+    try {
+      await this.$studentapi.$patch('/interests', interests)
+      await this.$auth.fetchUser()
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
 }

@@ -103,6 +103,12 @@ export default Vue.extend({
     },
   },
 
+  mounted() {
+    if (this.student?.interests?.length === 0) {
+      this.$router.push({ path: '/students/first-login' })
+    }
+  },
+
   methods: {
     courseName(id: string): string {
       return this.$store.getters['student/courseNameById'](id)
