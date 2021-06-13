@@ -2,17 +2,17 @@
   <ContainerSlot :title="title" no-padding>
     <ul>
       <li
-        v-for="(item, index) in mappedItems"
+        v-for="(item, index) in items"
         :key="index"
         class="border-b"
-        :class="{ 'bg-gray-200': item._visible }"
+        :class="{ 'bg-gray-200': openedIndex === index }"
       >
         <a
           class="cursor-pointer focus:outline-none"
           @click="toggleVisibility(item, index)"
         >
           <div class="flex items-center text-gray-900 p-2 pl-4 select-none">
-            <IconExpandLess v-if="item._visible" size="16px" />
+            <IconExpandLess v-if="openedIndex === index" size="16px" />
             <IconExpandMore v-else size="16px" />
             <slot name="title" :item="item">
               <span class="ml-4 font-ember text-lg text-gray-900 font-light">
@@ -34,8 +34,8 @@
             md:flex-nowrap
             pl-4
           "
-          :class="{ 'bg-white': item._visible }"
-          :style="item._visible ? heightStyle : 'height: 0'"
+          :class="{ 'bg-white': openedIndex === index }"
+          :style="openedIndex === index ? heightStyle : 'height: 0'"
         >
           <div class="w-full">
             <slot name="content" :item="item"></slot>
@@ -55,11 +55,8 @@ export default Vue.extend({
   },
 
   data() {
-    const mappedItems: any[] = this.items.map((item: any) => {
-      return Object.assign({}, item, { _visible: false })
-    })
     return {
-      mappedItems,
+      openedIndex: -1,
       height: 320,
     }
   },
@@ -71,19 +68,13 @@ export default Vue.extend({
   },
 
   methods: {
-    toggleVisibility(mod: any, index: number) {
+    toggleVisibility(mod: Module, index: number) {
       const item: any = this.$refs[mod.id]
       if (!item || item.length <= 0) {
         return
       }
       this.height = item[0].scrollHeight
-      this.mappedItems[index]._visible = !this.mappedItems[index]._visible
-
-      this.mappedItems.forEach((item: any) => {
-        if (item.id !== mod.id) {
-          item._visible = false
-        }
-      })
+      this.openedIndex = this.openedIndex === index ? -1 : index
     },
   },
 })
