@@ -14,7 +14,7 @@
 
       <SelectLanguage v-model="language" class="ml-4" />
 
-      <Select v-model="course.kind" class="ml-4" label="Kind" disabled>
+      <Select v-model="kind" class="ml-4" label="Kind">
         <option value="recorded">Recorded</option>
         <option value="live">Live</option>
         <option value="mixed">Mixed</option>
@@ -85,6 +85,15 @@ export default Vue.extend({
       },
       set(value: string): void {
         this.$store.commit('admin/courses/SET_COURSE_LANGUAGE', value)
+      },
+    },
+
+    kind: {
+      get(): string {
+        return this.course.kind
+      },
+      set(value: string): void {
+        this.$store.commit('admin/courses/SET_COURSE_KIND', value)
       },
     },
 
