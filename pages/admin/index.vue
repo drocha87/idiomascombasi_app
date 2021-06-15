@@ -105,6 +105,11 @@ export default Vue.extend({
           to: 'questions',
           icon: 'help_center',
         },
+        {
+          name: 'Resources',
+          to: 'resources',
+          icon: 'source',
+        },
       ],
     }
   },

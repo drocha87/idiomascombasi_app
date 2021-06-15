@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-screen-md mx-auto p-0 md:p-12">
     <CourseHeader :course="course">
-      <template #action="{ item }">
+      <template #action>
         <Button
           class="block w-full md:w-auto mt-8 h-14"
           label="Participar do curso"
@@ -88,7 +88,7 @@ import Vue from 'vue'
 import { Course, Module, Lesson } from '@/types'
 
 export default Vue.extend({
-  fetchOnServer: false,
+  // fetchOnServer: false,
 
   data() {
     return {}

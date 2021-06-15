@@ -23,14 +23,26 @@
       </form>
     </ContainerSlot>
 
-    <ContainerSlot class="mt-8" title="Uploaded Resources">
+    <ContainerSlot
+      class="mt-8"
+      title="Uploaded Resources"
+      subtitle="To copy the link address you just need to click in the resource name"
+    >
       <div
         v-for="resource in resources"
         :key="resource.name"
-        class="border p-1 px-2 mb-2 flex"
+        class="border-b p-1 mb-2 flex"
       >
-        <div class="text-sm text-blueaws flex-grow">{{ resource.Key }}</div>
-        <button class="text-sm text-blueaws">Copy Link</button>
+        <div
+          class="text-sm text-blueaws cursor-pointer"
+          @click="
+            copyToClipboard(
+              `https://idiomascombasi.s3.us-east-2.amazonaws.com/${resource.name}`
+            )
+          "
+        >
+          {{ resourceName(resource.name) }}
+        </div>
       </div>
     </ContainerSlot>
   </div>
@@ -69,6 +81,7 @@ export default Vue.extend({
           },
         })
         this.resources = await this.$adminapi.$get('/resources/')
+        this.file = ''
       } catch (error) {
         this.$store.commit('info/SET_ERROR', error)
       } finally {
@@ -77,7 +90,16 @@ export default Vue.extend({
     },
 
     handleFileUpload() {
-      this.file = this.$refs.file.files[0]
+      this.file = (this.$refs?.file as any)?.files[0]
+    },
+
+    copyToClipboard(content: string) {
+      navigator.clipboard.writeText(content)
+      this.$store.commit('info/SET_INFO', 'Link copiado para o clipboard')
+    },
+
+    resourceName(name: string): string {
+      return name.substring(name.indexOf('_') + 1)
     },
   },
 })

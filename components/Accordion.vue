@@ -48,6 +48,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Module } from '@/types'
+
 export default Vue.extend({
   props: {
     title: { type: String, required: true },
@@ -56,6 +58,10 @@ export default Vue.extend({
 
   data() {
     return {
+      // TODO: maybe we could add a props to check if the user wants to init the
+      // accordion with some item opened by default
+      // this variable holds the currently opened item, we start with it set to -1
+      // so all items in accodrion are closed.
       openedIndex: -1,
       height: 320,
     }
@@ -69,7 +75,7 @@ export default Vue.extend({
 
   methods: {
     toggleVisibility(mod: Module, index: number) {
-      const item: any = this.$refs[mod.id]
+      const item: any = this.$refs[mod.id!]
       if (!item || item.length <= 0) {
         return
       }
