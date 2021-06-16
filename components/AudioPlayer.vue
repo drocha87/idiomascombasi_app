@@ -15,8 +15,7 @@ export default Vue.extend({
 
   methods: {
     play() {
-      // TODO: implement counter and set as visualized
-      console.log('clicked in play')
+      this.$emit('play')
     },
   },
 })
