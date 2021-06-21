@@ -9,7 +9,7 @@
     <ContainerSlot class="w-full mt-8" title="Leads">
       <div class="flex items-end mb-8">
         <Input
-          v-model="filterLeads"
+          v-model="filterLead"
           class="w-1/3"
           label="Search by matching word"
           placeholder="Search lead"
