@@ -19,6 +19,7 @@
         <option value="live">Live</option>
         <option value="mixed">Mixed</option>
       </Select>
+      <SelectRole v-model="role" class="ml-4" />
     </div>
 
     <div class="flex items-end mt-4">
@@ -34,7 +35,7 @@
         v-model="expiresAt"
         class="ml-4"
         label="Expires At"
-        hint="If the course should not expire, leave this field without date"
+        hint="If the course should not expire, leave this field empty"
         type="date"
       />
     </div>
@@ -65,17 +66,17 @@ import Vue from 'vue'
 import { Course } from '@/types'
 
 export default Vue.extend({
-  computed: {
-    course(): Course {
-      return this.$store.getters['admin/courses/currentCourse']
-    },
+  props: {
+    course: { type: Object as () => Course, required: true },
+  },
 
+  computed: {
     title: {
       get(): string {
         return this.course.title
       },
       set(value: string): void {
-        this.$store.commit('admin/courses/SET_COURSE_TITLE', value)
+        this.$store.commit('admin/courses/SET_COURSE', { title: value })
       },
     },
 
@@ -94,6 +95,15 @@ export default Vue.extend({
       },
       set(value: string): void {
         this.$store.commit('admin/courses/SET_COURSE_KIND', value)
+      },
+    },
+
+    role: {
+      get(): string {
+        return this.course.role
+      },
+      set(value: string): void {
+        this.$store.commit('admin/courses/SET_COURSE', { role: value })
       },
     },
 
@@ -123,6 +133,10 @@ export default Vue.extend({
       set(value: string): void {
         this.$store.commit('admin/courses/SET_COURSE_EXPIRESAT', value)
       },
+    },
+
+    roles(): string[] {
+      return this.$store.getters['admin/roles/roles'].roles
     },
   },
 })

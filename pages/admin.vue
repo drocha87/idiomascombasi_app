@@ -41,6 +41,10 @@ export default Vue.extend({
   layout: 'admin',
   middleware: 'isadmin',
 
+  async fetch() {
+    await this.$store.dispatch('admin/roles/fetchRoles')
+  },
+
   computed: {
     hasInfo(): boolean {
       return this.$store.getters['info/hasInfo']

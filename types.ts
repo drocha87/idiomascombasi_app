@@ -1,3 +1,5 @@
+export type Role = string
+
 export interface Lead {
   name?: string
   email: string
@@ -48,6 +50,7 @@ export interface Course {
   author: string
   wywl: string
   kind: string
+  role: Role
   certificate: boolean
   requiriments: string
   modules_info: Module[]
