@@ -82,15 +82,6 @@ export default Vue.extend({
         const token = (this.$auth.strategy as any).token.get()
         this.$adminapi.setToken(token)
         this.$studentapi.setToken(token)
-
-        // // Status Ok
-        // if (response.status === 200) {
-        //   await this.$store.dispatch('students/fetchStudent')
-        //   // TODO: set student in vuex and redirect to path
-        // } else {
-        //   this.errorMessage = response.data.message
-        //   console.log(response.message)
-        // }
       } catch (error) {
         if (error.response?.status === 401) {
           this.errorMessage = 'Email or password invalid'
