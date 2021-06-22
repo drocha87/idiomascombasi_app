@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-screen-xl mx-auto">
-    <div>
+    <div class="mt-28">
       <div class="flex flex-col md:flex-row">
         <div class="flex flex-col order-2 md:order-1 mt-4 md:w-3/4 px-4">
           <div class="text-2xl font-medium font-ember text-gray-900">
@@ -39,7 +39,7 @@
         >
           <img
             class="object-contain"
-            src="https://res.cloudinary.com/euyome/image/upload/v1622033886/idiomascombasi/basi_circle_1_xigeye.png"
+            src="https://res.cloudinary.com/euyome/image/upload/v1624368177/idiomascombasi/basi_icb_circle_hfxmbt.jpg"
             alt="image"
           />
         </div>
@@ -48,22 +48,24 @@
 
     <div class="w-full bg-gold mt-8 bg-opacity-40" style="height: 1px"></div>
 
-    <h3 class="text-3xl px-4 font-ember font-light text-gray-700 mt-10">
-      Recursos da plataforma
-    </h3>
+    <div class="my-12">
+      <h3 class="text-3xl px-4 font-ember font-light text-gray-700 mt-10">
+        Recursos da plataforma
+      </h3>
 
-    <div class="w-full mt-8 flex flex-wrap justify-around">
-      <div class="text-center font-ember">
-        <div class="text-3xl font-light">Cursos</div>
-        <div class="text-3xl mt-3">{{ resourcesInfo.courses }}</div>
-      </div>
-      <div class="text-center font-ember">
-        <div class="text-3xl font-light">Módulos</div>
-        <div class="text-3xl mt-3">{{ resourcesInfo.modules }}</div>
-      </div>
-      <div class="text-center font-ember">
-        <div class="text-3xl font-light">Lições</div>
-        <div class="text-3xl mt-3">{{ resourcesInfo.lessons }}</div>
+      <div class="w-full mt-8 flex flex-wrap justify-around">
+        <div class="text-center font-ember">
+          <div class="text-3xl font-light">Cursos</div>
+          <div class="text-3xl mt-3">{{ resourcesInfo.courses }}</div>
+        </div>
+        <div class="text-center font-ember">
+          <div class="text-3xl font-light">Módulos</div>
+          <div class="text-3xl mt-3">{{ resourcesInfo.modules }}</div>
+        </div>
+        <div class="text-center font-ember">
+          <div class="text-3xl font-light">Lições</div>
+          <div class="text-3xl mt-3">{{ resourcesInfo.lessons }}</div>
+        </div>
       </div>
     </div>
 
