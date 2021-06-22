@@ -13,7 +13,7 @@
 
     <div class="mt-8">
       <ReleaseCourse :course="course" />
-      <FormCourseHeader />
+      <FormCourseHeader :course="course" />
       <FormCourseContent />
       <AdminCourseModules />
       <AvailablesModules :course="course" />
@@ -42,7 +42,7 @@ export default Vue.extend({
 
   computed: {
     course(): Course {
-      return this.$store.getters['admin/courses/currentCourse']
+      return this.$store.getters['admin/courses/course']
     },
   },
 })

@@ -99,7 +99,7 @@ export default Vue.extend({
     },
 
     course(): Course {
-      return this.$store.getters['admin/courses/currentCourse']
+      return this.$store.getters['admin/courses/course']
     },
 
     mods(): any[] {

@@ -1,11 +1,11 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
-import { Course } from '@/types'
+import { Course, Role } from '@/types'
 
 export const state = () => {
-  const currentCourse: Partial<Course> = {}
+  const course: Partial<Course> = {}
 
   return {
-    currentCourse,
+    course,
     courses: [] as Course[],
     modules: [] as any[],
   }
@@ -18,8 +18,8 @@ export const getters: GetterTree<RootState, RootState> = {
     return state.courses
   },
 
-  currentCourse(state): any {
-    return state.currentCourse
+  course(state): Partial<Course> {
+    return state.course
   },
 
   modules(state): any[] {
@@ -35,13 +35,12 @@ export const getters: GetterTree<RootState, RootState> = {
 }
 
 export const mutations: MutationTree<RootState> = {
+  SET_COURSE(state, course: Partial<Course>) {
+    state.course = Object.assign(state.course, course)
+  },
+
   SET_CURRENT_COURSE(state, course: Course): void {
-    state.currentCourse = course
-    if (course.modules_info) {
-      state.modules = course.modules_info.map((mod: any) => {
-        return Object.assign({}, mod, { toggleVisibility: false })
-      })
-    }
+    state.course = course
   },
 
   SET_COURSES(state, courses: Course[]): void {
@@ -49,43 +48,47 @@ export const mutations: MutationTree<RootState> = {
   },
 
   SET_COURSE_TITLE(state, title: string): void {
-    state.currentCourse.title = title
+    state.course.title = title
   },
 
   SET_COURSE_LANGUAGE(state, language: string): void {
-    state.currentCourse.language = language
+    state.course.language = language
   },
 
   SET_COURSE_KIND(state, kind: string): void {
-    state.currentCourse.kind = kind
+    state.course.kind = kind
+  },
+
+  SET_COURSE_ROLE(state, role: Role): void {
+    state.course.role = role
   },
 
   SET_COURSE_IMAGE(state, image: string): void {
-    state.currentCourse.image = image
+    state.course.image = image
   },
 
   SET_COURSE_DESCRIPTION(state, description: string): void {
-    state.currentCourse.description = description
+    state.course.description = description
   },
 
   SET_COURSE_SHORT_DESCRIPTION(state, short_description: string): void {
-    state.currentCourse.short_description = short_description
+    state.course.short_description = short_description
   },
 
   SET_COURSE_WYWL(state, wywl: string): void {
-    state.currentCourse.wywl = wywl
+    state.course.wywl = wywl
   },
 
   SET_COURSE_REQUIRIMENTS(state, requiriments: string): void {
-    state.currentCourse.requiriments = requiriments
+    state.course.requiriments = requiriments
   },
 
   SET_COURSE_EXPIRESAT(state, expires_at: string): void {
-    state.currentCourse.expires_at = expires_at
+    state.course.expires_at = expires_at
   },
 
   SET_COURSE_VISIBILITY(state, visible: boolean): void {
-    state.currentCourse.visible = visible
+    state.course.visible = visible
   },
 }
 
@@ -118,53 +121,53 @@ export const actions: ActionTree<RootState, RootState> = {
   },
 
   async updateHeader({ state, dispatch }) {
-    const date = state.currentCourse.expires_at
-      ? new Date(state.currentCourse.expires_at)
+    const date = state.course.expires_at
+      ? new Date(state.course.expires_at)
       : undefined
-    await this.$adminapi.$patch(`courses/${state.currentCourse.id}/header`, {
-      title: state.currentCourse.title,
-      language: state.currentCourse.language,
-      kind: state.currentCourse.kind,
-      short_description: state.currentCourse.short_description,
-      image: state.currentCourse.image,
+    // TODO: improve this code below is too much verbose to be fair
+    await this.$adminapi.$patch(`courses/${state.course.id}/header`, {
+      title: state.course.title,
+      language: state.course.language,
+      kind: state.course.kind,
+      role: state.course.role,
+      short_description: state.course.short_description,
+      image: state.course.image,
       expires_at: date,
     })
-    await dispatch('fetchCourse', state.currentCourse.id)
+    await dispatch('fetchCourse', state.course.id)
   },
 
   async removeCourse({ commit, state }) {
     if (
       confirm(
-        `Are you sure you want to delete the course ${state.currentCourse.title}`
+        `Are you sure you want to delete the course ${state.course.title}`
       )
     ) {
-      await this.$adminapi.$delete(`courses/${state.currentCourse.id}`)
+      await this.$adminapi.$delete(`courses/${state.course.id}`)
       commit('SET_CURRENT_COURSE', {})
       this.$router.push({ path: '/admin/courses' })
     }
   },
 
   async addModule({ state, dispatch }, moduleId: string) {
-    await this.$adminapi.$put(
-      `courses/${state.currentCourse.id}/module/${moduleId}`
-    )
-    await dispatch('fetchCourse', state.currentCourse.id)
+    await this.$adminapi.$put(`courses/${state.course.id}/module/${moduleId}`)
+    await dispatch('fetchCourse', state.course.id)
   },
 
   async removeModule({ state, dispatch }, moduleId: string) {
     // TODO: confirm before remove
     await this.$adminapi.$delete(
-      `courses/${state.currentCourse.id}/module/${moduleId}`
+      `courses/${state.course.id}/module/${moduleId}`
     )
-    await dispatch('fetchCourse', state.currentCourse.id)
+    await dispatch('fetchCourse', state.course.id)
   },
 
   async toggleModuleRelease({ state, commit, dispatch }, moduleId: string) {
     try {
       await this.$adminapi.$post(
-        `courses/${state.currentCourse.id}/module/${moduleId}/togglerelease`
+        `courses/${state.course.id}/module/${moduleId}/togglerelease`
       )
-      await dispatch('fetchCourse', state.currentCourse.id)
+      await dispatch('fetchCourse', state.course.id)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
     }
@@ -175,26 +178,26 @@ export const actions: ActionTree<RootState, RootState> = {
     { direction, id }: { direction: string; id: string }
   ) {
     await this.$adminapi.$patch(
-      `courses/${state.currentCourse.id}/module/${id}/${direction}`
+      `courses/${state.course.id}/module/${id}/${direction}`
     )
-    await dispatch('fetchCourse', state.currentCourse.id)
+    await dispatch('fetchCourse', state.course.id)
   },
 
   async updateBody({ state }) {
-    await this.$adminapi.$patch(`courses/${state.currentCourse.id}/body`, {
-      description: state.currentCourse.description,
-      wywl: state.currentCourse.wywl,
-      requiriments: state.currentCourse.requiriments,
+    await this.$adminapi.$patch(`courses/${state.course.id}/body`, {
+      description: state.course.description,
+      wywl: state.course.wywl,
+      requiriments: state.course.requiriments,
     })
   },
 
   async release({ state, dispatch }) {
-    await this.$adminapi.$post(`courses/${state.currentCourse.id}/release`)
-    await dispatch('fetchCourse', state.currentCourse.id)
+    await this.$adminapi.$post(`courses/${state.course.id}/release`)
+    await dispatch('fetchCourse', state.course.id)
   },
 
   async unrelease({ state, dispatch }) {
-    await this.$adminapi.$delete(`courses/${state.currentCourse.id}/release`)
-    await dispatch('fetchCourse', state.currentCourse.id)
+    await this.$adminapi.$delete(`courses/${state.course.id}/release`)
+    await dispatch('fetchCourse', state.course.id)
   },
 }
