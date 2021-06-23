@@ -1,17 +1,17 @@
 <template>
   <div class="md:min-h-screen flex flex-col p-4 md:p-0 md:items-center">
     <div class="text-2xl text-center mb-8 mt-4 md:text-4xl font-light md:my-12">
-      Welcome to campus ICB
+      Bem-vindo(a) ao campus ICB
     </div>
     <ContainerSlot
       class="max-w-screen-sm"
-      title="Register Password"
+      title="Cadastrar senha"
       :subtitle="email"
     >
       <div>
         <p class="text-sm font-ember tracking-wide text-gray-700">
-          Welcome to campus ICB, here we gonna set a new password, so ensure
-          that you use a strong one.
+          Bem-vindo(a) ao campus ICB. Vamos registrar uma senha para seu acesso
+          a plataforma. Lembre-se de usar uma senha segura.
         </p>
       </div>
       <div class="mt-8">
@@ -20,29 +20,29 @@
             <Input
               v-model="name"
               class="w-full"
-              label="Name"
+              label="Nome"
               type="text"
               required
             />
             <Password
               v-model="password"
               class="w-full mt-2"
-              label="Password"
+              label="Senha"
               type="text"
               required
             />
             <Password
               class="w-full mt-2"
-              label="Confirm password"
+              label="Confirme sua senha"
               type="text"
-              error-message="Password not match"
+              error-message="Senha não coincidem"
               :match="password"
               required
             />
           </div>
           <Info class="mt-8 w-full z-50" />
           <div class="text-right mt-8">
-            <Button label="Save"> </Button>
+            <Button label="Salvar"> </Button>
           </div>
         </form>
       </div>
@@ -77,13 +77,18 @@ export default Vue.extend({
 
   methods: {
     async save() {
-      const data = {
-        name: this.name,
-        email: this.email,
-        validation_code: this.code,
-        password: this.password,
+      try {
+        const data = {
+          name: this.name,
+          email: this.email,
+          validation_code: this.code,
+          password: this.password,
+        }
+        await this.$axios.$post('/password', data)
+        this.$router.push('/login')
+      } catch (error) {
+        this.$store.commit('SET_ERROR', error, { root: true })
       }
-      await this.$store.dispatch('students/setNewPassword', data)
     },
   },
 })
