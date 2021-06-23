@@ -8,9 +8,11 @@
         {{ subtitle }}
       </div>
     </div>
-
     <div class="bg-white" :class="{ 'p-0': noPadding, 'p-4': !noPadding }">
       <slot />
+    </div>
+    <div v-if="hasAction" class="p-4 flex justify-end">
+      <slot class="pt-4" name="action" />
     </div>
   </div>
 </template>
@@ -22,6 +24,12 @@ export default Vue.extend({
     title: { type: String, required: true },
     subtitle: { type: String, default: '' },
     noPadding: { type: Boolean, default: false },
+  },
+
+  computed: {
+    hasAction(): boolean {
+      return !!this.$slots.action
+    },
   },
 })
 </script>
