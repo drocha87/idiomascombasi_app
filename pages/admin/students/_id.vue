@@ -252,7 +252,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Course, User } from '@/types'
+import { Course, User, UserCourse } from '@/types'
 
 export default Vue.extend({
   fetchOnServer: false,
@@ -367,7 +367,7 @@ export default Vue.extend({
       },
     },
 
-    courses(): Course[] {
+    courses(): UserCourse[] {
       if (this.student.courses) {
         return this.student.courses
       }

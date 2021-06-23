@@ -74,10 +74,17 @@ export interface UserPersonalInfo {
   sex: string
 }
 
+export interface UserCourse {
+  id: string
+  course_id: string
+  created_at?: Date
+  updated_at?: Date
+}
+
 export interface User extends UserPersonalInfo, UserContactInfo {
   id?: string
-  courses: Course[]
-  langauges: any[]
+  courses: UserCourse[]
+  languages: any[]
   roles: string[]
   interests: string[]
 }

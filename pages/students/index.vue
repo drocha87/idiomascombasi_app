@@ -66,6 +66,45 @@
         Que pena, atualmente você não está fazendo parte de nenhum curso!
       </div>
 
+      <ContainerSlot
+        v-if="freebies && freebies.length"
+        class="mt-8"
+        title="Freebies"
+        subtitle="Este são os Freebies disponíveis segundo os seus interesses. Caso você esteja interessada(o) em outros tipos de Freebies, vá até settings e altere seus interesses adicionando ou removendo idiomas."
+      >
+        <div
+          v-for="(course, index) in freebies"
+          :key="course.id"
+          class="text-sm block"
+          :to="`/students/courses/${course.id}`"
+        >
+          <div
+            class="flex p-2"
+            :class="{
+              'bg-gray-100': index % 2 === 0,
+              'bg-gray-200': index % 2 !== 0,
+            }"
+          >
+            <div class="ml-6 flex-grow">
+              {{ freebieName(course.id) }}
+            </div>
+            <button
+              type="button"
+              class="text-xs text-red-500 px-4 font-bold text-blue-900"
+              @click="$store.dispatch('student/addFreebie', course.id)"
+            >
+              Adicionar
+            </button>
+            <nuxt-link
+              class="text-xs text-green-800 px-4"
+              :to="`/course/${course.id}`"
+            >
+              Visitar
+            </nuxt-link>
+          </div>
+        </div>
+      </ContainerSlot>
+
       <ContainerSlot class="mt-8" title="Links Úteis">
         <InfoLink
           label="Dicionário de Inglês"
@@ -79,7 +118,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { User } from '@/types'
+import { User, Course, UserCourse } from '@/types'
 
 export default Vue.extend({
   layout: 'empty',
@@ -88,6 +127,7 @@ export default Vue.extend({
   async fetch() {
     await this.$store.dispatch('student/fetchStudent')
     await this.$store.dispatch('student/fetchCourses')
+    await this.$store.dispatch('student/fetchFreebies')
   },
 
   computed: {
@@ -95,11 +135,21 @@ export default Vue.extend({
       return this.$store.getters['student/student']
     },
 
-    courses(): any[] {
+    courses(): UserCourse[] {
       if (this.student.courses) {
         return this.student.courses
       }
       return []
+    },
+
+    freebies(): Course[] {
+      const freebies: Course[] = this.$store.getters['student/freebies']
+      return freebies.filter(
+        (freebie: Course) =>
+          !this.courses.some(
+            (course: UserCourse) => course.course_id === freebie.id
+          )
+      )
     },
   },
 
@@ -112,6 +162,9 @@ export default Vue.extend({
   methods: {
     courseName(id: string): string {
       return this.$store.getters['student/courseNameById'](id)
+    },
+    freebieName(id: string): string {
+      return this.$store.getters['student/freebieNameById'](id)
     },
   },
 })
