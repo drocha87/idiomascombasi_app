@@ -7,18 +7,6 @@
         </nuxt-link>
       </template>
     </CourseHeader>
-    <!-- <div class="flex flex-col md:flex-row items-start">
-      <div class="md:w-3/4 mt-2 md:mt-0 md:pr-8 order-2 md:order-1 px-4">
-        <h6 class="font-ember text-gold capitalize">{{ course.language }}</h6>
-        <h3 class="text-3xl font-ember font-medium">{{ course.title }}</h3>
-        <p class="mt-4 font-ember font-light">
-          {{ course.short_description }}
-        </p>
-      </div>
-      <div v-if="course && course.image" class="md:w-1/4 order-1 md:order-2">
-        <img class="object-cover" :src="course.image" alt="idiomascombasi" />
-      </div>
-    </div> -->
 
     <CourseInfo
       class="mt-8 mx-4 md:mx-0"
@@ -41,30 +29,52 @@
 import Vue from 'vue'
 import { Course, Module, Lesson } from '@/types'
 
-export default Vue.extend({
-  fetchOnServer: false,
+interface ResponseData {
+  course?: Partial<Course>
+  modules?: Module[]
+  lessons?: Lesson[]
+}
 
+export default Vue.extend({
+  // fetchOnServer: false,
   data() {
-    return {}
+    const data: ResponseData = {
+      course: {},
+      modules: [],
+      lessons: [],
+    }
+    return {
+      data,
+    }
   },
 
   async fetch() {
-    await this.$store.dispatch('student/fetchCourse', this.$route.params.id)
-    this.$store.dispatch('student/fetchCourseModules')
-    this.$store.dispatch('student/fetchCourseLessons')
+    try {
+      this.data = await this.$studentapi.$get(
+        `courses/${this.$route.params.id}`
+      )
+    } catch (error) {
+      if (error.response.status === 404) {
+        this.$nuxt.error({
+          statusCode: 404,
+          message:
+            'Course not found or student do not have access to this content.',
+        })
+      }
+    }
   },
 
   computed: {
     course(): Course {
-      return this.$store.getters['student/course']
+      return this.data.course /* this.$store.getters['student/course'] */
     },
 
     modules(): Module[] {
-      return this.$store.getters['student/modules']
+      return this.data.modules /* this.$store.getters['student/modules'] */
     },
 
     lessons(): Lesson[] {
-      return this.$store.getters['student/lessons']
+      return this.data.lessons /* this.$store.getters['student/lessons'] */
     },
 
     wywl(): string[] {

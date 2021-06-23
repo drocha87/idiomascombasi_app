@@ -48,36 +48,64 @@
 import Vue from 'vue'
 import { Course, Module, Lesson } from '@/types'
 
-export default Vue.extend({
-  fetchOnServer: false,
+interface ResponseData {
+  lesson: Partial<Lesson>
+  module: Partial<Module>
+  course: Partial<Course>
+  position: number
+}
 
+export default Vue.extend({
   data() {
-    return {}
+    const response: ResponseData = {
+      course: {},
+      lesson: {},
+      module: {},
+      position: 0,
+    }
+    return {
+      response,
+    }
   },
 
   async fetch() {
-    const { id, lid } = this.$route.params
-    await this.$store.dispatch('student/fetchLesson', {
-      course_id: id,
-      lesson_id: lid,
-    })
+    try {
+      const { id, lid } = this.$route.params
+      this.response = await this.$studentapi.$get(
+        `/courses/${id}/lessons/${lid}`
+      )
+    } catch (error) {
+      if (error.response.status === 404) {
+        this.$nuxt.error({
+          statusCode: 404,
+          message:
+            'Lesson not found or student do not have access to this content',
+          path: '/students',
+        })
+      } else {
+        this.$nuxt.error({
+          statusCode: error.response.status,
+          message: error.response.data.message,
+        })
+      }
+    }
   },
 
   computed: {
     course(): Course {
-      return this.$store.getters['student/course']
+      return this.response.course
     },
 
     module(): Module {
-      return this.$store.getters['student/module']
+      return this.response.module
     },
 
     lesson(): Lesson {
-      return this.$store.getters['student/lesson']
+      return this.response.lesson
     },
 
     position(): number {
-      return this.$store.getters['student/position']
+      return this.response.position
     },
   },
 
