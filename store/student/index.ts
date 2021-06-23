@@ -6,6 +6,7 @@ export const state = () => {
 
   const course: Partial<Course> = {}
   const courses: Course[] = []
+  const freebies: Course[] = []
 
   const module: Partial<Module> = {}
   const modules: Module[] = []
@@ -19,6 +20,7 @@ export const state = () => {
     student,
     course,
     courses,
+    freebies,
 
     module,
     modules,
@@ -43,6 +45,10 @@ export const getters: GetterTree<RootState, RootState> = {
 
   courses(state) {
     return state.courses
+  },
+
+  freebies(state) {
+    return state.freebies
   },
 
   module(state) {
@@ -71,6 +77,12 @@ export const getters: GetterTree<RootState, RootState> = {
       return lesson?.title || 'undefined'
     }
   },
+  freebieNameById(state) {
+    return (id: string): string => {
+      const lesson = state.freebies.find((course: Course) => course.id === id)
+      return lesson?.title || 'undefined'
+    }
+  },
 }
 
 export const mutations: MutationTree<RootState> = {
@@ -80,6 +92,10 @@ export const mutations: MutationTree<RootState> = {
 
   SET_LESSON(state, lesson: Partial<Lesson>) {
     state.lesson = lesson
+  },
+
+  SET_FREEBIES(state, freebies: Course[]) {
+    state.freebies = freebies
   },
 
   SET_LESSONS(state, lessons: Lesson[]) {
@@ -136,6 +152,11 @@ export const actions: ActionTree<RootState, RootState> = {
   async fetchCourses({ commit }) {
     const cs = await this.$studentapi.$get('courses')
     commit('SET_COURSES', cs)
+  },
+
+  async fetchFreebies({ commit }) {
+    const cs = await this.$studentapi.$get('freebies')
+    commit('SET_FREEBIES', cs)
   },
 
   async fetchCourse({ commit }, id: string) {
@@ -199,6 +220,15 @@ export const actions: ActionTree<RootState, RootState> = {
     try {
       await this.$studentapi.$patch('/interests', interests)
       await this.$auth.fetchUser()
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
+  },
+
+  async addFreebie({ commit, dispatch }, courseID: string) {
+    try {
+      await this.$studentapi.$post(`/freebies/${courseID}`)
+      await dispatch('fetchCourses')
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
     }
