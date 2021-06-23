@@ -1,14 +1,25 @@
 <template>
   <div class="max-w-screen-md font-ember mx-auto px-4">
-    <h1 class="mt-24 text-4xl text-center font-light">
-      Bem-vindo(a) ao campus ICB
-    </h1>
-    <p class="mt-8 font-light">
-      Parece que este é o seu primeiro acesso, e para que sua experiência dentro
-      do campus seja personalizada aos seus interesses, eu gostaria que você
-      escolhe-se um ou mais idiomas na lista abaixo, assim eu posso sugerir
-      conteúdo relevante para você.
-    </p>
+    <div v-if="firstAccess">
+      <h1 class="mt-24 text-4xl text-center font-light">
+        Bem-vindo(a) ao campus ICB
+      </h1>
+      <p class="mt-8 font-light">
+        Parece que este é o seu primeiro acesso, e para que sua experiência
+        dentro do campus seja personalizada aos seus interesses, eu gostaria que
+        você escolhe-se um ou mais idiomas na lista abaixo, assim eu posso
+        sugerir conteúdo relevante para você.
+      </p>
+    </div>
+    <div v-else>
+      <h1 class="mt-24 text-4xl text-center font-light">Interesses</h1>
+      <p class="mt-8 font-light">
+        Para aprimorar a sua experiência dentro do campus, é importante que você
+        tenha ao menos um idioma de interesse selecionado. A qualquer momento
+        você pode alterar seus interesses. Essa informação será usada para
+        apresentar freebies e conteúdos relevantes para você.
+      </p>
+    </div>
 
     <div class="mt-16 flex flex-col md:flex-row justify-between">
       <div
@@ -77,14 +88,16 @@ export default Vue.extend({
     student(): User {
       return this.$store.getters['student/student']
     },
+
+    firstAccess(): boolean {
+      return !!this.$route.query.firstAccess
+    },
   },
 
-  beforeMount() {
-    // We should never reach this page if the user has some interests already defined
-    this.$store.dispatch('student/fetchStudent')
-    if (this.student?.interests?.length) {
-      this.$router.push({ path: '/students' })
-    }
+  mounted() {
+    this.interests.forEach((interest: any) => {
+      interest.selected = this.student.interests.includes(interest.value)
+    })
   },
 
   methods: {
