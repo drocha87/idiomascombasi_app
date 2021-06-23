@@ -1,34 +1,34 @@
 <template>
   <div class="max-w-screen-md mx-auto p-4 md:px-12">
-    <div class="flex font-ember text-xs text-gray-500">
-      <div class="w-16">Course:</div>
+    <div class="flex font-ember text-sm text-gray-500">
+      <div class="w-16">Curso:</div>
       <nuxt-link class="text-blueaws" :to="`/students/courses/${course.id}`">
         {{ course.title }}
       </nuxt-link>
     </div>
-    <div class="flex font-ember text-xs mb-4 text-gray-500">
-      <div class="w-16">Module:</div>
+    <div class="flex font-ember text-sm mb-4 text-gray-500">
+      <div class="w-16">Módulo:</div>
       <div>
         {{ module.title }}
       </div>
     </div>
     <div class="text-2xl font-ember">
-      Lesson {{ position }}: {{ lesson.title }}
+      Aula {{ position }}: {{ lesson.title }}
     </div>
     <div
       v-if="lesson.duration > 0"
-      class="text-xs font-ember text-gray-600 font-light"
+      class="text-sm font-ember text-gray-600 font-light"
     >
-      Lesson duration {{ lesson.duration }} minutes
+      Esta aula dura até {{ lesson.duration }} minutos
     </div>
     <div class="mt-2 font-ember font-light">{{ lesson.description }}</div>
 
-    <ContainerSlot title="Resources" class="font-ember mt-8">
-      <p class="text-xs font-ember text-gray-700">
-        These are your lesson resources. These number of resources can change,
-        since the Teacher can add more resources in the future.
-      </p>
-      <div class="mt-4">
+    <ContainerSlot
+      title="Recursos"
+      subtitle="Recursos utilizados nesta aula"
+      class="font-ember mt-8"
+    >
+      <div>
         <div v-for="resource in lesson.resources" :key="resource.id">
           <ResourceInfo
             class="m-1"
@@ -36,6 +36,7 @@
             :type="resource.type"
             :description="resource.description"
             :to="resource.url"
+            @click="clicked(resource.id)"
           />
         </div>
       </div>
@@ -77,6 +78,16 @@ export default Vue.extend({
 
     position(): number {
       return this.$store.getters['student/position']
+    },
+  },
+
+  methods: {
+    async clicked(resource: string) {
+      try {
+        await this.$studentapi.post(`/resources/${resource}/click`)
+      } catch (error) {
+        this.$store.commit('SET_ERROR', error)
+      }
     },
   },
 })

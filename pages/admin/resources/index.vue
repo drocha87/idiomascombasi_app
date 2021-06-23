@@ -31,7 +31,7 @@
       <div
         v-for="resource in resources"
         :key="resource.name"
-        class="border-b p-1 mb-2 flex"
+        class="border-b p-1 mb-2 flex justify-between"
       >
         <div
           class="text-sm text-blueaws cursor-pointer"
@@ -42,6 +42,9 @@
           "
         >
           {{ resourceName(resource.name) }}
+        </div>
+        <div class="text-sm text-blueaws lowercase">
+          {{ resource.ext.substring(1) }}
         </div>
       </div>
     </ContainerSlot>
