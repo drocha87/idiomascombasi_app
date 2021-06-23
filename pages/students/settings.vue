@@ -50,10 +50,27 @@
       />
 
       <div class="text-right mt-4">
-        <Button class="w-full md:w-32" type="submit" label="Update" small>
+        <Button class="w-full md:w-32" type="submit" label="Atualizar" small>
         </Button>
       </div>
     </form>
+
+    <ContainerSlot
+      class="mt-8"
+      title="Interesses"
+      subtitle="Estes são seus interesses, clique em atualizar para adicionar ou remover algum interesse"
+    >
+      <div
+        v-for="interest in student.interests"
+        :key="interest"
+        class="bg-gray-100 capitalize my-2 p-2 font-ember text-blueaws"
+      >
+        {{ interest }}
+      </div>
+      <template #action>
+        <ButtonNuxtLink label="Atualizar" to="/students/interests" />
+      </template>
+    </ContainerSlot>
   </div>
 </template>
 
@@ -82,7 +99,7 @@ export default Vue.extend({
         return this.student.name
       },
       set(val: string) {
-        this.$store.commit('student/SET_NAME', val)
+        this.$store.commit('student/SET_STUDENT', { name: val })
       },
     },
 
@@ -96,7 +113,7 @@ export default Vue.extend({
         }
       },
       set(value: string): void {
-        this.$store.commit('student/SET_BIRTHDAY', value)
+        this.$store.commit('student/SET_STUDENT', { birthday: value })
       },
     },
 
@@ -104,8 +121,8 @@ export default Vue.extend({
       get(): string {
         return this.student.nickname
       },
-      set(val: string) {
-        this.$store.commit('student/SET_NICKNAME', val)
+      set(value: string) {
+        this.$store.commit('student/SET_STUDENT', { nickname: value })
       },
     },
 
@@ -113,8 +130,8 @@ export default Vue.extend({
       get(): string {
         return this.student.avatar
       },
-      set(val: string) {
-        this.$store.commit('student/SET_AVATAR', val)
+      set(value: string) {
+        this.$store.commit('student/SET_STUDENT', { avatar: value })
       },
     },
 
@@ -122,8 +139,8 @@ export default Vue.extend({
       get(): string {
         return this.student.bio
       },
-      set(val: string) {
-        this.$store.commit('student/SET_BIO', val)
+      set(value: string) {
+        this.$store.commit('student/SET_STUDENT', { bio: value })
       },
     },
   },

@@ -155,7 +155,10 @@ export default Vue.extend({
 
   mounted() {
     if (this.student?.interests?.length === 0) {
-      this.$router.push({ path: '/students/first-login' })
+      this.$router.push({
+        path: '/students/interests',
+        query: { firstAccess: true },
+      })
     }
   },
 

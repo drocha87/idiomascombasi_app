@@ -1,8 +1,8 @@
 <template>
   <div class="relative">
     <DesktopNav class="fixed top-0 left-0" />
-    <div class="min-h-screen mt-12 mb-12">
-      <Nuxt />
+    <div class="mt-12 mb-12">
+      <Nuxt keep-alive />
     </div>
     <Footer class="md:fixed md:bottom-0 md:left-0" />
   </div>
