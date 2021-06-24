@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <ContainerSlot title="Student Contact Info" class="mt-8">
+    <ContainerAccordion title="Contact Info" class="mt-8">
       <form
         @submit.prevent="$store.dispatch('admin/students/updateContactInfo')"
       >
@@ -47,9 +47,9 @@
           <Button class="ml-auto" type="submit" label="Update"> </Button>
         </div>
       </form>
-    </ContainerSlot>
+    </ContainerAccordion>
 
-    <ContainerSlot title="Student Personal Info" class="mt-8">
+    <ContainerAccordion title="Personal Info" class="mt-8">
       <form
         @submit.prevent="$store.dispatch('admin/students/updatePersonalInfo')"
       >
@@ -92,9 +92,47 @@
           <Button type="submit" label="Update"> </Button>
         </div>
       </form>
+    </ContainerAccordion>
+
+    <ContainerSlot title="Documents" class="mt-8">
+      <form @submit.prevent="submitFiles">
+        <input
+          id="file"
+          ref="file"
+          class="flex-grow ml-4 justify-self-end"
+          label="Name"
+          type="file"
+          required
+          @change="handleFileUpload()"
+        />
+
+        <div v-if="loading" class="flex flex-col items-center justify-center">
+          <Spin size="48px" />
+          <span class="text-xs text-gray-400">Uploading....</span>
+        </div>
+        <div class="text-right">
+          <Button label="Upload" small> </Button>
+        </div>
+      </form>
+      <div class="h-2"></div>
+      <div
+        v-for="document in documents"
+        :key="document.name"
+        class="border-b p-1 mb-2 flex justify-between"
+      >
+        <div
+          class="text-sm text-blueaws cursor-pointer"
+          @click="fetchDocument(document.name)"
+        >
+          {{ document.name }}
+        </div>
+        <div class="text-sm text-blueaws lowercase">
+          {{ document.ext.substring(1) }}
+        </div>
+      </div>
     </ContainerSlot>
 
-    <ContainerSlot class="mt-8" title="Student Roles and Interests">
+    <ContainerSlot class="mt-8" title="Roles and Interests">
       <div class="flex mt-4">
         <!-- TODO: add a way to edit these fields -->
         <Input
@@ -115,7 +153,7 @@
       </div>
     </ContainerSlot>
 
-    <ContainerSlot class="mt-8" title="Student Languages">
+    <ContainerSlot class="mt-8" title="Languages">
       <div class="flex items-end">
         <div class="flex-grow font-ember text-sm text-gray-700">
           Add a new language to student, pay attention before add, because will
@@ -260,6 +298,9 @@ export default Vue.extend({
   data() {
     return {
       userLanguage: 'english',
+      file: '',
+      loading: false,
+      documents: [],
     }
   },
 
@@ -267,6 +308,8 @@ export default Vue.extend({
     const { id } = this.$route.params
     await this.$store.dispatch('admin/students/fetchStudent', id)
     await this.$store.dispatch('admin/courses/fetchCourses')
+
+    this.documents = await this.$adminapi.$get(`users/${id}/documents`)
   },
 
   computed: {
@@ -399,6 +442,52 @@ export default Vue.extend({
         level,
         language: lang,
       })
+    },
+
+    async fetchDocument(doc: string) {
+      try {
+        const blob: Blob = await this.$adminapi.$get(
+          `/users/${this.student.id}/documents/${doc}`,
+          { responseType: 'blob' }
+        )
+        const url = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', doc)
+        document.body.appendChild(link)
+        link.click()
+      } catch (error) {
+        this.$store.commit('info/SET_ERROR', error)
+      }
+    },
+
+    async submitFiles() {
+      try {
+        const formData = new FormData()
+        formData.append('file', this.file)
+        this.loading = true
+        await this.$adminapi.$post(
+          `/users/${this.student.id}/documents`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        )
+        // this.documents = await this.$adminapi.$get('/resources/')
+        // this.file = ''
+      } catch (error) {
+        console.log(error)
+        // this.$store.commit('info/SET_ERROR', error)
+      } finally {
+        this.loading = false
+      }
+    },
+
+    handleFileUpload() {
+      this.file = (this.$refs?.file as any)?.files[0]
+      console.log(this.file.name)
     },
   },
 })

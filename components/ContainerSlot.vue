@@ -1,8 +1,11 @@
 <template>
   <div class="border shadow-sm">
     <div class="py-2 px-4 border-b font-ember bg-gray-100">
-      <div class="text-lg">
-        {{ title }}
+      <div class="flex items-center justify-between">
+        <div class="text-lg">
+          {{ title }}
+        </div>
+        <slot name="top-action" />
       </div>
       <div v-if="subtitle !== ''" class="text-xs text-gray-600">
         {{ subtitle }}
