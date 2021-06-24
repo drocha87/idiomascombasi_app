@@ -8,21 +8,11 @@
         {{ description }}
       </div>
 
-      <div v-if="ext && ext === 'mp3'">
-        <AudioPlayer
-          class="mt-4"
-          :source="to"
-          type="audio/mpeg"
-          @play="click()"
-        />
+      <div v-if="ext && ext === 'mp3'" class="mt-4">
+        <AudioPlayer :source="to" type="audio/mpeg" @play="click()" />
       </div>
-      <div v-else-if="ext && ext === 'mp4'">
-        <VideoPlayer
-          class="mt-4"
-          :source="to"
-          type="video/mp4"
-          @play="click()"
-        />
+      <div v-else-if="ext && ext === 'mp4'" class="mt-4">
+        <VideoPlayer :source="to" type="video/mp4" @play="click()" />
       </div>
       <a
         v-else
