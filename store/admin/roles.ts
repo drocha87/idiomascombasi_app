@@ -26,7 +26,7 @@ export const mutations: MutationTree<RootState> = {
 export const actions: ActionTree<RootState, RootState> = {
   async fetchRoles({ commit }) {
     try {
-      const { roles } = await this.$adminapi.$get('roles/')
+      const { roles } = await this.$axios.$get('/admin/roles/')
       commit('SET_ROLES', roles)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })

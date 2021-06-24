@@ -66,7 +66,7 @@ export default Vue.extend({
 
   async fetch() {
     try {
-      this.resources = await this.$adminapi.$get('/resources/')
+      this.resources = await this.$axios.$get('/admin/resources/')
     } catch (error) {
       this.$store.commit('info/SET_ERROR', error)
     }
@@ -78,12 +78,12 @@ export default Vue.extend({
         const formData = new FormData()
         formData.append('file', this.file)
         this.loading = true
-        await this.$adminapi.$post('/resources/', formData, {
+        await this.$axios.$post('/admin/resources/', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         })
-        this.resources = await this.$adminapi.$get('/resources/')
+        this.resources = await this.$axios.$get('/admin/resources/')
         this.file = ''
       } catch (error) {
         this.$store.commit('info/SET_ERROR', error)

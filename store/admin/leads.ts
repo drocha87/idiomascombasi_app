@@ -35,7 +35,7 @@ export const mutations: MutationTree<RootState> = {
 export const actions: ActionTree<RootState, RootState> = {
   async fetchLeads({ commit }) {
     try {
-      const questions = await this.$adminapi.$get('leads/')
+      const questions = await this.$axios.$get('/admin/leads/')
       commit('SET_LEADS', questions)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })

@@ -35,7 +35,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async fetchResourcesInfo({ commit }) {
     try {
-      const info = await this.$publicapi.$get('/resources-info')
+      const info = await this.$axios.$get('/public/resources-info')
       commit('SET_RESOURCE_INFO', info)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })

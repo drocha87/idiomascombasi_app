@@ -71,8 +71,8 @@ export default Vue.extend({
   async fetch() {
     try {
       const { id, lid } = this.$route.params
-      this.response = await this.$studentapi.$get(
-        `/courses/${id}/lessons/${lid}`
+      this.response = await this.$axios.$get(
+        `/students/courses/${id}/lessons/${lid}`
       )
     } catch (error) {
       if (error.response.status === 404) {
@@ -112,7 +112,7 @@ export default Vue.extend({
   methods: {
     async clicked(resource: string) {
       try {
-        await this.$studentapi.post(`/resources/${resource}/click`)
+        await this.$axios.post(`/students/resources/${resource}/click`)
       } catch (error) {
         this.$store.commit('SET_ERROR', error)
       }

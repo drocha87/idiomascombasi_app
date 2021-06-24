@@ -43,7 +43,7 @@ export const mutations: MutationTree<RootState> = {
 export const actions: ActionTree<RootState, RootState> = {
   async fetchQuestionaires({ commit }) {
     try {
-      const questionaires = await this.$adminapi.$get('questionaires/')
+      const questionaires = await this.$axios.$get('/admin/questionaires/')
       commit('SET_QUESTIONAIRES', questionaires)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -52,7 +52,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async fetchQuestionaire({ commit }, id: string) {
     try {
-      const questionaire = await this.$adminapi.$get(`questionaires/${id}`)
+      const questionaire = await this.$axios.$get(`/admin/questionaires/${id}`)
       commit('SET_QUESTIONAIRE', questionaire)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -61,8 +61,8 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async save({ commit }, questionaire: Partial<Questionaire>) {
     try {
-      const { questionaire_id: id } = await this.$adminapi.$post(
-        'questionaires/',
+      const { questionaire_id: id } = await this.$axios.$post(
+        '/admin/questionaires/',
         questionaire
       )
       this.$router.push({ path: `/admin/questionaires/${id}` })
@@ -78,7 +78,9 @@ export const actions: ActionTree<RootState, RootState> = {
           `Are you sure you want to delete the questionaire ${state.questionaire.title}`
         )
       ) {
-        await this.$adminapi.$delete(`questionaires/${state.questionaire.id}`)
+        await this.$axios.$delete(
+          `/admin/questionaires/${state.questionaire.id}`
+        )
         commit('SET_QUESTIONAIRE', {})
         this.$router.push({ path: '/admin/questionaires' })
       }
@@ -89,8 +91,8 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async appendQuestion({ commit, state, dispatch }, id: any): Promise<void> {
     try {
-      await this.$adminapi.$put(
-        `questionaires/${state.questionaire.id}/question/${id}`
+      await this.$axios.$put(
+        `/admin/questionaires/${state.questionaire.id}/question/${id}`
       )
       await dispatch('fetchQuestionaire', state.questionaire.id)
     } catch (error) {
@@ -100,8 +102,8 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async removeQuestion({ commit, state, dispatch }, id: any): Promise<void> {
     try {
-      await this.$adminapi.$delete(
-        `questionaires/${state.questionaire.id}/question/${id}`
+      await this.$axios.$delete(
+        `/admin/questionaires/${state.questionaire.id}/question/${id}`
       )
       await dispatch('fetchQuestionaire', state.questionaire.id)
     } catch (error) {
@@ -111,10 +113,13 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async update({ commit, state }) {
     try {
-      await this.$adminapi.$patch(`questionaires/${state.questionaire.id}`, {
-        title: state.questionaire.title,
-        description: state.questionaire.description,
-      })
+      await this.$axios.$patch(
+        `/admin/questionaires/${state.questionaire.id}`,
+        {
+          title: state.questionaire.title,
+          description: state.questionaire.description,
+        }
+      )
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
     }
@@ -126,7 +131,7 @@ export const actions: ActionTree<RootState, RootState> = {
   // ): Promise<void> {
   //   try {
   //     resource.expires_in = parseInt(`${resource.expires_in}`)
-  //     await this.$adminapi.$put(
+  //     await this.$axios.$put(
   //       `lessons/${state.currentLesson.id}/resource`,
   //       resource
   //     )
@@ -141,7 +146,7 @@ export const actions: ActionTree<RootState, RootState> = {
   //   resourceID: string
   // ): Promise<void> {
   //   try {
-  //     await this.$adminapi.$delete(
+  //     await this.$axios.$delete(
   //       `lessons/${state.currentLesson.id}/resource/${resourceID}`
   //     )
   //     await dispatch('fetchLesson', state.currentLesson.id)
@@ -151,7 +156,7 @@ export const actions: ActionTree<RootState, RootState> = {
   // },
 
   // async updateBody({ state }) {
-  //   await this.$adminapi.$patch(`courses/${state.currentLesson.id}/body`, {
+  //   await this.$axios.$patch(`courses/${state.currentLesson.id}/body`, {
   //     description: state.currentLesson.description,
   //     wywl: state.currentLesson.wywl,
   //     requiriments: state.currentLesson.requiriments,

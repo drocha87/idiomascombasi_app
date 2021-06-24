@@ -309,7 +309,7 @@ export default Vue.extend({
     await this.$store.dispatch('admin/students/fetchStudent', id)
     await this.$store.dispatch('admin/courses/fetchCourses')
 
-    this.documents = await this.$adminapi.$get(`users/${id}/documents`)
+    this.documents = await this.$axios.$get(`/admin/users/${id}/documents`)
   },
 
   computed: {
@@ -446,8 +446,8 @@ export default Vue.extend({
 
     async fetchDocument(doc: string) {
       try {
-        const blob: Blob = await this.$adminapi.$get(
-          `/users/${this.student.id}/documents/${doc}`,
+        const blob: Blob = await this.$axios.$get(
+          `/admin/users/${this.student.id}/documents/${doc}`,
           { responseType: 'blob' }
         )
         const url = window.URL.createObjectURL(blob)
@@ -466,8 +466,8 @@ export default Vue.extend({
         const formData = new FormData()
         formData.append('file', this.file)
         this.loading = true
-        await this.$adminapi.$post(
-          `/users/${this.student.id}/documents`,
+        await this.$axios.$post(
+          `/admin/users/${this.student.id}/documents`,
           formData,
           {
             headers: {
@@ -475,7 +475,7 @@ export default Vue.extend({
             },
           }
         )
-        // this.documents = await this.$adminapi.$get('/resources/')
+        // this.documents = await this.$axios.$get('/admin/resources/')
         // this.file = ''
       } catch (error) {
         console.log(error)

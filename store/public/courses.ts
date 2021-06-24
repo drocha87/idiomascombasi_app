@@ -66,13 +66,13 @@ export const mutations: MutationTree<RootState> = {
 
 export const actions: ActionTree<RootState, RootState> = {
   async fetchCourses({ commit }) {
-    const cs = await this.$publicapi.$get('courses')
+    const cs = await this.$axios.$get('/public/courses')
     commit('SET_COURSES', cs)
   },
 
   async fetchCourse({ commit }, id: string) {
     try {
-      const course = await this.$publicapi.$get(`course/${id}`)
+      const course = await this.$axios.$get(`/public/course/${id}`)
       commit('SET_COURSE', course)
     } catch (error) {
       console.log(error)
@@ -81,8 +81,8 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async fetchCourseModules({ commit, state }) {
     try {
-      const modules = await this.$publicapi.$get(
-        `course/${state.course.id}/modules`
+      const modules = await this.$axios.$get(
+        `/public/course/${state.course.id}/modules`
       )
       commit('SET_MODULES', modules)
     } catch (error) {
@@ -92,8 +92,8 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async fetchCourseLessons({ commit, state }) {
     try {
-      const lessons = await this.$publicapi.$get(
-        `course/${state.course.id}/lessons`
+      const lessons = await this.$axios.$get(
+        `/public/course/${state.course.id}/lessons`
       )
       commit('SET_LESSONS', lessons)
     } catch (error) {

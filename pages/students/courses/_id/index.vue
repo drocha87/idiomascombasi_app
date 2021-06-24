@@ -50,8 +50,8 @@ export default Vue.extend({
 
   async fetch() {
     try {
-      this.data = await this.$studentapi.$get(
-        `courses/${this.$route.params.id}`
+      this.data = await this.$axios.$get(
+        `/students/courses/${this.$route.params.id}`
       )
     } catch (error) {
       if (error.response.status === 404) {

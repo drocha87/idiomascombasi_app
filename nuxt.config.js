@@ -55,14 +55,14 @@ export default {
   axios: {
     baseUrl:
       process.env.NODE_ENV === 'development'
-        ? 'http://api.localhost/auth'
-        : 'https://auth.idiomascombasi.com.br',
+        ? 'http://api.localhost/'
+        : 'https://api.idiomascombasi.com.br',
   },
 
   auth: {
     scopeKey: 'roles',
 
-    plugins: [{ src: '~/plugins/api.ts' }],
+    // plugins: [{ src: '~/plugins/api.ts' }],
 
     redirect: {
       login: '/login',
@@ -83,9 +83,9 @@ export default {
           // autoFetch: false,
         },
         endpoints: {
-          login: { url: '/login', method: 'post' },
+          login: { url: '/auth/login', method: 'post' },
           logout: false,
-          user: { url: '/getuser', method: 'get' },
+          user: { url: '/auth/getuser', method: 'get' },
         },
       },
     },

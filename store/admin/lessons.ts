@@ -58,7 +58,7 @@ export const mutations: MutationTree<RootState> = {
 export const actions: ActionTree<RootState, RootState> = {
   async fetchLessons({ commit }) {
     try {
-      const lessons = await this.$adminapi.$get('lessons/')
+      const lessons = await this.$axios.$get('/admin/lessons/')
       commit('SET_LESSONS', lessons)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -67,7 +67,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async fetchLesson({ commit }, id: string) {
     try {
-      const lesson = await this.$adminapi.$get(`lessons/${id}`)
+      const lesson = await this.$axios.$get(`/admin/lessons/${id}`)
       commit('SET_CURRENT_LESSON', lesson)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -76,7 +76,10 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async save({ commit }, lesson: Lesson) {
     try {
-      const { lesson_id: id } = await this.$adminapi.$post('lessons/', lesson)
+      const { lesson_id: id } = await this.$axios.$post(
+        '/admin/lessons/',
+        lesson
+      )
       this.$router.push({ path: `/admin/lessons/${id}` })
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -90,7 +93,7 @@ export const actions: ActionTree<RootState, RootState> = {
           `Are you sure you want to delete the lesson ${state.currentLesson.title}`
         )
       ) {
-        await this.$adminapi.$delete(`lessons/${state.currentLesson.id}`)
+        await this.$axios.$delete(`/admin/lessons/${state.currentLesson.id}`)
         commit('SET_CURRENT_LESSON', {})
         this.$router.push({ path: '/admin/lessons' })
       }
@@ -101,12 +104,15 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async updateHeader({ commit, state }) {
     try {
-      await this.$adminapi.$patch(`lessons/${state.currentLesson.id}/header`, {
-        title: state.currentLesson.title,
-        language: state.currentLesson.language,
-        duration: parseInt(`${state.currentLesson.duration}`),
-        description: state.currentLesson.description,
-      })
+      await this.$axios.$patch(
+        `/admin/lessons/${state.currentLesson.id}/header`,
+        {
+          title: state.currentLesson.title,
+          language: state.currentLesson.language,
+          duration: parseInt(`${state.currentLesson.duration}`),
+          description: state.currentLesson.description,
+        }
+      )
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
     }
@@ -118,8 +124,8 @@ export const actions: ActionTree<RootState, RootState> = {
   ): Promise<void> {
     try {
       resource.expires_in = parseInt(`${resource.expires_in}`)
-      await this.$adminapi.$put(
-        `lessons/${state.currentLesson.id}/resource`,
+      await this.$axios.$put(
+        `/admin/lessons/${state.currentLesson.id}/resource`,
         resource
       )
       await dispatch('fetchLesson', state.currentLesson.id)
@@ -133,8 +139,8 @@ export const actions: ActionTree<RootState, RootState> = {
     resourceID: string
   ): Promise<void> {
     try {
-      await this.$adminapi.$delete(
-        `lessons/${state.currentLesson.id}/resource/${resourceID}`
+      await this.$axios.$delete(
+        `/admin/lessons/${state.currentLesson.id}/resource/${resourceID}`
       )
       await dispatch('fetchLesson', state.currentLesson.id)
     } catch (error) {
@@ -143,7 +149,7 @@ export const actions: ActionTree<RootState, RootState> = {
   },
 
   // async updateBody({ state }) {
-  //   await this.$adminapi.$patch(`courses/${state.currentLesson.id}/body`, {
+  //   await this.$axios.$patch(`courses/${state.currentLesson.id}/body`, {
   //     description: state.currentLesson.description,
   //     wywl: state.currentLesson.wywl,
   //     requiriments: state.currentLesson.requiriments,
