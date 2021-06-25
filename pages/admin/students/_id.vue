@@ -116,7 +116,7 @@
       </form>
       <div class="h-2"></div>
       <div
-        v-for="document in documents"
+        v-for="(document, index) in documents"
         :key="document.name"
         class="border-b p-1 mb-2 flex justify-between"
       >
@@ -126,8 +126,16 @@
         >
           {{ document.name }}
         </div>
-        <div class="text-sm text-blueaws lowercase">
-          {{ document.ext.substring(1) }}
+        <div class="flex items-center">
+          <div class="text-sm text-blueaws lowercase">
+            {{ document.ext.substring(1) }}
+          </div>
+          <button
+            class="ml-8 text-xs text-red-700 lowercase focus:outline-none"
+            @click="removeDocument(document.name, index)"
+          >
+            Remove
+          </button>
         </div>
       </div>
     </ContainerSlot>
@@ -259,7 +267,7 @@
             </div>
             <button
               type="button"
-              class="text-xs text-red-500 px-4 font-bold text-blue-900"
+              class="text-xs px-4 font-bold text-blue-900"
               @click="$store.dispatch('admin/students/appendCourse', course.id)"
             >
               Add
@@ -309,7 +317,7 @@ export default Vue.extend({
     await this.$store.dispatch('admin/students/fetchStudent', id)
     await this.$store.dispatch('admin/courses/fetchCourses')
 
-    this.documents = await this.$axios.$get(`/admin/users/${id}/documents`)
+    this.documents = await this.$axios.$get(`/storage/users/${id}`)
   },
 
   computed: {
@@ -444,18 +452,35 @@ export default Vue.extend({
       })
     },
 
-    async fetchDocument(doc: string) {
+    async fetchDocument(fileName: string) {
       try {
         const blob: Blob = await this.$axios.$get(
-          `/admin/users/${this.student.id}/documents/${doc}`,
+          `/storage/users/${this.student.id}/${fileName}`,
           { responseType: 'blob' }
         )
         const url = window.URL.createObjectURL(blob)
         const link = document.createElement('a')
         link.href = url
-        link.setAttribute('download', doc)
+        link.setAttribute('download', fileName)
         document.body.appendChild(link)
         link.click()
+      } catch (error) {
+        this.$store.commit('info/SET_ERROR', error)
+      }
+    },
+
+    async removeDocument(fileName: string, index: number) {
+      try {
+        if (
+          confirm(
+            'Are you sure you want to remove this file? This process is ireversible.'
+          )
+        ) {
+          await this.$axios.$delete(
+            `storage/users/${this.student.id}/${fileName}`
+          )
+          this.documents.splice(index, 1)
+        }
       } catch (error) {
         this.$store.commit('info/SET_ERROR', error)
       }
@@ -466,20 +491,16 @@ export default Vue.extend({
         const formData = new FormData()
         formData.append('file', this.file)
         this.loading = true
-        await this.$axios.$post(
-          `/admin/users/${this.student.id}/documents`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        )
+        await this.$axios.$post(`/storage/users/${this.student.id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
         // this.documents = await this.$axios.$get('/admin/resources/')
         // this.file = ''
       } catch (error) {
-        console.log(error)
-        // this.$store.commit('info/SET_ERROR', error)
+        // console.log(error)
+        this.$store.commit('info/SET_ERROR', error)
       } finally {
         this.loading = false
       }
