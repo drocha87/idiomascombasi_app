@@ -35,14 +35,15 @@
               <button
                 class="flex items-center"
                 :class="{
-                  'text-gray-400 cursor-not-allowed': !l.released,
-                  'text-gray-900': l.released,
+                  'text-gray-400 cursor-not-allowed':
+                    !l.released || !item.released,
+                  'text-gray-900': l.released && item.released,
                 }"
                 :disabled="!l.released"
                 @click="navigate"
               >
                 <IconLock
-                  v-if="!l.released"
+                  v-if="!l.released || !item.released"
                   class="mr-2"
                   size="12px"
                   fill="#9ca3af"
