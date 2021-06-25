@@ -105,7 +105,11 @@
         </div>
       </ContainerSlot>
 
-      <ContainerSlot class="mt-8" title="Meus Documentos">
+      <ContainerSlot
+        v-if="documents && documents.length > 0"
+        class="mt-8"
+        title="Meus Documentos"
+      >
         <div
           v-for="document in documents"
           :key="document.name"
