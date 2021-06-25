@@ -67,7 +67,7 @@ export const mutations: MutationTree<RootState> = {
 export const actions: ActionTree<RootState, RootState> = {
   async fetchStudents({ commit }) {
     try {
-      const students = await this.$adminapi.$get('/users/')
+      const students = await this.$axios.$get('/admin/users/')
       commit('SET_STUDENTS', students)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -76,7 +76,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async fetchStudent({ commit }, id: string) {
     try {
-      const student = await this.$adminapi.$get(`/users/${id}`)
+      const student = await this.$axios.$get(`/admin/users/${id}`)
       commit('SET_STUDENT', student)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -85,7 +85,9 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async insert({ commit }, email: string) {
     try {
-      const { user_id: id } = await this.$adminapi.$post(`/users/`, { email })
+      const { user_id: id } = await this.$axios.$post(`/admin/users/`, {
+        email,
+      })
       this.$router.push({ path: `/admin/students/${id}` })
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -95,7 +97,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async updateContactInfo({ state, commit, dispatch }) {
     try {
       const info: Partial<UserContactInfo> = state.student
-      await this.$adminapi.$patch(`/users/${state.student.id}/contact`, info)
+      await this.$axios.$patch(`/admin/users/${state.student.id}/contact`, info)
       await dispatch('fetchStudent', state.student.id)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -105,7 +107,10 @@ export const actions: ActionTree<RootState, RootState> = {
   async updatePersonalInfo({ state, commit, dispatch }) {
     try {
       const info: Partial<UserPersonalInfo> = state.student
-      await this.$adminapi.$patch(`/users/${state.student.id}/personal`, info)
+      await this.$axios.$patch(
+        `/admin/users/${state.student.id}/personal`,
+        info
+      )
       await dispatch('fetchStudent', state.student.id)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -114,7 +119,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async appendCourse({ state, commit, dispatch }, id: string) {
     try {
-      await this.$adminapi.$post(`/users/${state.student.id}/courses/${id}`)
+      await this.$axios.$post(`/admin/users/${state.student.id}/courses/${id}`)
       await dispatch('fetchStudent', state.student.id)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -123,7 +128,9 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async removeCourse({ state, commit, dispatch }, id: string) {
     try {
-      await this.$adminapi.$delete(`/users/${state.student.id}/courses/${id}`)
+      await this.$axios.$delete(
+        `/admin/users/${state.student.id}/courses/${id}`
+      )
       await dispatch('fetchStudent', state.student.id)
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -132,7 +139,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async appendLanguage({ state, commit, dispatch }, language: string) {
     try {
-      await this.$adminapi.$put(`/users/${state.student.id}/languages`, {
+      await this.$axios.$put(`/admin/users/${state.student.id}/languages`, {
         language: language.toLowerCase(),
       })
       await dispatch('fetchStudent', state.student.id)
@@ -146,7 +153,7 @@ export const actions: ActionTree<RootState, RootState> = {
     { level, language }: { level: number; language: any }
   ) {
     try {
-      await this.$adminapi.$patch(`/users/${state.student.id}/languages`, {
+      await this.$axios.$patch(`/admin/users/${state.student.id}/languages`, {
         id: language.id,
         level,
       })

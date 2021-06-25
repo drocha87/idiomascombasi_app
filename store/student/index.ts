@@ -64,18 +64,18 @@ export const actions: ActionTree<RootState, RootState> = {
   },
 
   async fetchCourses({ commit }) {
-    const cs = await this.$studentapi.$get('courses')
+    const cs = await this.$axios.$get('/students/courses')
     commit('SET_COURSES', cs)
   },
 
   async fetchFreebies({ commit }) {
-    const cs = await this.$studentapi.$get('freebies')
+    const cs = await this.$axios.$get('/students/freebies')
     commit('SET_FREEBIES', cs)
   },
 
   async updateInfo({ commit, state }) {
     try {
-      await this.$studentapi.$patch('/info', state.student)
+      await this.$axios.$patch('/students/info', state.student)
       await this.$auth.fetchUser()
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -84,7 +84,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async updateInterests({ commit }, interests: string[]) {
     try {
-      await this.$studentapi.$patch('/interests', interests)
+      await this.$axios.$patch('/students/interests', interests)
       await this.$auth.fetchUser()
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -93,7 +93,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async addFreebie({ commit, dispatch }, courseID: string) {
     try {
-      await this.$studentapi.$post(`/freebies/${courseID}`)
+      await this.$axios.$post(`/students/freebies/${courseID}`)
       await dispatch('fetchCourses')
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })

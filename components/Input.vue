@@ -7,8 +7,7 @@
     <input
       class="
         border
-        focus:outline-none
-        focus:border-purple-900
+        focus:outline-none focus:border-purple-900
         p-2
         px-4
         font-ember

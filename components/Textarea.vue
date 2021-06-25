@@ -6,8 +6,7 @@
       class="
         border
         w-full
-        focus:outline-none
-        focus:border-purple-900
+        focus:outline-none focus:border-purple-900
         p-4
         text-gray-800 text-sm
       "

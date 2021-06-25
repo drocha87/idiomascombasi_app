@@ -79,9 +79,9 @@ export default Vue.extend({
         // FIXME: api plugin copies an instance of $axios which doesn't have the
         //       token setup at that point, so here is necessary to setToken again.
         // Need research if this workaround is really necessary
-        const token = (this.$auth.strategy as any).token.get()
-        this.$adminapi.setToken(token)
-        this.$studentapi.setToken(token)
+        // const token = (this.$auth.strategy as any).token.get()
+        // this.$adminapi.setToken(token)
+        // this.$studentapi.setToken(token)
       } catch (error) {
         if (error.response?.status === 401) {
           this.errorMessage = 'Email or password invalid'

@@ -29,7 +29,7 @@
       subtitle="To copy the link address you just need to click in the resource name"
     >
       <div
-        v-for="resource in resources"
+        v-for="(resource, index) in resources"
         :key="resource.name"
         class="border-b p-1 mb-2 flex justify-between"
       >
@@ -43,9 +43,20 @@
         >
           {{ resourceName(resource.name) }}
         </div>
-        <div class="text-sm text-blueaws lowercase">
-          {{ resource.ext.substring(1) }}
+        <div class="flex items-center">
+          <div class="text-sm text-blueaws lowercase">
+            {{ resource.ext.substring(1) }}
+          </div>
+          <button
+            class="ml-8 text-xs text-red-700 lowercase focus:outline-none"
+            @click="removeDocument(resource.name, index)"
+          >
+            Remove
+          </button>
         </div>
+        <!-- <div class="text-sm text-blueaws lowercase">
+          {{ resource.ext.substring(1) }}
+        </div> -->
       </div>
     </ContainerSlot>
   </div>
@@ -66,7 +77,10 @@ export default Vue.extend({
 
   async fetch() {
     try {
-      this.resources = await this.$adminapi.$get('/resources/')
+      const resources = await this.$axios.$get('/storage/resources/')
+      this.resources = resources.filter(
+        (resource: any) => resource.name?.length > 0
+      )
     } catch (error) {
       this.$store.commit('info/SET_ERROR', error)
     }
@@ -78,17 +92,32 @@ export default Vue.extend({
         const formData = new FormData()
         formData.append('file', this.file)
         this.loading = true
-        await this.$adminapi.$post('/resources/', formData, {
+        await this.$axios.$post('/storage/resources/', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         })
-        this.resources = await this.$adminapi.$get('/resources/')
+        this.resources = await this.$axios.$get('/storage/resources/')
         this.file = ''
       } catch (error) {
         this.$store.commit('info/SET_ERROR', error)
       } finally {
         this.loading = false
+      }
+    },
+
+    async removeDocument(fileName: string, index: number) {
+      try {
+        if (
+          confirm(
+            'Are you sure you want to remove this file? This process is ireversible.'
+          )
+        ) {
+          await this.$axios.$delete(`storage/resources/${fileName}`)
+          this.resources.splice(index, 1)
+        }
+      } catch (error) {
+        this.$store.commit('info/SET_ERROR', error)
       }
     },
 

@@ -105,6 +105,26 @@
         </div>
       </ContainerSlot>
 
+      <ContainerSlot class="mt-8" title="Meus Documentos">
+        <div
+          v-for="document in documents"
+          :key="document.name"
+          class="border-b p-1 mb-2 flex justify-between"
+        >
+          <div
+            class="text-sm text-blueaws cursor-pointer"
+            @click="fetchDocument(document.name)"
+          >
+            {{ document.name }}
+          </div>
+          <div class="flex items-center">
+            <div class="text-sm text-blueaws lowercase">
+              {{ document.ext.substring(1) }}
+            </div>
+          </div>
+        </div>
+      </ContainerSlot>
+
       <ContainerSlot class="mt-8" title="Links Úteis">
         <InfoLink
           label="Dicionário de Inglês"
@@ -124,10 +144,17 @@ export default Vue.extend({
   layout: 'empty',
   // fetchOnServer: false,
 
+  data() {
+    return {
+      documents: [],
+    }
+  },
+
   async fetch() {
     await this.$store.dispatch('student/fetchStudent')
     await this.$store.dispatch('student/fetchCourses')
     await this.$store.dispatch('student/fetchFreebies')
+    this.documents = await this.$axios.$get('/storage/student')
   },
 
   computed: {
@@ -157,12 +184,29 @@ export default Vue.extend({
     if (this.student?.interests?.length === 0) {
       this.$router.push({
         path: '/students/interests',
-        query: { firstAccess: true },
+        query: { firstAccess: 'true' },
       })
     }
   },
 
   methods: {
+    async fetchDocument(fileName: string) {
+      try {
+        const blob: Blob = await this.$axios.$get(
+          `/storage/student/${fileName}`,
+          { responseType: 'blob' }
+        )
+        const url = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', fileName)
+        document.body.appendChild(link)
+        link.click()
+      } catch (error) {
+        this.$store.commit('info/SET_ERROR', error)
+      }
+    },
+
     courseName(id: string): string {
       return this.$store.getters['student/courseNameById'](id)
     },

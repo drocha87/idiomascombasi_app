@@ -50,8 +50,8 @@ export default Vue.extend({
 
   async fetch() {
     try {
-      this.data = await this.$studentapi.$get(
-        `courses/${this.$route.params.id}`
+      this.data = await this.$axios.$get(
+        `/students/courses/${this.$route.params.id}`
       )
     } catch (error) {
       if (error.response.status === 404) {
@@ -65,16 +65,20 @@ export default Vue.extend({
   },
 
   computed: {
-    course(): Course {
-      return this.data.course /* this.$store.getters['student/course'] */
+    course(): Partial<Course> {
+      return this.data.course || {} /* this.$store.getters['student/course'] */
     },
 
     modules(): Module[] {
-      return this.data.modules /* this.$store.getters['student/modules'] */
+      return (
+        this.data.modules || []
+      ) /* this.$store.getters['student/modules'] */
     },
 
     lessons(): Lesson[] {
-      return this.data.lessons /* this.$store.getters['student/lessons'] */
+      return (
+        this.data.lessons || []
+      ) /* this.$store.getters['student/lessons'] */
     },
 
     wywl(): string[] {

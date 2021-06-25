@@ -45,19 +45,23 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { NuxtError } from '@nuxt/types'
+
 export default Vue.extend({
   layout: 'empty', // you can set a custom layout for the error page
   props: {
-    error: { type: Error, required: true },
+    error: { type: Object as () => NuxtError, required: true },
   },
 
   computed: {
     redirectTo(): string {
-      if (/^\/students\/.*/.test(this.error.path)) {
-        return '/students'
-      }
-      if (/^\/admin\/.*/.test(this.error.path)) {
-        return '/admin'
+      if (this.error.path) {
+        if (/^\/students\/.*/.test(this.error.path)) {
+          return '/students'
+        }
+        if (/^\/admin\/.*/.test(this.error.path)) {
+          return '/admin'
+        }
       }
       return '/'
     },

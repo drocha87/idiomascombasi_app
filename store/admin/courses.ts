@@ -95,7 +95,7 @@ export const mutations: MutationTree<RootState> = {
 export const actions: ActionTree<RootState, RootState> = {
   async fetchCourses({ commit }) {
     try {
-      const cs = await this.$adminapi.$get('courses/')
+      const cs = await this.$axios.$get('/admin/courses/')
       commit('SET_COURSES', cs)
     } catch (error) {
       alert(
@@ -107,13 +107,16 @@ export const actions: ActionTree<RootState, RootState> = {
   },
 
   async fetchCourse({ commit }, id: string) {
-    const course = await this.$adminapi.$get(`courses/${id}`)
+    const course = await this.$axios.$get(`/admin/courses/${id}`)
     commit('SET_CURRENT_COURSE', course)
   },
 
   async save({ commit }, course: Partial<Course>) {
     try {
-      const { course_id: cid } = await this.$adminapi.$post('courses/', course)
+      const { course_id: cid } = await this.$axios.$post(
+        '/admin/courses/',
+        course
+      )
       this.$router.push({ path: `/admin/courses/${cid}` })
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
@@ -125,7 +128,7 @@ export const actions: ActionTree<RootState, RootState> = {
       ? new Date(state.course.expires_at)
       : undefined
     // TODO: improve this code below is too much verbose to be fair
-    await this.$adminapi.$patch(`courses/${state.course.id}/header`, {
+    await this.$axios.$patch(`/admin/courses/${state.course.id}/header`, {
       title: state.course.title,
       language: state.course.language,
       kind: state.course.kind,
@@ -143,29 +146,31 @@ export const actions: ActionTree<RootState, RootState> = {
         `Are you sure you want to delete the course ${state.course.title}`
       )
     ) {
-      await this.$adminapi.$delete(`courses/${state.course.id}`)
+      await this.$axios.$delete(`/admin/courses/${state.course.id}`)
       commit('SET_CURRENT_COURSE', {})
       this.$router.push({ path: '/admin/courses' })
     }
   },
 
   async addModule({ state, dispatch }, moduleId: string) {
-    await this.$adminapi.$put(`courses/${state.course.id}/module/${moduleId}`)
+    await this.$axios.$put(
+      `/admin/courses/${state.course.id}/module/${moduleId}`
+    )
     await dispatch('fetchCourse', state.course.id)
   },
 
   async removeModule({ state, dispatch }, moduleId: string) {
     // TODO: confirm before remove
-    await this.$adminapi.$delete(
-      `courses/${state.course.id}/module/${moduleId}`
+    await this.$axios.$delete(
+      `/admin/courses/${state.course.id}/module/${moduleId}`
     )
     await dispatch('fetchCourse', state.course.id)
   },
 
   async toggleModuleRelease({ state, commit, dispatch }, moduleId: string) {
     try {
-      await this.$adminapi.$post(
-        `courses/${state.course.id}/module/${moduleId}/togglerelease`
+      await this.$axios.$post(
+        `/admin/courses/${state.course.id}/module/${moduleId}/togglerelease`
       )
       await dispatch('fetchCourse', state.course.id)
     } catch (error) {
@@ -177,14 +182,14 @@ export const actions: ActionTree<RootState, RootState> = {
     { state, dispatch },
     { direction, id }: { direction: string; id: string }
   ) {
-    await this.$adminapi.$patch(
-      `courses/${state.course.id}/module/${id}/${direction}`
+    await this.$axios.$patch(
+      `/admin/courses/${state.course.id}/module/${id}/${direction}`
     )
     await dispatch('fetchCourse', state.course.id)
   },
 
   async updateBody({ state }) {
-    await this.$adminapi.$patch(`courses/${state.course.id}/body`, {
+    await this.$axios.$patch(`/admin/courses/${state.course.id}/body`, {
       description: state.course.description,
       wywl: state.course.wywl,
       requiriments: state.course.requiriments,
@@ -192,12 +197,12 @@ export const actions: ActionTree<RootState, RootState> = {
   },
 
   async release({ state, dispatch }) {
-    await this.$adminapi.$post(`courses/${state.course.id}/release`)
+    await this.$axios.$post(`/admin/courses/${state.course.id}/release`)
     await dispatch('fetchCourse', state.course.id)
   },
 
   async unrelease({ state, dispatch }) {
-    await this.$adminapi.$delete(`courses/${state.course.id}/release`)
+    await this.$axios.$delete(`/admin/courses/${state.course.id}/release`)
     await dispatch('fetchCourse', state.course.id)
   },
 }
