@@ -487,7 +487,6 @@ export default Vue.extend({
 
     handleFileUpload() {
       this.file = (this.$refs?.file as any)?.files[0]
-      console.log(this.file.name)
     },
   },
 })

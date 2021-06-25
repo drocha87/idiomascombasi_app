@@ -65,16 +65,20 @@ export default Vue.extend({
   },
 
   computed: {
-    course(): Course {
-      return this.data.course /* this.$store.getters['student/course'] */
+    course(): Partial<Course> {
+      return this.data.course || {} /* this.$store.getters['student/course'] */
     },
 
     modules(): Module[] {
-      return this.data.modules /* this.$store.getters['student/modules'] */
+      return (
+        this.data.modules || []
+      ) /* this.$store.getters['student/modules'] */
     },
 
     lessons(): Lesson[] {
-      return this.data.lessons /* this.$store.getters['student/lessons'] */
+      return (
+        this.data.lessons || []
+      ) /* this.$store.getters['student/lessons'] */
     },
 
     wywl(): string[] {

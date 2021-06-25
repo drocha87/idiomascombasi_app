@@ -92,15 +92,15 @@ export default Vue.extend({
   },
 
   computed: {
-    course(): Course {
+    course(): Partial<Course> {
       return this.response.course
     },
 
-    module(): Module {
+    module(): Partial<Module> {
       return this.response.module
     },
 
-    lesson(): Lesson {
+    lesson(): Partial<Lesson> {
       return this.response.lesson
     },
 
