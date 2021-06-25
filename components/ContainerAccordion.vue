@@ -1,11 +1,9 @@
 <template>
-  <div
-    class="cursor-pointer focus:outline-none border shadow-sm"
-    @click="toggleVisibility()"
-  >
+  <div class="focus:outline-none border shadow-sm">
     <div
-      class="py-2 px-4 font-ember bg-gray-100"
+      class="py-2 px-4 font-ember bg-gray-100 cursor-pointer"
       :class="{ 'border-b': opened }"
+      @click="toggleVisibility()"
     >
       <div class="flex items-center justify-between">
         <div class="text-lg">
