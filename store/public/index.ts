@@ -25,7 +25,7 @@ export const actions: ActionTree<RootState, RootState> = {
     { commit },
     { email, resend }: { email: string; resend: boolean }
   ) {
-    await this.$axios.$post('/register', { email, resend })
+    await this.$axios.$post('/auth/register', { email, resend })
     commit(
       'info/SET_INFO',
       `Email with confirmation code was sent to ${email}`,

@@ -84,7 +84,7 @@ export default Vue.extend({
           validation_code: this.code,
           password: this.password,
         }
-        await this.$axios.$post('/password', data)
+        await this.$axios.$post('/auth/password', data)
         this.$router.push('/login')
       } catch (error) {
         this.$store.commit('SET_ERROR', error, { root: true })

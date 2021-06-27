@@ -11,18 +11,17 @@
             junto com meu time de desenvolvedores, decidimos criar uma
             plataforma de ensino onde o aluno poderá registrar seu progresso,
             ter acesso a conteúdos gratuitos e participar de quizzes e aulas ao
-            vivo. Ainda estamos em fase de desenvolvimento, por isso a
-            plataforma será testada apenas por convidados e alunos. Caso você
-            queria participar da fase de desenvolvimento, fale comigo!
+            vivo. Ainda estamos em fase de desenvolvimento, por isso se você
+            quiser me ajudar nesta fase, faça seu cadastro no botão abaixo. Seu
+            feedback vai ser muito importante para mim!
           </p>
           <div class="flex-grow flex items-end mt-8">
-            <ButtonA
+            <ButtonNuxtLink
               class="w-full md:w-48"
-              label="Fale comigo"
-              href="https://euyo.me/idiomascombasi"
-              target="_blank"
+              label="Fazer Cadastro"
+              to="/signup"
             >
-            </ButtonA>
+            </ButtonNuxtLink>
           </div>
         </div>
 
