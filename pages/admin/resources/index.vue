@@ -37,7 +37,7 @@
           class="text-sm text-blueaws cursor-pointer"
           @click="
             copyToClipboard(
-              `https://idiomascombasi.s3.us-east-2.amazonaws.com/${resource.name}`
+              `https://idiomascombasi.s3.us-east-2.amazonaws.com/resources/${resource.name}`
             )
           "
         >
@@ -78,9 +78,13 @@ export default Vue.extend({
   async fetch() {
     try {
       const resources = await this.$axios.$get('/storage/resources/')
-      this.resources = resources.filter(
-        (resource: any) => resource.name?.length > 0
-      )
+      this.resources = resources
+        .filter((resource: any) => resource.name?.length > 0)
+        .sort((a: any, b: any) => {
+          const dateA = new Date(a.last_modified)
+          const dateB = new Date(b.last_modified)
+          return dateB - dateA
+        })
     } catch (error) {
       this.$store.commit('info/SET_ERROR', error)
     }
@@ -97,7 +101,8 @@ export default Vue.extend({
             'Content-Type': 'multipart/form-data',
           },
         })
-        this.resources = await this.$axios.$get('/storage/resources/')
+        await this.$fetch()
+        // this.resources = await this.$axios.$get('/storage/resources/')
         this.file = ''
       } catch (error) {
         this.$store.commit('info/SET_ERROR', error)

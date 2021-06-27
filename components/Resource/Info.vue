@@ -16,13 +16,15 @@
       </div>
       <a
         v-else
-        class="flex items-center justify-between text-blueaws"
+        class="flex mt-2 ml-2 text-sm items-center justify-between text-blueaws"
         v-bind="$attrs"
         :href="to"
         target="'_blank'"
       >
         <div>{{ label }}</div>
-        <div class="uppercase">{{ type }}</div>
+        <div class="uppercase">
+          {{ ext }}
+        </div>
       </a>
     </div>
 
