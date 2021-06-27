@@ -4,16 +4,16 @@
     <div class="min-w-1/2 p-4 md:p-0">
       <div class="font-montserrat text-5xl font-bold">B.</div>
       <div class="font-montserrat text-2xl font-medium mt-8">
-        Welcome to Campus ICB
+        Bem-vindo(a) ao Campus ICB
       </div>
-      <div class="text-2xl font-light">Student Zone</div>
+      <div class="text-2xl font-light">Área do Aluno</div>
       <div class="mt-8">Login</div>
       <form class="md:max-w-1/2 mt-2" @submit.prevent="studentLogin">
         <Input v-model="login.email" type="email" label="Email" required />
         <Password
           v-model="login.password"
           class="mt-4"
-          label="Password"
+          label="Senha"
           required
         />
         <div
@@ -25,7 +25,7 @@
             hover:text-purple-700
           "
         >
-          <a href="#">Forgot Password?</a>
+          <a href="#">Esqueceu a senha?</a>
         </div>
         <div
           v-if="errorMessage !== ''"
@@ -39,12 +39,12 @@
         <div
           class="text-center mt-8 text-sm font-medium font-ember text-gray-800"
         >
-          Don't have an account?
+          Ainda não tem uma conta?
           <nuxt-link
             class="text-purple-500 hover:text-purple-700 ml-2"
             to="/signup"
           >
-            Sign Up
+            Registre-se
           </nuxt-link>
         </div>
       </form>
