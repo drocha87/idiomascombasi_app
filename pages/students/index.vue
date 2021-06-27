@@ -66,6 +66,40 @@
         Que pena, atualmente você não está fazendo parte de nenhum curso!
       </div>
 
+      <ContainerSlot class="mt-8" title="Conteúdo Premium">
+        <div
+          v-for="(course, index) in premiums"
+          :key="course.id"
+          class="text-sm block"
+          :to="`/students/courses/${course.id}`"
+        >
+          <div
+            class="flex p-2"
+            :class="{
+              'bg-gray-100': index % 2 === 0,
+              'bg-gray-200': index % 2 !== 0,
+            }"
+          >
+            <div class="ml-6 flex-grow">
+              {{ premiumName(course.id) }}
+            </div>
+            <button
+              type="button"
+              class="text-xs px-4 font-bold text-blue-900"
+              @click="$store.dispatch('student/addFreebie', course.id)"
+            >
+              Adicionar
+            </button>
+            <nuxt-link
+              class="text-xs text-green-800 px-4"
+              :to="`/course/${course.id}`"
+            >
+              Visitar
+            </nuxt-link>
+          </div>
+        </div>
+      </ContainerSlot>
+
       <ContainerSlot
         v-if="freebies && freebies.length"
         class="mt-8"
@@ -90,7 +124,7 @@
             </div>
             <button
               type="button"
-              class="text-xs text-red-500 px-4 font-bold text-blue-900"
+              class="text-xs px-4 font-bold text-blue-900 focus:outline-none"
               @click="$store.dispatch('student/addFreebie', course.id)"
             >
               Adicionar
@@ -158,6 +192,7 @@ export default Vue.extend({
     await this.$store.dispatch('student/fetchStudent')
     await this.$store.dispatch('student/fetchCourses')
     await this.$store.dispatch('student/fetchFreebies')
+    await this.$store.dispatch('student/fetchPremiums')
     this.documents = await this.$axios.$get('/storage/student')
   },
 
@@ -174,13 +209,23 @@ export default Vue.extend({
     },
 
     freebies(): Course[] {
-      const freebies: Course[] = this.$store.getters['student/freebies']
-      return freebies.filter(
-        (freebie: Course) =>
-          !this.courses.some(
-            (course: UserCourse) => course.course_id === freebie.id
-          )
-      )
+      return this.$store.getters['student/freebies']
+      // return freebies.filter(
+      //   (freebie: Course) =>
+      //     !this.courses.some(
+      //       (course: UserCourse) => course.course_id === freebie.id
+      //     )
+      // )
+    },
+
+    premiums(): Course[] {
+      return this.$store.getters['student/premiums']
+      // return premiums.filter(
+      //   (premium: Course) =>
+      //     !this.courses.some(
+      //       (course: UserCourse) => course.course_id === premium.id
+      //     )
+      // )
     },
   },
 
@@ -216,6 +261,9 @@ export default Vue.extend({
     },
     freebieName(id: string): string {
       return this.$store.getters['student/freebieNameById'](id)
+    },
+    premiumName(id: string): string {
+      return this.$store.getters['student/premiumNameById'](id)
     },
   },
 })

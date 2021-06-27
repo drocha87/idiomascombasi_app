@@ -5,11 +5,13 @@ export const state = () => {
   const student: Partial<User> = {}
   const courses: Course[] = []
   const freebies: Course[] = []
+  const premiums: Course[] = []
 
   return {
     student,
     courses,
     freebies,
+    premiums,
   }
 }
 
@@ -28,6 +30,10 @@ export const getters: GetterTree<RootState, RootState> = {
     return state.freebies
   },
 
+  premiums(state) {
+    return state.premiums
+  },
+
   courseNameById(state) {
     return (id: string): string => {
       const lesson = state.courses.find((course: Course) => course.id === id)
@@ -41,11 +47,22 @@ export const getters: GetterTree<RootState, RootState> = {
       return lesson?.title || 'undefined'
     }
   },
+
+  premiumNameById(state) {
+    return (id: string): string => {
+      const lesson = state.premiums.find((course: Course) => course.id === id)
+      return lesson?.title || 'undefined'
+    }
+  },
 }
 
 export const mutations: MutationTree<RootState> = {
   SET_FREEBIES(state, freebies: Course[]) {
     state.freebies = freebies
+  },
+
+  SET_PREMIUMS(state, premiums: Course[]) {
+    state.premiums = premiums
   },
 
   SET_COURSES(state, courses: Course[]) {
@@ -58,9 +75,13 @@ export const mutations: MutationTree<RootState> = {
 }
 
 export const actions: ActionTree<RootState, RootState> = {
-  fetchStudent({ commit }) {
-    // const course = await this.$axios.$get('/auth/student')
-    commit('SET_STUDENT', this.$auth.user)
+  async fetchStudent({ commit }) {
+    try {
+      await this.$auth.fetchUser()
+      commit('SET_STUDENT', this.$auth.user)
+    } catch (error) {
+      commit('info/SET_ERROR', error, { root: true })
+    }
   },
 
   async fetchCourses({ commit }) {
@@ -71,6 +92,11 @@ export const actions: ActionTree<RootState, RootState> = {
   async fetchFreebies({ commit }) {
     const cs = await this.$axios.$get('/students/freebies')
     commit('SET_FREEBIES', cs)
+  },
+
+  async fetchPremiums({ commit }) {
+    const cs = await this.$axios.$get('/students/premiums')
+    commit('SET_PREMIUMS', cs)
   },
 
   async updateInfo({ commit, state }) {
@@ -94,7 +120,8 @@ export const actions: ActionTree<RootState, RootState> = {
   async addFreebie({ commit, dispatch }, courseID: string) {
     try {
       await this.$axios.$post(`/students/freebies/${courseID}`)
-      await dispatch('fetchCourses')
+      await dispatch('fetchStudent')
+      await dispatch('fetchFreebies')
     } catch (error) {
       commit('info/SET_ERROR', error, { root: true })
     }
