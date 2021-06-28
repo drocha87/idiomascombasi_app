@@ -10,7 +10,10 @@
     "
   >
     <div class="hidden md:flex h-8 items-center px-8">
-      <div class="flex-grow">Feedback</div>
+      <nuxt-link v-if="$auth.loggedIn" class="flex-grow" to="/feedback">
+        Feedback
+      </nuxt-link>
+      <div v-else class="flex-grow"></div>
       <div>© 2021, Basilia Santiago. All rights reserved.</div>
       <div class="ml-8">
         <a href="https://idiomascombasi.com.br/legal">Terms of use</a>
