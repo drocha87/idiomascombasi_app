@@ -37,11 +37,16 @@ export default Vue.extend({
       content: '',
     }
   },
+
   computed: {
     email(): string {
-      return this.$auth.user.email
+      if (this.$auth.user) {
+        return this.$auth.user.email as string
+      }
+      return 'undefined'
     },
   },
+
   methods: {
     async send() {
       try {

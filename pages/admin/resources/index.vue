@@ -64,6 +64,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+
 export default Vue.extend({
   fetchOnServer: false,
 
@@ -83,7 +84,7 @@ export default Vue.extend({
         .sort((a: any, b: any) => {
           const dateA = new Date(a.last_modified)
           const dateB = new Date(b.last_modified)
-          return dateB - dateA
+          return dateB.getTime() - dateA.getTime()
         })
     } catch (error) {
       this.$store.commit('info/SET_ERROR', error)
