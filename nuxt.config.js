@@ -55,7 +55,7 @@ export default {
   axios: {
     baseUrl:
       process.env.NODE_ENV === 'development'
-        ? 'http://api.localhost/'
+        ? 'http://api.localhost'
         : 'https://api.idiomascombasi.com.br',
   },
 
